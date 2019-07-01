@@ -1,25 +1,28 @@
 from rest_framework import serializers
 from accounts.models import User
-from django.contrib.auth.models import User as AuthUser
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', '')
+        fields = (
+            'email', 'phone_number', 'password', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser',
+            'last_login', 'date_joined'
+        )
 
 
-class TokenSerializer(serializers.Serializer):
-    """
-    This serializer serializes the token data
-    """
-    token = serializers.CharField(max_length=255)
-    pass
-
-
-class AuthUserSerializer(serializers.ModelSerializer):
+class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AuthUser
-        fields = ('username', 'password')
-    pass
+        model = User
+        fields = (
+            'email', 'password'
+        )
 
+#
+# class TokenSerializer(serializers.Serializer):
+#     """
+#     This serializer serializes the token data
+#     """
+#     token = serializers.CharField(max_length=255)
+#     pass
+#
