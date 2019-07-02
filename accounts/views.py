@@ -16,8 +16,8 @@ from rest_framework import permissions
 
 
 class UserListCreate (generics.ListCreateAPIView):
-    # permission_classes = (permissions.AllowAny,)
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.AllowAny,)
+    #permission_classes = (permissions.IsAdminUser,)
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
