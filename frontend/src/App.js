@@ -1,14 +1,10 @@
 import React from 'react';
+import Home from "./HomePage/home";
 import './App.css';
-import ComplexGrid from './itemPage'
 
 function App() {
   return (
-    <div className="App">
-        <header>
-        </header>
-        <body><ComplexGrid/></body>
-    </div>
+    <Home/>
   );
 }
 
