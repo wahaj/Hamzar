@@ -6,17 +6,19 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'phone_number', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser',
+            'id', 'email', 'phone_number', 'first_name', 'last_name', 'is_active', 'is_staff',
             'last_login', 'date_joined'
         )
 
 
-class UserLoginSerializer(serializers.ModelSerializer):
+class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'password'
+            'email', 'password', 'phone_number', 'address'
         )
+
+
 
 #
 # class TokenSerializer(serializers.Serializer):
