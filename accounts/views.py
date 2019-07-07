@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from accounts.serializers import UserSerializer
+from accounts.serializers import UserSerializer, UserSignupSerializer
 from accounts.models import User
 
 from rest_framework import generics
@@ -15,12 +15,11 @@ from rest_framework import permissions
 # Create your views here.
 
 
-class UserListCreate (generics.ListCreateAPIView):
+class UserCreate (generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     #permission_classes = (permissions.IsAdminUser,)
-
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSignupSerializer
     pass
 
 
