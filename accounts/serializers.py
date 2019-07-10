@@ -11,7 +11,13 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
-class UserSignupSerializer(serializers.ModelSerializer):
+class ChangePasswordSerilizer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+
+
+class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
