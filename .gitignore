@@ -1,4 +1,7 @@
 .idea
+bin
+__pycache__/
+*.py[cod]
 venv
 node_modules
 frontend/node_modules
