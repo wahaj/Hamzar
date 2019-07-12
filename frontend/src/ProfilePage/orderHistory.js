@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,6 +13,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import TableHead from '@material-ui/core/TableHead';
 
 const useStyles1 = makeStyles(theme => ({
     root: {
@@ -21,6 +22,16 @@ const useStyles1 = makeStyles(theme => ({
         marginLeft: theme.spacing(2.5),
     },
 }));
+
+const StyledTableCell = withStyles(theme => ({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
 
 function TablePaginationActions(props) {
     const classes = useStyles1();
@@ -104,6 +115,7 @@ const useStyles2 = makeStyles(theme => ({
     root: {
         width: '100%',
         marginTop: theme.spacing(3),
+        color: "primary"
     },
     table: {
         minWidth: 500,
@@ -133,6 +145,13 @@ export default function OrderHistory() {
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
                 <Table className={classes.table}>
+                    <TableHead >
+                        <TableRow>
+                            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
+                            <StyledTableCell align="right">Calories</StyledTableCell>
+                            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
                             <TableRow key={row.name}>
