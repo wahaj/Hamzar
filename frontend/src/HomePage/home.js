@@ -9,11 +9,8 @@ class Home extends React.Component{
     render(){
         return(
             <div>
-                <MyNavbar cartSize="8"/>
-                <MenuBar/>
                 <Carousel/>
                 <ProductList/>
-                <Footer/>
             </div>
         )
     }

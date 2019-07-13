@@ -110,7 +110,7 @@ export default function PrimarySearchAppBar(props) {
         setLogState(event.currentTarget)
         setAnchorEl(null);
         handleMobileMenuClose();
-        History.push("/profile");
+        History.push('/profile');
     }
     function handleLogOut(event) {
         setLogState(null)
