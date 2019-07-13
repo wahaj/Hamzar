@@ -9,12 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'email', 'phone_number', 'first_name', 'last_name', 'is_active', 'is_staff',
             'last_login', 'date_joined'
         )
+        pass
+    pass
 
 
 class ChangePasswordSerilizer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
-
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -23,14 +24,14 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = (
             'email', 'password', 'phone_number', 'address'
         )
+        pass
+    pass
 
 
+class TokenSerializer(serializers.Serializer):
+    """
+    This serializer serializes the token data
+    """
+    token = serializers.CharField(max_length=255)
+    pass
 
-#
-# class TokenSerializer(serializers.Serializer):
-#     """
-#     This serializer serializes the token data
-#     """
-#     token = serializers.CharField(max_length=255)
-#     pass
-#
