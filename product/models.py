@@ -8,15 +8,13 @@ import os
 
 
 def get_image_path(instance, filename):
-	return os.path.join('photos/products', str(instance.slug), filename)
+	return os.path.join('products/photos', str(instance.slug), filename)
 
 class Product(models.Model):
-	#tag_set = models.ManyToManyField(to=Tag)
-	#seller = models.ForeignKey(to=Seller, on_delete=models.CASCADE)
 	title = models.CharField(max_length=255)
 	author = models.CharField(max_length=50)
 	slug = models.SlugField(max_length=255,unique=True)
-	product_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
+	product_image = models.ImageField(upload_to= get_image_path, blank=True, null=True)
 	description = models.TextField()
 
 	class Meta:
