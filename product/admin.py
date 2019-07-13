@@ -8,14 +8,14 @@ class ProductAdmin(admin.ModelAdmin):
     """Define admin model for custom User model with no username field."""
 
     fieldsets = (
-        (None, {'fields': ('title', 'author', 'description')}),
+        (None, {'fields': ('title', 'author', 'description' , 'product_image')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('title', 'author', 'description'),
+            'fields': ('title', 'author', 'description', 'product_image'),
         }),
     )
-    list_display = ('title', 'author','slug', 'description')
+    list_display = ('title', 'author','slug', 'description', 'product_image')
     search_fields = ('title','author')
     ordering = ('title',)
