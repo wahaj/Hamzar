@@ -10,13 +10,16 @@ from rest_framework import status
 
 
 
-class ProductCreate (generics.CreateAPIView):
+class ProductCreate (generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
     queryset = Product.objects.all()
-    serializer_class = CreateProductSerializer
+    serializer_class = ProductSerializer
     pass
 
+# class ProductsRead(generics.RetrieveAPIview):
+    
+#     pass
 
 class ProductReadUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.AllowAny,)
