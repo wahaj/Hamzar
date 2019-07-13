@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from accounts.serializers import UserSerializer, SignupSerializer, ChangePasswordSerilizer
+from accounts.serializers import UserSerializer, SignupSerializer, ChangePasswordSerilizer, TokenSerializer
 from accounts.models import User
 
 from rest_framework import generics, status
@@ -54,6 +54,8 @@ class UserChangePassword(generics.UpdateAPIView):
             return Response("Success.", status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # class Login(generics.CreateAPIView):
 #     """
 #     POST auth/login/
