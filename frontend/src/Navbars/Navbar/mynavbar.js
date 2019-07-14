@@ -110,12 +110,13 @@ export default function PrimarySearchAppBar(props) {
         setLogState(event.currentTarget)
         setAnchorEl(null);
         handleMobileMenuClose();
-        History.push('/profile');
+        History.push('/logIn');
     }
     function handleLogOut(event) {
         setLogState(null)
         setAnchorEl(null);
         handleMobileMenuClose();
+        localStorage.removeItem('token');
     }
 
     const menuId = 'primary-search-account-menu';
