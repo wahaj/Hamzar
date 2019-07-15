@@ -22,6 +22,7 @@ class LoginPage extends React.Component {
             .then(res => res.json())
             .then(json => {
                 localStorage.setItem('token', json.token);
+
             })
             .catch((err)=>alert(err));
     };

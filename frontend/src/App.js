@@ -33,14 +33,7 @@ class App extends React.Component {
         })
             .then(res => res.json())
             .then(json => {
-                this.setState({
-                    id: json.user.id,
-                    laggedIn:true,
-                    firstName: json.user.firstName,
-                    lastName: json.user.lastName,
-                    email: json.user.email,
-                    phoneNumber:json.user.phone_number
-                });
+                localStorage.setItem('token', json.token);
             });
     }
     };
