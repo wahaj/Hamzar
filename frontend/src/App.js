@@ -8,12 +8,19 @@ import MenuBar from "./Navbars/Menubar/menubar";
 import Footer from "./Navbars/Footer/BottomBar"
 import LoginPage from "./LoginPage/LoginPage";
 import SignupPage from "./SignupPage/SignupPage";
+import FAQPage from "./InformationPages/FAQPage";
 
 
 class App extends React.Component {
     constructor(){
         super()
-        this.state={loggedIn:false, username: null }
+        this.state={loggedIn:false,
+            firstName: null,
+            lastName: null,
+            id:null,
+            email: null,
+            phoneNumber:null
+        }
     }
     componentDidMount(){
         if (this.state.loggedIn) {
@@ -26,10 +33,27 @@ class App extends React.Component {
         })
             .then(res => res.json())
             .then(json => {
-                this.setState({ username: json.user.email });
+                this.setState({
+                    id: json.user.id,
+                    laggedIn:true,
+                    firstName: json.user.firstName,
+                    lastName: json.user.lastName,
+                    email: json.user.email,
+                    phoneNumber:json.user.phone_number
+                });
             });
     }
     };
+    handleSetState(data){
+        this.setState({
+            id: data.user.id,
+            laggedIn:true,
+            firstName: data.user.firstName,
+            lastName: data.user.lastName,
+            email: data.user.email,
+            phoneNumber:data.user.phone_number
+        })
+    }
     render() {
         return (
             <BrowserRouter>
@@ -39,6 +63,7 @@ class App extends React.Component {
                 <Route path='/profile' component={ProfilePage}/>
                 <Route path='/logIn' component={LoginPage}/>
                 <Route path='/signUp' component={SignupPage}/>
+                <Route path='/faqs' component={FAQPage}/>
                 <Footer/>
             </BrowserRouter>
         );

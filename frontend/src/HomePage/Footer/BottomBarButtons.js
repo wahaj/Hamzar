@@ -22,6 +22,7 @@ function BottomBarButtons(props){
             <Button
                 variant="contained"
                 className={classes.margin}
+
             >
                 <img  src={props.object.src}/>
             </Button>

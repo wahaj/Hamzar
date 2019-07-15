@@ -87,7 +87,7 @@ function BottomBar(){
                             <br/><br/><br/><br/><br/>
                             <h2 className={classes.headings}>Customer Care</h2><br/>
                             <div>
-                                <BottomAncor object={{text: "Help Center"}}/>
+                                <BottomAncor object={{text: "Help Center", lintTo:'/helpCenter'}}/>
                                 <BottomAncor object={{text: "Return and Refund"}}/>
                                 <BottomAncor object={{text: "Track my Order"}}/>
                                 <BottomAncor object={{text: "Delivery System"}}/>
@@ -110,7 +110,7 @@ function BottomBar(){
                             <BottomAncor object={{text: "Your Account"}}/>
                             <BottomAncor object={{text: "Your Orders"}}/>
                             <BottomAncor object={{text: "Help"}}/>
-                            <BottomAncor object={{text: "FAQ's"}}/>
+                            <BottomAncor object={{text: "FAQ's", pathname:'/faqs'}}/>
                         </div>
                         <div>
                             <br/><br/><br/><br/><br/>
