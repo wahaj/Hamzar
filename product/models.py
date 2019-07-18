@@ -14,16 +14,19 @@ def get_image_path(instance, filename):
 class Product(models.Model):
 	title = models.CharField(max_length=255)
 	author = models.CharField(max_length=50)
-	slug = models.SlugField(max_length=255,unique=True)
-	product_image = models.ImageField(upload_to= get_image_path, blank=True, null=True)
+	slug = models.SlugField(max_length=255, unique=True)
+	product_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 	description = models.TextField()
+	units_sold = models.PositiveIntegerField()
+
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
 
 	class Meta:
 		ordering = ['title']
 
 	def __str__(self):
 		return self.title
-
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.title)
@@ -36,7 +39,6 @@ class Product(models.Model):
 
 		# After modifications, save it to the output
 		im.save(output, format='JPEG', quality=100)
-
 		output.seek(0)
 
 		# Change the imagefield value to be the newly modified image value
