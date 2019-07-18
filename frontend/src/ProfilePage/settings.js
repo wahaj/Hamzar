@@ -87,7 +87,13 @@ export default function Settings() {
                                     variant="outlined"
                                     disabled={state.userName}
                                 />
-                                <Fab size="small" color="primary" aria-label="Edit" className={classes.fab} onClick={handleClick("userName", state.userName)}>
+                                <Fab
+                                    size="small"
+                                    color="primary"
+                                    aria-label="Edit"
+                                    className={classes.fab}
+                                    onClick={handleClick("userName", state.userName)}
+                                >
                                     <Icon>edit_icon</Icon>
                                 </Fab>
                             </Grid>
@@ -122,7 +128,13 @@ export default function Settings() {
                                     disabled={state.email}
                                     value={values.email}
                                 />
-                                <Fab size="small" color="secondary" aria-label="Edit" className={classes.fab} onClick={handleClick("email", state.email)}>
+                                <Fab
+                                    size="small"
+                                    color="secondary"
+                                    aria-label="Edit"
+                                    className={classes.fab}
+                                    onClick={handleClick("email", state.email)}
+                                >
                                     <Icon>edit_icon</Icon>
                                 </Fab>
                             </Grid>
@@ -138,7 +150,13 @@ export default function Settings() {
                                     disabled={state.number}
                                     value={values.number}
                                 />
-                                <Fab size="small" color="primary" aria-label="Edit" className={classes.fab} onClick={handleClick("number", state.number)}>
+                                <Fab
+                                    size="small"
+                                    color="primary"
+                                    aria-label="Edit"
+                                    className={classes.fab}
+                                    onClick={handleClick("number", state.number)}
+                                >
                                     <Icon>edit_icon</Icon>
                                 </Fab>
                             </Grid>
