@@ -9,6 +9,10 @@ import Footer from "./Navbars/Footer/BottomBar"
 import LoginPage from "./LoginPage/LoginPage";
 import SignupPage from "./SignupPage/SignupPage";
 import FAQPage from "./InformationPages/FAQPage";
+import Career from "./InformationPages/Career";
+import AboutUsPage from "./InformationPages/AboutUsPage";
+import QuestionQuery from "./InformationPages/QuestionQuery";
+import ChangePass from "./InformationPages/ChangePass";
 
 
 class App extends React.Component {
@@ -57,6 +61,10 @@ class App extends React.Component {
                 <Route path='/logIn' component={LoginPage}/>
                 <Route path='/signUp' component={SignupPage}/>
                 <Route path='/faqs' component={FAQPage}/>
+                <Route path='/career' component={Career}/>
+                <Route path='/aboutUs' component={AboutUsPage}/>
+                <Route path='/questionQuery' component={QuestionQuery}/>
+                <Route path='/changePass' component={ChangePass}/>
                 <Footer/>
             </BrowserRouter>
         );
