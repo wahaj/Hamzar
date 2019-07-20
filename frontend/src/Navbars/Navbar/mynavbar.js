@@ -107,7 +107,7 @@ export default function PrimarySearchAppBar(props) {
         setLogState(event.currentTarget)
         setAnchorEl(null);
         handleMobileMenuClose();
-        History.push('/logIn');
+        History.push('/log-in');
     }
     function handleLogOut(event) {
         setLogState(null)
