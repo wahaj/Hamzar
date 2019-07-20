@@ -5,12 +5,10 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MyNavbar from "./../HomePage/Navbar/mynavbar";
-import Footer from "./../HomePage/Footer/BottomBar";
+import MyNavbar from "./../Navbars/Navbar/mynavbar";
+import Footer from "./../Navbars/Footer/BottomBar"
+
 import {Container} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 
 
 const useStyles = makeStyles(theme => ({

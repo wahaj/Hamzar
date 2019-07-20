@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import img1 from './aboutus1.jpeg'
 import img2 from './aboutus2.jpeg'
-import MyNavbar from "./../HomePage/Navbar/mynavbar";
-import Footer from "./../HomePage/Footer/BottomBar"
+import MyNavbar from "./../Navbars/Navbar/mynavbar";
+import Footer from "./../Navbars/Footer/BottomBar"
 
 const useStyles = makeStyles(theme => ({
     root: {

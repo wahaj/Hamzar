@@ -12,12 +12,12 @@ import TrackOderIcon from '@material-ui/icons/Search';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import del from "./deliveryIcon.png"
-import Container from '@material-ui/core/Container'
-import SvgIcon from '@material-ui/core/SvgIcon';
-import { blue, red } from '@material-ui/core/colors';
+import History from '../../History/history'
+
 const useStyles = makeStyles((theme)  => ({
     grow: {
         flexGrow: 1,
+        zIndex: 2000,
     },
     myIcon: {
         width: 80,
@@ -64,6 +64,10 @@ export default function PrimarySearchAppBar() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
 
+    function handleTrackOrder(){
+        History.push('/track-order')
+    }
+
 
 
     return (
@@ -92,7 +96,7 @@ export default function PrimarySearchAppBar() {
                     <div className={classes.grow} />
                     {/*Track Order button*/}
                     <TrackOderIcon className={classes.iconHover}/>
-                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={null}>
+                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="false" onClick={handleTrackOrder}>
                         <p style={{color:"white"}}>Track Order</p>
                     </Button>
                     <div className={classes.grow} />
