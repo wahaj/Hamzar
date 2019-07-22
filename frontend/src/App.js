@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Home from "./HomePage/home";
 import ProfilePage from "./ProfilePage/profilePage";
-import {BrowserRouter, Route} from "react-router-dom";
+import {Router, Route} from "react-router-dom";
 import './App.css';
-import MyNavbar from "./Navbars/Navbar/mynavbar";
+import Navbar from "./Navbars/Navbar/mynavbar";
 import MenuBar from "./Navbars/Menubar/menubar";
 import Footer from "./Navbars/Footer/BottomBar"
-import LoginPage from "./LoginPage/LoginPage";
-import SignupPage from "./SignupPage/SignupPage";
+import TrackOrder from "./TrackOrderPage/TrackOrder"
+import LoginPage from "./LoginPage/loginForm";
+import SignUpPage from "./SignupPage/SignupPage";
 import FAQPage from "./InformationPages/FAQPage";
-
+import Career from "./InformationPages/Career";
+import AboutUsPage from "./InformationPages/AboutUsPage";
+import QuestionQuery from "./InformationPages/QuestionQuery";
+import ChangePass from "./InformationPages/ChangePass";
+import History from './History/history'
+import OrderStatus from "./TrackOrderPage/orderStatus"
 
 class App extends React.Component {
-    constructor(){
+    constructor() {
         super()
-        this.state={loggedIn:false,
+        this.state = {
+            loggedIn: false,
             firstName: null,
             lastName: null,
-            id:null,
+            id: null,
             email: null,
-            phoneNumber:null
+            phoneNumber: null
         }
     }
-    componentDidMount(){
+
+    componentDidMount() {
         if (this.state.loggedIn) {
         fetch('http://192.168.18.10:8000/api/auth/verify_token', {
             headers: {
@@ -35,32 +43,40 @@ class App extends React.Component {
             .then(json => {
                 localStorage.setItem('token', json.token);
             });
-    }
+        }
     };
-    handleSetState(data){
+
+    handleSetState(data) {
         this.setState({
             id: data.user.id,
-            laggedIn:true,
+            laggedIn: true,
             firstName: data.user.firstName,
             lastName: data.user.lastName,
             email: data.user.email,
-            phoneNumber:data.user.phone_number
+            phoneNumber: data.user.phone_number
         })
     }
+
     render() {
         return (
-            <BrowserRouter>
-                <MyNavbar cartSize="1"/>
+            <Router history={History}>
+                <Navbar cartSize="1"/>
                 <MenuBar/>
                 <Route exact path='/' component={Home}/>
                 <Route path='/profile' component={ProfilePage}/>
-                <Route path='/logIn' component={LoginPage}/>
-                <Route path='/signUp' component={SignupPage}/>
+                <Route path='/log-in' component={LoginPage}/>
+                <Route path='/sign-up' component={SignUpPage}/>
                 <Route path='/faqs' component={FAQPage}/>
+                <Route path='/career' component={Career}/>
+                <Route path='/about-us' component={AboutUsPage}/>
+                <Route path='/question-query' component={QuestionQuery}/>
+                <Route path='/change-pass' component={ChangePass}/>
+                <Route exact path='/track-order' component={TrackOrder} />
+                <Route path='/track-order/:id' component={OrderStatus} />
                 <Footer/>
-            </BrowserRouter>
+            </Router>
         );
     }
 }
 
-export default App;
+export default App
