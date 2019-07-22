@@ -4,8 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import img1 from './aboutus1.jpeg'
-import img2 from './aboutus2.jpeg'
+import img1 from './aboutUs1.png'
+import img2 from './aboutUs2.png'
+import img3 from './aboutUs3.png'
 import MyNavbar from "./../Navbars/Navbar/mynavbar";
 import Footer from "./../Navbars/Footer/BottomBar"
 
@@ -15,16 +16,13 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         padding: theme.spacing(2),
-        margin: 'auto',
         maxWidth: (Window.width),
-        maxHeight: 2000,
     },
     image: {
         maxWidth: 300,
-        height: 350,
+        height: 250,
     },
     img: {
-        margin: 'auto',
         display: 'block',
         maxWidth: '100%',
         maxHeight: '100%',
@@ -40,6 +38,7 @@ export default function AboutUsPage() {
 
             <div className={classes.root}>
                 <Paper className={classes.paper}>
+
                     <Grid container spacing={2}>
                         <Grid item>
                             <ButtonBase className={classes.image}>
@@ -50,47 +49,66 @@ export default function AboutUsPage() {
                             <Grid item xs container direction="column" spacing={2}>
                                 <Grid item xs>
                                     <Typography gutterBottom variant="h4">
-                                        About Us
+                                        About HAMZAR.COM
                                     </Typography>
                                     <Typography variant="body1" gutterBottom>
-                                        Detailed about us stuff. This is the whole paragrapth of bs
+                                        <br/>
+                                        Launched in 2014, hamzar.com, we are trying to fulfill the need of our
+                                        customers , hamzar has a thousands of products and hundreds of brand.
+                                        Hamzar is focused on providing excellent service to our customers with
+                                        ease of purchase, comprehensive customers care and a hassle free shopping
+                                        and return experience.
                                     </Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
 
-                    <Paper className={classes.paper}>
-                        <Grid container spacing={2}>
-                            <Grid item style={{position:"absolute", right:"0"}}>
-                                <ButtonBase className={classes.image}>
-                                    <img className={classes.img} alt="complex" src={img2} />
-                                </ButtonBase>
+                    <Grid container spacing={2}>
+                        <Grid style={{float: 'left'}}>
+                            <Grid item>
+                                <Typography gutterBottom variant="h4">
+                                    Our Mission
+                                </Typography>
+                                <Typography variant="body1" gutterBottom>
+                                    <br/>
+                                    Our main purpose is to fulfill the requirements
+                                    and needs of our customers, and provide them every
+                                    thing <br/> what they want within the shortest time possible.
+                                </Typography>
                             </Grid>
-                            <Grid item xs={12} sm container>
-                                <Grid item container direction="column" spacing={2}>
-                                    <Grid item>
-                                        <Typography gutterBottom variant="subtitle1">
-                                            Blah blah blah
-                                        </Typography>
-                                        <Typography variant="body2" gutterBottom>
-                                            <li>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                                <ul> More stuff on about us. </ul>
-                                            </li>
+                        </Grid>
+                        <Grid item style={{float: "right", right: 0}}>
+                            <ButtonBase className={classes.image}>
+                                <img className={classes.img} alt="complex" src={img2} />
+                            </ButtonBase>
+                        </Grid>
+                    </Grid>
 
-                                        </Typography>
-                                    </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item>
+                            <ButtonBase className={classes.image}>
+                                <img className={classes.img} alt="complex" src={img3} />
+                            </ButtonBase>
+                        </Grid>
+                        <Grid item xs={12} sm container>
+                            <Grid item xs container direction="column" spacing={2}>
+                                <Grid item xs>
+                                    <Typography gutterBottom variant="h4">
+                                        Anytime, Anywhere
+                                    </Typography>
+                                    <Typography variant="body1" gutterBottom>
+                                        <br/>
+                                        As a platform, we continue to develop services to help
+                                        you more and discover new opportunities. Our customer service
+                                        is available 24/7 and we are always ready to deliver your
+                                        order even before time.
+                                    </Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Paper>
+                    </Grid>
+
                 </Paper>
             </div>
 
