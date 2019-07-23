@@ -7,8 +7,8 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import img1 from './aboutUs1.png'
 import img2 from './aboutUs2.png'
 import img3 from './aboutUs3.png'
-import MyNavbar from "./../Navbars/Navbar/mynavbar";
-import Footer from "./../Navbars/Footer/BottomBar"
+import MyNavbar from "./../../Navbars/Navbar/mynavbar";
+import Footer from "./../../Navbars/Footer/BottomBar"
 
 const useStyles = makeStyles(theme => ({
     root: {

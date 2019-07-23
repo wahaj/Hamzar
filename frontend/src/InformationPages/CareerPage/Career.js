@@ -1,8 +1,8 @@
 import React from 'react'
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Container} from "@material-ui/core";
-import career1 from './pic 1.jpg';
-import career2 from './pic 2.png';
+import career1 from './career1.jpg';
+import career2 from './career2.png';
 import  Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
