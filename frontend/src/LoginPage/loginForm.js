@@ -16,7 +16,7 @@ import { useInput } from './input-hook';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        height: '100vh',
+        height: '81%',
     },
     image: {
         backgroundImage: 'url(https://source.unsplash.com/random)',
