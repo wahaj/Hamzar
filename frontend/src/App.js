@@ -13,6 +13,9 @@ import Career from "./InformationPages/Career";
 import AboutUsPage from "./InformationPages/AboutUsPage";
 import QuestionQuery from "./InformationPages/QuestionQuery";
 import ChangePass from "./InformationPages/ChangePass";
+import ProductPage from "./ProductPage/ProductPage";
+import Test from "./Test";
+
 
 
 class App extends React.Component {
@@ -65,6 +68,8 @@ class App extends React.Component {
                 <Route path='/aboutUs' component={AboutUsPage}/>
                 <Route path='/questionQuery' component={QuestionQuery}/>
                 <Route path='/changePass' component={ChangePass}/>
+                <Route path='/productPage' component={ProductPage}/>
+                <Route path='/test' component={Test}/>
                 <Footer/>
             </BrowserRouter>
         );

@@ -10,7 +10,10 @@
     "react-dom": "^16.8.6",
     "react-responsive-carousel": "^3.1.49",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-star-rating-component": "^1.4.1",
+    "react-swipeable-views": "^0.13.3",
+    "react-swipeable-views-utils": "^0.13.3"
   },
   "scripts": {
     "start": "react-scripts start",
