@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'accounts',
     #'shopping_cart',
     'product',
+    'order',
     'accounts.tests'
 ]
 

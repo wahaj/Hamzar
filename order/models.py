@@ -16,17 +16,19 @@ class Order(models.Model):
 	)
 
 	created_at = models.DateTimeField(auto_now_add=True)
-	product_set = models.ManyToManyField(to=Product, through='OrderUnit')
-	user = models.ForeignKey(to=User, null=True, on_delete=models.SET_NULL)
+	name = models.CharField(max_length=255)
+	user = models.ForeignKey(to=User, null=False, on_delete=models.CASCADE, related_name='order')
 	status = models.CharField(max_length=2, choices=STATUSES, default=PENDING)
 
+	def get_products(self):
+		return self.units.all()
 
 	class Meta:
 		ordering = ['-created_at']
 
 
 class OrderUnit(models.Model):
-	order = models.ForeignKey(to=Order, on_delete=models.CASCADE)
-	product = models.ForeignKey(to=Product, on_delete=models.SET_NULL)
+	order = models.ForeignKey(to=Order, on_delete=models.CASCADE, related_name='units')
+	product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
 	quantity = models.PositiveIntegerField()
 	unit_price = models.PositiveIntegerField()

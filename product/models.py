@@ -18,6 +18,8 @@ class Product(models.Model):
 	product_image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
 	description = models.TextField()
 	units_sold = models.PositiveIntegerField()
+	num_in_stock = models.PositiveIntegerField(default=5)
+	price = models.PositiveIntegerField()
 
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -30,17 +32,13 @@ class Product(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.title)
-		
 		im = Image.open(self.product_image)
 		output = BytesIO()
-
 		# Resize/modify the image
 		im = im.resize((250, 250))
-
 		# After modifications, save it to the output
 		im.save(output, format='JPEG', quality=100)
 		output.seek(0)
-
 		# Change the imagefield value to be the newly modified image value
 		self.product_image = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % self.product_image.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)
 		super(Product, self).save(*args, **kwargs)
