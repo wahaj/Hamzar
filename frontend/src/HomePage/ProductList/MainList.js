@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import image from './image.jpeg';
@@ -13,57 +13,57 @@ const useStyles = makeStyles(theme => ({
 
  const tileDataArray = [
        {
-             img: image,
+             product_image: image,
              title: 'Image',
              author: 'author',
            },
      {
-         img: image2,
+         product_image: image2,
          title: 'Image2',
          author: 'author2',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image2,
+         product_image: image2,
          title: 'Image2',
          author: 'author2',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
      {
-         img: image,
+         product_image: image,
          title: 'Image',
          author: 'author',
      },
@@ -71,13 +71,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function MainList() {
     const classes = useStyles();
+    const [bestSellers,setBestSellers]=useState();
+    useEffect(()=>{
+        fetch('http://127.0.0.1:8000/api/products/best_sellers', {
+            method: 'Get',
+        })
+            .then(res => res.json())
+            .then(json => {
+                setBestSellers(json.results);
+            });
+    })
     return (
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="xl" minWidth="xs" className={classes.mainBack}>
                 <br/><br/><br/>
                 <div>
-                <MainListRow object={{tileData : tileDataArray, listTitle:'Best Sellers'}} />
+                <MainListRow object={{tileData : bestSellers, listTitle:'Best Sellers'}} />
                 </div>
                 <br/><br/><br/>
                 <div>

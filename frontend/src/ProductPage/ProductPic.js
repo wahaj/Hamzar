@@ -39,7 +39,7 @@ const tutorialSteps = [
 
 const useStyles = makeStyles(theme => ({
     root: {
-        maxWidth: 400,
+        maxWidth: 500,
         flexGrow: 1,
     },
     header: {

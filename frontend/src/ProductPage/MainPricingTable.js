@@ -103,7 +103,7 @@ export default function MainPricingTable(props) {
                     textColor="primary"
                     variant="fullWidth"
                 >
-                    <Tab label="Paper Back" />
+                    <Tab label="Paper Back"  />
                     <Tab label="Hard Cover" />
                     <Tab label="Loose Leaf" />
                 </Tabs>

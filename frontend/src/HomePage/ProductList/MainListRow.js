@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
  *
  * const tileData = [
  *   {
- *     img: image,
+ *     product_image: image,
  *     title: 'Image',
  *     author: 'author',
  *   },
@@ -54,11 +54,11 @@ export default function MainListRow(props) {
 
     return (
         <div className={classes.root}>
-            <h2>{props.object.listTitle}</h2>
+            <h2 style={{color:props.object.color}}>{props.object.listTitle}</h2>
             <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null} >
                 {props.object.tileData.map(tile => (
-                    <GridListTile key={tile.img} className={classes.gridTile}>
-                        <img src={tile.img} alt={tile.title} />
+                    <GridListTile key={tile.product_image} className={classes.gridTile}>
+                        <img src={tile.product_image} alt={tile.title} />
                         <GridListTileBar
                             title={tile.title}
                             classes={{

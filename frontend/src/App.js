@@ -15,6 +15,7 @@ import QuestionQuery from "./InformationPages/QuestionQuery";
 import ChangePass from "./InformationPages/ChangePass";
 import ProductPage from "./ProductPage/ProductPage";
 import Test from "./Test";
+import SearchResults from "./SearchResults/SearchResults";
 
 
 
@@ -70,6 +71,7 @@ class App extends React.Component {
                 <Route path='/changePass' component={ChangePass}/>
                 <Route path='/productPage' component={ProductPage}/>
                 <Route path='/test' component={Test}/>
+                <Route path='/SearchResults' component={SearchResults}/>
                 <Footer/>
             </BrowserRouter>
         );
