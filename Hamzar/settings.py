@@ -11,175 +11,151 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import datetime
+
+from oscar import get_core_apps
+from oscar.defaults import *
+from oscar import OSCAR_MAIN_TEMPLATE_DIR
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 's5m7av5auqj^!fi!fp+%p8q)0#82=bdn0f^6ckqo0%%5=vcg^e'
-
-
-AUTH_USER_MODEL = 'accounts.User'
+SECRET_KEY = 'db82s+s5+qa#k5ot&ft3=!^y5al3)_*%!2y77u!eu65wi!((&4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '*',
-    'testserver'
+	'localhost',
+	'*'
 ]
-
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'corsheaders',
-    'phonenumber_field',
-    'rest_framework',
-    'accounts',
-    #'shopping_cart',
-    'product',
-    'accounts.tests'
-]
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.sites',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'django.contrib.flatpages',
+
+	'rest_framework',
+	'oscarapi',
+	'widget_tweaks',
+	'rest_registration',
+	'corsheaders',
+
+
+	'Customer',
+] + get_core_apps()
+
+OSCARAPI_BLOCK_ADMIN_API_ACCESS = True
+OSCAR_DEFAULT_CURRENCY = 'PKR'
+
+
+SITE_ID = 1
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-]
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'corsheaders.middleware.CorsMiddleware',
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = (
-    # TODO - set this properly for production
-    'http://192.168.18.10:8000',
-    'http://127.0.0.1:8000',
-)
+	'oscar.apps.basket.middleware.BasketMiddleware',
+	'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+]
 
 ROOT_URLCONF = 'Hamzar.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [
+			os.path.join(BASE_DIR, 'templates'),
+			OSCAR_MAIN_TEMPLATE_DIR
+		],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+
+				'oscar.apps.search.context_processors.search_form',
+				'oscar.apps.promotions.context_processors.promotions',
+				'oscar.apps.checkout.context_processors.checkout',
+				'oscar.apps.customer.notifications.context_processors.notifications',
+				'oscar.core.context_processors.metadata',
+			],
+		},
+	},
 ]
 
+AUTHENTICATION_BACKENDS = (
+	'oscar.apps.customer.auth_backends.EmailBackend',
+	'django.contrib.auth.backends.ModelBackend',
+)
+
+# Search Engine
+
+HAYSTACK_CONNECTIONS = {
+	'default': {
+		'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+		'URL': 'http://127.0.0.1:8983/solr/hamzar',
+		'ADMIN_URL': 'http://127.0.0.1:8983/solr/admin/cores',
+		'INCLUDE_SPELLING': True,
+	},
+}
+
+
+
 WSGI_APPLICATION = 'Hamzar.wsgi.application'
-
-# Authentication
-REST_FRAMEWORK = {
-    # ...
-
-    # inside the Rest framework settings dictionary, add the auth settings
-    # Authentication settings
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ],
-    'TEST_REQUEST_RENDERER_CLASSES': (
-        'rest_framework.renderers.MultiPartRenderer',
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.TemplateHTMLRenderer'
-    ),
-    # Permission settings
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20,
-}
-
-# JWT settings
-JWT_AUTH = {
-    'JWT_ENCODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_encode_handler',
-
-    'JWT_DECODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_decode_handler',
-
-    'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
-
-    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
-
-    'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'accounts.utils.jwt_response_payload_handler',
-
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_GET_USER_SECRET_KEY': None,
-    'JWT_PUBLIC_KEY': None,
-    'JWT_PRIVATE_KEY': None,
-    'JWT_ALGORITHM': 'HS256',
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
-    'JWT_AUDIENCE': None,
-    'JWT_ISSUER': None,
-
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_AUTH_COOKIE': None,
-}
-
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		'USER': '',
+		'PASSWORD': '',
+		'HOST': '',
+		'PORT': '',
+		'ATOMIC_REQUESTS': True,
+	}
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
+AUTH_USER_MODEL = "Customer.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -194,13 +170,33 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.getcwd()
 
+# Email Confirmation
 
-MEDIA_URL =  '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
 
+# Front-end URLS
+
+REST_REGISTRATION = {
+	'REGISTER_VERIFICATION_ENABLED': False,
+	'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+	'RESET_PASSWORD_VERIFICATION_ENABLED': False,
+
+	'REGISTER_VERIFICATION_URL': 'https://frontend-host/verify-user/',
+	'RESET_PASSWORD_VERIFICATION_URL': 'https://frontend-host/reset-password/',
+	'REGISTER_EMAIL_VERIFICATION_URL': 'https://frontend-host/verify-email/',
+
+	'VERIFICATION_FROM_EMAIL': 'wahajaved@protonmail.com',
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
