@@ -19,12 +19,14 @@ class SignupPage extends React.Component {
     };
     handle_signup = (e) => {
         e.preventDefault();
-        fetch('http://192.168.18.10:8000/api/auth/signup', {
-            method: 'POST',
+        fetch('http://192.168.100.10:8000/api/useraddresses/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.state)
         })
             .then(res => res.json())
             .then(json => {

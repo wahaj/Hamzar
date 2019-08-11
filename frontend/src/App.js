@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Home from "./HomePage/home";
 import ProfilePage from "./ProfilePage/profilePage";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import './App.css';
 import MyNavbar from "./Navbars/Navbar/mynavbar";
 import MenuBar from "./Navbars/Menubar/menubar";
@@ -16,6 +16,7 @@ import ChangePass from "./InformationPages/ChangePass";
 import ProductPage from "./ProductPage/ProductPage";
 import Test from "./Test";
 import SearchResults from "./SearchResults/SearchResults";
+import Error404 from './ErrorPages/Error404.js'
 
 
 
@@ -60,18 +61,21 @@ class App extends React.Component {
             <BrowserRouter>
                 <MyNavbar cartSize="1"/>
                 <MenuBar/>
-                <Route exact path='/' component={Home}/>
-                <Route path='/profile' component={ProfilePage}/>
-                <Route path='/logIn' component={LoginPage}/>
-                <Route path='/signUp' component={SignupPage}/>
-                <Route path='/faqs' component={FAQPage}/>
-                <Route path='/career' component={Career}/>
-                <Route path='/aboutUs' component={AboutUsPage}/>
-                <Route path='/questionQuery' component={QuestionQuery}/>
-                <Route path='/changePass' component={ChangePass}/>
-                <Route path='/productPage' component={ProductPage}/>
-                <Route path='/test' component={Test}/>
-                <Route path='/SearchResults' component={SearchResults}/>
+                <Switch>
+                    <Route exact path='/' component={Home}/>
+                    <Route path='/profile' component={ProfilePage}/>
+                    <Route path='/logIn' component={LoginPage}/>
+                    <Route path='/signUp' component={SignupPage}/>
+                    <Route path='/faqs' component={FAQPage}/>
+                    <Route path='/career' component={Career}/>
+                    <Route path='/aboutUs' component={AboutUsPage}/>
+                    <Route path='/questionQuery' component={QuestionQuery}/>
+                    <Route path='/changePass' component={ChangePass}/>
+                    <Route path='/productPage' component={ProductPage}/>
+                    <Route path='/test' component={Test}/>
+                    <Route path='/SearchResults' component={SearchResults}/>
+                    <Route component={Error404}/>
+                </Switch>
                 <Footer/>
             </BrowserRouter>
         );

@@ -67,31 +67,22 @@ const useStyles = makeStyles(theme => ({
          title: 'Image',
          author: 'author',
      },
-           ]
+           ];
 
 export default function MainList() {
     const classes = useStyles();
-    const [bestSellers,setBestSellers]=useState();
-    useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/products/best_sellers', {
-            method: 'Get',
-        })
-            .then(res => res.json())
-            .then(json => {
-                setBestSellers(json.results);
-            });
-    })
+
     return (
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="xl" minWidth="xs" className={classes.mainBack}>
                 <br/><br/><br/>
                 <div>
-                <MainListRow object={{tileData : bestSellers, listTitle:'Best Sellers'}} />
+                <MainListRow object={{tileData : tileDataArray, listTitle:'Best Sellers', color:'rgba(0,11,206,0.3)'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : tileDataArray, listTitle:'Discount Offers'}} />
+                    <MainListRow object={{tileData : tileDataArray, listTitle:'Discount Offers', color:'rgba(0,11,206,0.3)'}} />
                 </div>
                 <br/><br/><br/>
             </Container>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookie from 'js-cookie';
 
 class LoginPage extends React.Component {
     constructor() {
@@ -11,20 +12,21 @@ class LoginPage extends React.Component {
 
     handle_login = e => {
         e.preventDefault();
-        fetch('http://192.168.18.10:8000/api/auth/login', {
+        fetch('http://192.168.100.10:8000/api/login/', {
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                Accept:'application/json',
             },
+            cache:'default',
             method: 'POST',
-            body: JSON.stringify({"email":this.state.email,"password": this.state.password})
+            body: JSON.stringify({'username':'wj@gmail.com','password': 'albalushi47'})
         })
-            .then(res => res.json())
-            .then(json => {
-                localStorage.setItem('token', json.token);
-
+            .then(res =>{
+                localStorage.setItem('token', res.headers['csrftoken']);
+                console.log(document.cookie);
             })
             .catch((err)=>alert(err));
+
     };
 
     handle_change = e => {
