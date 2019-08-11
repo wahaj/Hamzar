@@ -5,6 +5,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/Visibility';
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles(theme => ({
     gridList: {
         flexWrap: 'nowrap',
         // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-        transform: 'translateZ(0)'
+        transform: 'translateZ(0)',
+
     },
     title: {
         color: theme.palette.primary.light,
@@ -54,26 +56,32 @@ export default function MainListRow(props) {
 
     return (
         <div className={classes.root}>
-            <h2 style={{color:props.object.color}}>{props.object.listTitle}</h2>
-            <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null} >
-                {props.object.tileData.map(tile => (
-                    <GridListTile key={tile.product_image} className={classes.gridTile}>
-                        <img src={tile.product_image} alt={tile.title} />
-                        <GridListTileBar
-                            title={tile.title}
-                            classes={{
-                                root: classes.titleBar,
-                                title: classes.title,
-                            }}
-                            actionIcon={
-                                <IconButton aria-label={`star ${tile.title}`}>
-                                    <StarBorderIcon className={classes.title} />
-                                </IconButton>
-                            }
-                        />
-                    </GridListTile>
-                ))}
-            </GridList>
+            <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
+                <Grid item key='heading' style={{display: 'block'}}>
+                    <h2 style={{color:props.object.color, display:'block'}}>{props.object.listTitle}</h2>
+                </Grid>
+                <Grid item key='arrayOfObjects' style={{display: 'block', marginBottom:'1%'}}>
+                    <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
+                        {props.object.tileData.map(tile => (
+                            <GridListTile key={tile.id} className={classes.gridTile}>
+                                <img src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
+                                <GridListTileBar
+                                    title={tile.title}
+                                    classes={{
+                                        root: classes.titleBar,
+                                        title: classes.title,
+                                    }}
+                                    actionIcon={
+                                        <IconButton aria-label={`star ${tile.title}`}>
+                                            <StarBorderIcon className={classes.title} />
+                                        </IconButton>
+                                    }
+                                />
+                            </GridListTile>
+                        ))}
+                    </GridList>
+                </Grid>
+            </Grid>
         </div>
     );
 }
