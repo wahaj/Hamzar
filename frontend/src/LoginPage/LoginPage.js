@@ -1,30 +1,23 @@
 import React from 'react';
 
 class LoginPage extends React.Component {
-    constructor() {
-        super();
+    constructor( props) {
+        super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            logStatus: props.logStateProp
         };
+        this.logMutator=this.logMutator.bind(this)
     }
 
-    handle_login = e => {
-        e.preventDefault();
-        fetch('http://192.168.18.10:8000/api/auth/login', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            method: 'POST',
-            body: JSON.stringify({"email":this.state.email,"password": this.state.password})
-        })
-            .then(res => res.json())
-            .then(json => {
-                localStorage.setItem('token', json.token);
+    logMutator(){
+        this.props.mutateLogState();
+    }
 
-            })
-            .catch((err)=>alert(err));
+    handle_login () {
+        this.logMutator();
+        console.log('a');
     };
 
     handle_change = e => {
@@ -39,7 +32,7 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <form onSubmit={e => this.handle_login(e)}>
+            <form onSubmit={this.handle_login}>
                 <h4>Log In</h4>
                 <label htmlFor="username">Username</label>
                 <input

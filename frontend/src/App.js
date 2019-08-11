@@ -15,56 +15,39 @@ import AboutUsPage from "./InformationPages/AboutUsPage";
 import QuestionQuery from "./InformationPages/QuestionQuery";
 import ChangePass from "./InformationPages/ChangePass";
 import History from './History/history'
+import Store from './History/Store'
 import OrderStatus from "./TrackOrderPage/orderStatus"
+import Cart from "./CartPage/cartPage"
 
 class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            loggedIn: false,
-            firstName: null,
-            lastName: null,
-            id: null,
-            email: null,
-            phoneNumber: null
+    constructor(props) {
+        super(props)
+        this.state={
+            ls: Store.getLogStatus()
+        }
+        this.changeState = this.changeState.bind(this)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("Ali")
+        if(prevState.ls != Store.getLogStatus())
+        {
+            this.setState({ls: Store.getLogStatus()})
         }
     }
 
-    componentDidMount() {
-        if (this.state.loggedIn) {
-        fetch('http://192.168.18.10:8000/api/auth/verify_token', {
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({token : localStorage.getItem('token')})
-        })
-            .then(res => res.json())
-            .then(json => {
-                localStorage.setItem('token', json.token);
-            });
-        }
-    };
-
-    handleSetState(data) {
-        this.setState({
-            id: data.user.id,
-            laggedIn: true,
-            firstName: data.user.firstName,
-            lastName: data.user.lastName,
-            email: data.user.email,
-            phoneNumber: data.user.phone_number
-        })
+    changeState(){
+        this.setState({ls: Store.getLogStatus()})
     }
 
     render() {
         return (
             <Router history={History}>
-                <Navbar cartSize="1"/>
+                <Navbar />
                 <MenuBar/>
                 <Route exact path='/' component={Home}/>
                 <Route path='/profile' component={ProfilePage}/>
-                <Route path='/log-in' component={LoginPage}/>
+                <Route path='/log-in' render={(props) => <LoginPage {...props} uls={this.changeState}/>}/>
                 <Route path='/sign-up' component={SignUpPage}/>
                 <Route path='/faqs' component={FAQPage}/>
                 <Route path='/career' component={Career}/>
@@ -73,6 +56,7 @@ class App extends React.Component {
                 <Route path='/change-pass' component={ChangePass}/>
                 <Route exact path='/track-order' component={TrackOrder} />
                 <Route path='/track-order/:id' component={OrderStatus} />
+                <Route path='/cart' component={Cart} />
                 <Footer/>
             </Router>
         );
