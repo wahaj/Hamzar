@@ -60,8 +60,6 @@ export default function ControlledExpansionPanels() {
 
     return (
         <div>
-            <MyNavbar/>
-
             <div className={classes.root}>
                 <Container fixed>
                     <h1 className={classes.main_heading}>FAQ</h1>
@@ -182,8 +180,6 @@ export default function ControlledExpansionPanels() {
                     Email :         hamzar.books@gmail.com
                 </div>
             </div>
-
-            <Footer/>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -13,6 +13,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/AddShoppingCart';
 import { Link } from 'react-router-dom'
 import History from '../../History/history'
+import Store from '../../History/Store'
+
 
 const useStyles = makeStyles(theme =>({
 
@@ -84,9 +86,12 @@ export default function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [logState, setLogState] = React.useState(null);
+    const logStat = Store.getLogStatus();
+    const [logState, setLogState] = React.useState(logStat);
+    const logStatus = logState;
 
-    const logStatus = Boolean(logState);
+
+
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -104,17 +109,23 @@ export default function PrimarySearchAppBar(props) {
     }
 
     function handleLogIn(event) {
-        setLogState(event.currentTarget)
+
         setAnchorEl(null);
         handleMobileMenuClose();
         History.push('/log-in');
     }
+
     function handleLogOut(event) {
+        Store.setLogStatus(false)
+        setLogState(false)
         setLogState(null)
         setAnchorEl(null);
         handleMobileMenuClose();
-        localStorage.removeItem('token');
         History.push('/');
+    }
+
+    function openCart (){
+        History.push('/cart');
     }
 
     const menuId = 'primary-search-account-menu';
@@ -128,13 +139,14 @@ export default function PrimarySearchAppBar(props) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            { logStatus && <MenuItem onClick={handleMenuClose}><Link to={'/profile'}>Profile</Link></MenuItem>}
 
+            { logStatus && <MenuItem onClick={handleMenuClose}><Link to={'/profile'}>Profile</Link></MenuItem>}
 
             {(logStatus == false) ?
                 <MenuItem onClick={handleLogIn}>Login</MenuItem> :
                 <MenuItem onClick={handleLogOut}>LogOut</MenuItem>
             }
+
         </Menu>
     );
 
@@ -159,6 +171,11 @@ export default function PrimarySearchAppBar(props) {
 
         </Menu>
     );
+    useEffect(() => {
+        console.log("asd")
+        setLogState(Store.getLogStatus)
+        console.log(Store.getLogStatus())
+    }, [Store.getLogStatus()]);
 
     return (
         <div className={classes.grow} style={{boxShadow: "none"}}>
@@ -182,7 +199,6 @@ export default function PrimarySearchAppBar(props) {
                     </div>
 
                     <div style={{minWidth: (logStatus)?"6%":"3%"}}>
-
                         <IconButton
                             edge="end"
                             aria-label="Account of current user"
@@ -195,13 +211,12 @@ export default function PrimarySearchAppBar(props) {
                         </IconButton>
 
                         {(logStatus) &&
-                        <IconButton aria-label="Show 17 new notifications" color="inherit">
-                            <Badge badgeContent={props.cartSize} color="secondary">
-                                <ShoppingCart/>
-                            </Badge>
-                        </IconButton>
+                            <IconButton aria-label="Show cart content" color="inherit" onClick={openCart}>
+                                <Badge badgeContent={1} color="secondary">
+                                    <ShoppingCart/>
+                                </Badge>
+                            </IconButton>
                         }
-
                     </div>
 
                 </Toolbar>

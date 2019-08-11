@@ -22,6 +22,7 @@ const styles = {
 
 const useStyles = makeStyles(theme =>({
     paperContainer: {
+        padding: 0,
         backgroundColor: "#B0BEC5",
         width: '100%',
         [theme.breakpoints.up('xs')]: {

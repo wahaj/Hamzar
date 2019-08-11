@@ -34,7 +34,6 @@ export default function AboutUsPage() {
 
     return (
         <div>
-            <MyNavbar/>
 
             <div className={classes.root}>
                 <Paper className={classes.paper}>
@@ -111,8 +110,6 @@ export default function AboutUsPage() {
 
                 </Paper>
             </div>
-
-            <Footer/>
         </div>
     );
 }

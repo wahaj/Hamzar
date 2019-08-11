@@ -2,16 +2,24 @@ import React from 'react';
 import Cookie from 'js-cookie';
 
 class LoginPage extends React.Component {
-    constructor() {
-        super();
+    constructor( props) {
+        super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            logStatus: props.logStateProp
         };
+        this.logMutator=this.logMutator.bind(this)
     }
 
-    handle_login = e => {
-        e.preventDefault();
+
+
+    logMutator(){
+        this.props.mutateLogState();
+    }
+
+    handle_login () {
+
         fetch('http://192.168.100.10:8000/api/login/', {
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +34,7 @@ class LoginPage extends React.Component {
                 console.log(document.cookie);
             })
             .catch((err)=>alert(err));
-
+        this.logMutator();
     };
 
     handle_change = e => {
@@ -41,7 +49,7 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <form onSubmit={e => this.handle_login(e)}>
+            <form onSubmit={this.handle_login}>
                 <h4>Log In</h4>
                 <label htmlFor="username">Username</label>
                 <input

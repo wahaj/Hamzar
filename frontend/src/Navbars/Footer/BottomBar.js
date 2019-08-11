@@ -97,9 +97,9 @@ function BottomBar(){
                             <br/><br/><br/><br/><br/>
                             <h2 className={classes.headings}>hamzar</h2><br/>
                             <div>
-                                <BottomAncor object={{text: "About Us"}}/>
+                                <BottomAncor object={{text: "About Us", path:'/about-us'}}/>
                                 <BottomAncor object={{text: "Payment Methods"}}/>
-                                <BottomAncor object={{text: "Career"}}/>
+                                <BottomAncor object={{text: "Career", path:'/career'}}/>
                                 <BottomAncor object={{text: "Terms and Condition"}}/>
                                 <BottomAncor object={{text: "Privacy"}}/>
                             </div>
@@ -110,7 +110,7 @@ function BottomBar(){
                             <BottomAncor object={{text: "Your Account"}}/>
                             <BottomAncor object={{text: "Your Orders"}}/>
                             <BottomAncor object={{text: "Help"}}/>
-                            <BottomAncor object={{text: "FAQ's"}}/>
+                            <BottomAncor object={{text: "FAQ's", path:'/faqs'}}/>
                         </div>
                         <div>
                             <br/><br/><br/><br/><br/>

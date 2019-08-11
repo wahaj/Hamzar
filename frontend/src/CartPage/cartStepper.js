@@ -6,12 +6,45 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import AddressBar from "./addressBar";
+import OrderChoice from "./OrderChoice"
 import CheckOut from "./checkOut";
 import {Container} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper"
+import BI from "./img.jpg"
+import Box from "@material-ui/core/Box";
+import TextField from "@material-ui/core/TextField";
+import { Parallax, Background } from 'react-parallax';
+import sampleCart from "./sampleCart"
+
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        width: '90%',
+    root:{
+        padding:0,
+    },
+    paperContainer: {
+        padding: 0,
+        margin: 0,
+        backgroundColor: "#B0BEC5",
+        width: '100%',
+        [theme.breakpoints.up('xs')]: {
+            height: "55%"
+        },
+        [theme.breakpoints.up('md')]: {
+            height:'100%',
+        },
+        [theme.breakpoints.up('lg')]: {
+            height: "130%",
+        },
+    },
+    backgroundContainer: {
+        width: '100%',
+        height: '100%',
+        opacity: 0.7,
+    },
+    fixedPosition: {
+        width: '100%',
+        paddingBottom: "10%",
+
     },
     button: {
         marginRight: theme.spacing(1),
@@ -20,20 +53,29 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
+    paper: {
+        padding: 30,
+        height: 'auto',
+        minHeight: 500,
+        width: '60%',
+        marginLeft: '20%',
+        marginTop: 50,
+        marginBottom: 50,
+    }
 }));
 
 function getSteps() {
     return ['Shopping Cart', 'Confirm You Address', 'Checkout'];
 }
 
-function getStepContent(step) {
+function getStepContent(step, cart) {
     switch (step) {
         case 0:
-            return 'This is where the choice of order comes.';
+            return (<OrderChoice data={sampleCart}/>);
         case 1:
             return (<AddressBar/>);
         case 2:
-            return (<CheckOut/>);
+            return (<CheckOut data={sampleCart}/>);
         default:
             return 'Unknown step';
     }
@@ -43,6 +85,7 @@ export default function CartStepper() {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
+    const [cart, setCart] = React.useState(new Set(sampleCart));
     const steps = getSteps();
 
     function isStepOptional(step) {
@@ -82,14 +125,14 @@ export default function CartStepper() {
             return newSkipped;
         });
     }
-
-    function handleReset() {
-        setActiveStep(0);
-    }
-
     return (
-        <Container fixed >
-            <div className={classes.root}>
+        <Parallax
+            blur={5}
+            bgImageAlt="the cat"
+            strength={300}
+            bgImage={BI}
+        >
+            <Paper className={classes.paper}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
                         const stepProps = {};
@@ -105,16 +148,16 @@ export default function CartStepper() {
                     {activeStep === steps.length ? (
                         <div>
                             <Typography className={classes.instructions}>
-                                All steps completed - you&apos;re finished
+                                Your order has been made
                             </Typography>
-                            <Button onClick={handleReset} className={classes.button}>
-                                Reset
-                            </Button>
+                            <Typography variant={"h4"}>
+                                Your order number is {123}
+                            </Typography>
                         </div>
                     ) : (
                         <div>
-                            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
-                            <div>
+                            {getStepContent(activeStep, cart)}
+                            <div style={{marginTop: 20}}>
                                 <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                     Back
                                 </Button>
@@ -131,7 +174,7 @@ export default function CartStepper() {
                         </div>
                     )}
                 </div>
-            </div>
-        </Container>
+            </Paper>
+        </Parallax>
     );
 }
