@@ -45,6 +45,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+
 export default function LoginForm(props) {
     const classes = useStyles();
     const { value:email, bind:bindEmail, reset:resetEmail } = useInput('');
@@ -52,6 +53,7 @@ export default function LoginForm(props) {
     const [state, setState] = React.useState({
         email: "",
         password: "",
+        isError:false,
     });
 
 
@@ -60,10 +62,34 @@ export default function LoginForm(props) {
 
 
     function handle_login(e) {
+        setState({isError:false})
+        e.preventDefault()
         Store.setLogStatus(true)
         uls();
-        History.push("/");
+        fetch('http://192.168.100.10:8000/api/login/', {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept:'application/json',
+            },
+            cache:'default',
+            method: 'POST',
+            body: JSON.stringify({'username':email,'password': password})
+        })
+            .then(res =>{
+                if (res.statusText === 'Unauthorized'){
+                    console.log('sorry the password or email is incorrect ')
+                    setState({isError:true})
+                    state.isError ?
+                        alert('Authorized'):
+                        alert('Unauthorized')
+                }
+                else{
+                    History.push("/");
+                }
+            })
+            .catch((err)=>alert(err));
     };
+
 
 
     const handleChange = (name, editState) => event => {
@@ -108,6 +134,7 @@ export default function LoginForm(props) {
                         autoComplete="current-password"
                         {...bindPassword}
                     />
+
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"

@@ -12,77 +12,52 @@ const useStyles = makeStyles(theme => ({
     },}));
 
  const tileDataArray = [
-       {
-             product_image: image,
-             title: 'Image',
-             author: 'author',
-           },
-     {
-         product_image: image2,
-         title: 'Image2',
-         author: 'author2',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image2,
-         title: 'Image2',
-         author: 'author2',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
-     {
-         product_image: image,
-         title: 'Image',
-         author: 'author',
-     },
            ];
 
 export default function MainList() {
     const classes = useStyles();
-
+    const [bestSellers, setBestSellers]=React.useState({tileData : tileDataArray});
+    const [newArrivals, setNewArrivals]=React.useState({tileData : tileDataArray});
+    useEffect(()=>{
+        console.log('mounted main list');
+        fetch('http://192.168.100.10:8000/api/products/new_arrivals/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setNewArrivals({tileData : json})
+            });
+        fetch('http://192.168.100.10:8000/api/products/best_sellers/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setBestSellers({tileData : json})
+            });
+    },[])
     return (
         <React.Fragment>
             <CssBaseline />
             <Container maxWidth="xl" minWidth="xs" className={classes.mainBack}>
                 <br/><br/><br/>
                 <div>
-                <MainListRow object={{tileData : tileDataArray, listTitle:'Best Sellers', color:'rgba(0,11,206,0.3)'}} />
+                <MainListRow object={{tileData : bestSellers.tileData, listTitle:'Best Sellers', color:'rgba(0,11,206,0.3)'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : tileDataArray, listTitle:'Discount Offers', color:'rgba(0,11,206,0.3)'}} />
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Discount Offers', color:'rgba(0,11,206,0.3)'}} />
                 </div>
                 <br/><br/><br/>
             </Container>
