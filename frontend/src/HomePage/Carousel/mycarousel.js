@@ -7,7 +7,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 function myCarousel() {
     return (
-            <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true} interval={1000} showArrows={false}>
+            <Carousel showThumbs={false} infiniteLoop={true} autoPlay={true} interval={2000} showArrows={false}>
                 <div>
                     <img src={i1} style={{objectFit: 'cover' }}/>
                 </div>

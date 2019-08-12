@@ -14,7 +14,8 @@ import ShoppingCart from '@material-ui/icons/AddShoppingCart';
 import { Link } from 'react-router-dom'
 import History from '../../History/history'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme =>({
+
     grow: {
         flexGrow: 1,
     },
@@ -76,7 +77,6 @@ const useStyles = makeStyles(theme => ({
         },
     },
     noShadow: {
-        boxShadow: 0
     }
 }));
 
@@ -84,7 +84,7 @@ export default function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [logState, setLogState] = React.useState(!null);
+    const [logState, setLogState] = React.useState(null);
 
     const logStatus = Boolean(logState);
     const isMenuOpen = Boolean(anchorEl);
@@ -103,20 +103,18 @@ export default function PrimarySearchAppBar(props) {
         handleMobileMenuClose();
     }
 
-    function handleMobileMenuOpen(event) {
-        setMobileMoreAnchorEl(event.currentTarget);
-    }
     function handleLogIn(event) {
         setLogState(event.currentTarget)
         setAnchorEl(null);
         handleMobileMenuClose();
-        History.push('/logIn');
+        History.push('/log-in');
     }
     function handleLogOut(event) {
         setLogState(null)
         setAnchorEl(null);
         handleMobileMenuClose();
         localStorage.removeItem('token');
+        History.push('/');
     }
 
     const menuId = 'primary-search-account-menu';
