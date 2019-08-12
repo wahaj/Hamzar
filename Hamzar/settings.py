@@ -51,12 +51,11 @@ INSTALLED_APPS = [
 	'rest_registration',
 	'corsheaders',
 
-
 	'Customer',
 ] + get_core_apps()
 
-OSCARAPI_BLOCK_ADMIN_API_ACCESS = True
-OSCAR_DEFAULT_CURRENCY = 'PKR'
+OSCARAPI_BLOCK_ADMIN_API_ACCESS = False
+OSCAR_DEFAULT_CURRENCY = 'Rs.'
 
 
 SITE_ID = 1
@@ -170,11 +169,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.getcwd()
 
 # Email Confirmation
 
@@ -185,6 +180,12 @@ EMAIL_HOST_PASSWORD = 'yourpassword'
 EMAIL_PORT = 587
 
 # Front-end URLS
+#
+# REST_FRAMEWORK = {
+# 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+# 	'PAGE_SIZE': 100
+# }
+
 
 REST_REGISTRATION = {
 	'REGISTER_VERIFICATION_ENABLED': False,
@@ -197,6 +198,23 @@ REST_REGISTRATION = {
 
 	'VERIFICATION_FROM_EMAIL': 'wahajaved@protonmail.com',
 }
-
+SESSION_COOKIE_SAMESITE = None
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+OSCARAPI_OVERRIDE_MODULES = ["Hamzar.api"]
+OSCARAPI_PRODUCT_FIELDS = ["url", "id", "upc", "title", "images"]
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+def location(x):
+	return os.path.join(os.path.curdir, x)
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = location('static')
+OSCARAPI_PRODUCT_FIELDS
+# Media files (Pictures etc)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = location('media')
