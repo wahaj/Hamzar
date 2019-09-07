@@ -1,7 +1,7 @@
 import React from 'react';
 
 var MaintainSession = (function() {
-    var full_name = "Fuck No-one";
+    var full_name = "initial Error";
 
     var getName = function() {
         return full_name;    // Or pull this from cookie/localStorage

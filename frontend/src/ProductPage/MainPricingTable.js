@@ -71,28 +71,6 @@ export default function MainPricingTable(props) {
         enter: theme.transitions.duration.enteringScreen,
         exit: theme.transitions.duration.leavingScreen,
     };
-
-    const fabs = [
-        {
-            color: 'primary',
-            className: classes.fab,
-            icon: <AddIcon />,
-            label: 'Add',
-        },
-        {
-            color: 'secondary',
-            className: classes.fab,
-            icon: <EditIcon />,
-            label: 'Edit',
-        },
-        {
-            color: 'inherit',
-            className: clsx(classes.fab, classes.fabGreen),
-            icon: <UpIcon />,
-            label: 'Expand',
-        },
-    ];
-
     return (
         <div className={classes.root}>
             <AppBar position="static" color="default">
@@ -103,9 +81,11 @@ export default function MainPricingTable(props) {
                     textColor="primary"
                     variant="fullWidth"
                 >
-                    <Tab label="Paper Back"  />
-                    <Tab label="Hard Cover" />
-                    <Tab label="Loose Leaf" />
+                    <Tab key='0' label="Hard Cover" />
+                    <Tab key='1' label="Paper Back" />
+                    <Tab key='2' label="Loose Leaf" />
+
+
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -113,20 +93,26 @@ export default function MainPricingTable(props) {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-
-                <TabContainer dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch} handleChange={handleChangeTable} />
+                <TabContainer value={value} key='0' index={0} dir={theme.direction}>
+                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Hardback' , child : props.object.children}} handleChange={handleChangeTable} />
                 </TabContainer>
-
-                <TabContainer dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch} handleChange={handleChangeTable} />
+                <TabContainer value={value} key='1' index={1} dir={theme.direction}>
+                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Paperback' , child : props.object.children}} handleChange={handleChangeTable} />
                 </TabContainer>
-
-                <TabContainer dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch} handleChange={handleChangeTable} />
+                <TabContainer value={value} key='2' index={2} dir={theme.direction}>
+                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Looseleaf' , child : props.object.children}} handleChange={handleChangeTable} />
                 </TabContainer>
-
             </SwipeableViews>
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+

@@ -6,6 +6,8 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/Visibility';
 import Grid from "@material-ui/core/Grid";
+import History from '../../History/history';
+import { ButtonBase } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,51 +36,47 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     product_image: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
+
+
 export default function MainListRow(props) {
     const classes = useStyles();
 
     return (
+
         <div className={classes.root}>
             <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
                 <Grid item key='heading' style={{display: 'block'}}>
-                    <h2 style={{color:props.object.color, display:'block'}}>{props.object.listTitle}</h2>
+                    {
+                        props.object.tileData ?
+                            <h2 style={{color: props.object.color, display: 'block'}}>{props.object.listTitle}</h2>
+                            :
+                            null
+                    }
                 </Grid>
                 <Grid item key='arrayOfObjects' style={{display: 'block', marginBottom:'1%'}}>
                     <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
-                        {props.object.tileData.map(tile => (
+                        {
+                            props.object.tileData ?
+                            props.object.tileData.map(tile => (
                             <GridListTile key={tile.id} className={classes.gridTile}>
                                 <img src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
-                                <GridListTileBar
-                                    title={tile.title}
-                                    classes={{
-                                        root: classes.titleBar,
-                                        title: classes.title,
-                                    }}
-                                    actionIcon={
-                                        <IconButton aria-label={`star ${tile.title}`}>
-                                            <StarBorderIcon className={classes.title} />
-                                        </IconButton>
-                                    }
-                                />
-                            </GridListTile>
-                        ))}
+                                        <GridListTileBar
+                                            title={tile.title}
+                                            classes={{
+                                                root: classes.titleBar,
+                                                title: classes.title,
+                                            }}
+                                            actionIcon={
+                                                <IconButton aria-label={`star ${tile.title}`} href={'./ProductPage/' + tile.id }>
+                                                    <StarBorderIcon className={classes.title}  />
+                                                </IconButton>
+                                            }
+                                        />
+                                </GridListTile>
+                        ))
+                                :
+                                null
+                        }
                     </GridList>
                 </Grid>
             </Grid>

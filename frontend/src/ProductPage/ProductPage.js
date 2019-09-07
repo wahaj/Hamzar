@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import MainPricingTable from "./MainPricingTable";
 import {Container, makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +8,7 @@ import MainListRow from "../HomePage/ProductList/MainListRow";
 import ProductPic from "./ProductPic";
 import StarRatingComponent from 'react-star-rating-component';
 import Reviews from "./Reviews";
+import Typography from "@material-ui/core/Typography";
 
 const tileDataArray = [
     {
@@ -83,6 +84,7 @@ const useStyles = makeStyles(theme => ({
         border:'0px solid blue',
     },
     priceTable: {
+        marginTop:'30px',
         height: '100%',
         width: '50%',
         border:'0px solid orange',
@@ -109,6 +111,7 @@ const useStyles = makeStyles(theme => ({
         border:'0px solid Gray',
     },
     extras: {
+        marginTop:'5%',
         height: '50%',
         width: '100%',
         border:'0px solid purple',
@@ -155,12 +158,58 @@ const useStyles = makeStyles(theme => ({
         boxShadow: '0 3px 5px 8px rgba(128, 128, 128, .3)',
     },
 }));
+const tutorialSteps = [
+    {
+        label: 'San Francisco – Oakland Bay Bridge, United States',
+        imgPath:
+            'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+    },
+    {
+        label: 'Bird',
+        imgPath:
+            'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+    },
+    {
+        label: 'Bali, Indonesia',
+        imgPath:
+            'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
+    },
+    {
+        label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
+        imgPath:
+            'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60',
+    },
+    {
+        label: 'Goč, Serbia',
+        imgPath:
+            'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+    },
+];
 
-function ProductPage(){
+function ProductPage(props){
+    const {match} = props
+    const [thisProduct,setThisProduct]=React.useState({product: null})
     const classes = useStyles();
+    const dataFetch = async () => {
+        const product = await fetch('http://127.0.0.1:8000/api/products/' + match.params.pid + '/', {
+            method: 'Get',
+            withCredentials: true,
+            cache: 'default',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res=>res.json())
+            .then(json=>setThisProduct({product:json}))
+        const resp = product;
+        return resp
+    }
+    useEffect(()=>{
+        const ans = dataFetch()
+    },[])
     return (
         <div className={classes.mainPage}>
-            <h1 className={classes.productName}>Name Of Product</h1>
+            <h1 className={classes.productName}>{(thisProduct.product) ? thisProduct.product.title : 'Product not Found'}</h1>
             <div>
                 <Grid container direction="column" alignItems="center" justify="center" className={classes.parentContainer} spacing='2'>
                     <Grid key='productInfo' item className={classes.productInfo}>
@@ -168,7 +217,7 @@ function ProductPage(){
                             <Grid key='productPic' item className={classes.productPic}>
                                 <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
                                     <Grid item key='picture' style={{display: 'block'}}>
-                                        <ProductPic className={classes.image} />
+                                        <ProductPic className={classes.image} object={(thisProduct.product) ? thisProduct.product.images : null} />
                                     </Grid>
                                     <Grid item key='rating' className={classes.rating}>
                                         <StarRatingComponent name='productRating' starCount={5} value={3} editing={false} />
@@ -176,7 +225,20 @@ function ProductPage(){
                                 </Grid>
                             </Grid>
                             <Grid key='priceTable' item className={classes.priceTable} >
-                                <MainPricingTable />
+                                {
+                                    ( thisProduct.product && thisProduct.product.children) ?
+                                    <MainPricingTable
+                                        object={{
+                                            children : thisProduct.product.children
+                                        }}
+                                    />
+                                    :
+                                        <div>
+                                            <Typography variant='h6'>
+                                                This Product is yet to be released
+                                            </Typography>
+                                        </div>
+                                }
                             </Grid>
                         </Grid>
                     </Grid>
@@ -192,12 +254,26 @@ function ProductPage(){
                                     scelerisque purus semper eget duis. Nulla pharetra diam sit amet nisl suscipit. Sed adipiscing diam donec adi
                                 </p>
                             </Grid>
-                            <Grid key='customerReview' item className={classes.customerReview}>
-                                <h1 className={classes.headings}> Customer Review </h1>
-                                <Reviews/>
-                            </Grid>
+                            {
+                                false ?
+                                <Grid key='customerReview' item className={classes.customerReview}>
+                                    <h1 className={classes.headings}> Customer Review </h1>
+                                    <Reviews/>
+                                </Grid>
+                                    :
+                                    null
+                            }
                             <Grid key='relatedProducts' item className={classes.relativeProducts}>
-                                <MainListRow className={classes.productList} object={{tileData : tileDataArray, listTitle:'Related Objects', color:'rgba(0,11,206,0.3)'}} />
+                                {
+                                    (thisProduct.product && thisProduct.product.recommended_products) ?
+                                    <MainListRow className={classes.productList} object={{
+                                        tileData: ((thisProduct.product) ? thisProduct.product.recommended_products.length>0 : null),
+                                        listTitle: 'Related Objects',
+                                        color: 'rgba(0,11,206,0.3)'
+                                    }}/>
+                                    :
+                                        null
+                                }
                             </Grid>
                         </Grid>
                     </Grid>
