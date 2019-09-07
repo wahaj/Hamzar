@@ -7,3 +7,4 @@ node_modules
 frontend/node_modules
 cache/
 media/
+db.sqlite3

@@ -22,7 +22,7 @@ class NewArrivals(generics.ListAPIView):
 	serializer_class = ProductLinkSerializer
 
 	def get_queryset(self):
-		return Product.objects.all().order_by('-date_created').filter(structure='parent')
+		return Product.objects.all().order_by('-date_created').filter(structure='parent')[:10]
 
 
 class Search(generics.ListAPIView):
@@ -30,4 +30,4 @@ class Search(generics.ListAPIView):
 
 	def get_queryset(self):
 		query_string = self.kwargs['query']
-		return Product.objects.all().filter(structure='parent', title__icontains=query_string)
+		return Product.objects.all().filter(structure='parent', title__icontains=query_string)[:5]
