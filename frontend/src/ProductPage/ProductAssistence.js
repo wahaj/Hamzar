@@ -87,16 +87,16 @@ const useStyles = makeStyles(theme => ({
         float:'right',
     }
 }));
-var OldAddress = null
-var NewAddress = null
-var OldPrice = null
-var NewPrice = null
 
 export default function ProductAssistence(props) {
     const classes = useStyles();
     const styles={visibility: 'collapse'}
     const [thisState,setThisState]=React.useState({New: null,Old:null, toCheck:null})
     const [controlSwitch, setControlSwitch] = React.useState(true);
+    var OldAddress = null
+    var NewAddress = null
+    var OldPrice = null
+    var NewPrice = null
 
 
     function handleChangeTable() {
@@ -120,33 +120,35 @@ export default function ProductAssistence(props) {
             })
         })
         dataFetchN()
-        console.log(OldPrice)
-        console.log(NewPrice)
-        setThisState({New:NewPrice, Old: OldPrice})
     }
     const dataFetchN = async () => {
-        const product = await fetch(NewAddress , {
-            method: 'Get',
-            withCredentials: true,
-            cache: 'default',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(res=>res.json())
-            .then(json=>NewPrice = json)
-        const product2 = await fetch(OldAddress , {
-            method: 'Get',
-            withCredentials: true,
-            cache: 'default',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(res=>res.json())
-            .then(json=>OldPrice = json)
-        const resp2 = product2;
-        const resp = product;
+        if(NewAddress){
+            const product = await fetch(NewAddress , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>{
+                    NewPrice = json
+                })
+        }
+        if(OldAddress){
+            const product2 = await fetch(OldAddress , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>OldPrice = json)
+        }
+        setThisState({New:NewPrice, Old: OldPrice})
 
     }
 

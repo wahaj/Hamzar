@@ -103,6 +103,126 @@ const theme = {
 
 export default function ResultBar(props){
     const classes = useStyles();
+    const [checkAddress,setCheckAddress] = React.useState({hardOld : null, hardNew : null, paperOld : null, paperNew : null})
+    const [thisProduct,setThisProduct] = React.useState({product: null})
+    const [prices,setPrices] = React.useState({hardBackNew: 1,hardBackOld:1 , paperBackOld:1 , paperBackNew:1})
+    var interValue = 0
+    var paperOld = null
+    var paperNew = null
+    var hardOld = null
+    var hardNew = null
+    var paperBackOld0 = null
+    var paperBackNew0 = null
+    var hardBackOld0 = null
+    var hardBackNew0 = null
+    const dataFetch = async () => {
+        const product = await fetch(props.object.productUrl, {
+            method: 'Get',
+            withCredentials: true,
+            cache: 'default',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res=>res.json())
+            .then(json=>setThisProduct({product:json}))
+        const resp = product;
+        return interValue
+    }
+    const dataFetchN = async () => {
+        if(hardOld){
+            const product = await fetch(hardOld , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>{
+                    hardBackOld0= json
+                })
+        }
+        if(hardNew){
+            const product = await fetch(hardNew , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>{
+                    hardBackNew0= json
+                })
+        }
+        if(paperNew){
+            const product = await fetch(paperNew , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>{
+                    paperBackNew0= json
+                })
+        }
+        if(paperOld){
+            const product = await fetch(paperOld , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>{
+                    paperBackOld0= json
+                })
+        }
+        if(prices.hardBackNew == 1 && prices.hardBackOld == 1 && prices.paperBackNew == 1 && prices.paperBackOld == 1){
+            interValue = 1
+            setPrices({hardBackNew: hardBackNew0,hardBackOld:hardBackOld0 , paperBackOld : paperBackOld0 , paperBackNew : paperBackNew0})
+        }
+    }
+    function validateDetails(){
+        if(thisProduct.product && prices.hardBackNew == 1 && prices.hardBackOld == 1 && prices.paperBackNew == 1 && prices.paperBackOld == 1){
+            thisProduct.product.children.map(data=>{
+                data.attributes.map(info=>{
+                    if (info.name === 'Type' && info.value === 'Hardback' ){
+                        data.attributes.map(resul=>{
+                            if(resul.name ==='Condition' && resul.value === 'New' ){
+                                hardNew= data.price
+                            }
+                            if(resul.name ==='Condition' && resul.value === 'Old' ){
+                                hardOld= data.price
+                            }
+                        })
+                    }
+                    if (info.name === 'Type' && info.value === 'Paperback' ){
+                        data.attributes.map(resul=>{
+                            if(resul.name ==='Condition' && resul.value === 'New' ){
+                                paperNew= data.price
+                            }
+                            if(resul.name ==='Condition' && resul.value === 'Old' ){
+                                paperOld= data.price
+                            }
+                        })
+                    }
+                })
+            })
+            dataFetchN()
+        }
+    }
+    useEffect(()=>{
+        const ans = dataFetch()
+    },[])
     return(
         <div className={classes.mainElement}>
             <Grid container
@@ -125,6 +245,7 @@ export default function ResultBar(props){
                           alignItems='flex-start'
                           spacing='0'
                     >
+
                         <Grid item key='bookName'  className={classes.bookName} spacing={0} >
                             <Typography variant="h3" >
                                 {props.object.title}
@@ -132,7 +253,12 @@ export default function ResultBar(props){
                         </Grid>
                         <Grid item key='Author' className={classes.Author} >
                             <Typography  variant="h7" className={classes.authorText} >
-                                author name
+                                {
+                                    thisProduct.product && thisProduct.product.children ? validateDetails() : ' '
+                                }
+                                {
+                                   thisProduct.product ? thisProduct.product.id : 'Fuck You'
+                               }
                             </Typography>
                         </Grid>
                         <Grid item key='rating' className={classes.rating}>
@@ -140,12 +266,12 @@ export default function ResultBar(props){
                         </Grid>
                         <Grid item key='hard cover' className={classes.price}>
                             <Typography  variant="h6" className={classes.priceDetails} >
-                                <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  Rs. 1275 - 1500
+                                <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  Rs. {!(prices.hardBackOld == 1) && (prices.hardBackOld) ? prices.hardBackOld.excl_tax : 'N/A'  } - {!(prices.hardBackNew == 1) && (prices.hardBackNew) ? prices.hardBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='paper back' className={classes.price}>
                             <Typography  variant="h6" className={classes.priceDetails} >
-                                <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>  Rs. 1275 - 1500
+                                <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>  Rs. {!(prices.paperBackOld == 1) && (prices.paperBackOld) ? prices.paperBackOld.excl_tax : 'N/A'  } - {!(prices.paperBackNew == 1) && (prices.paperBackNew) ? prices.paperBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='quote' className={classes.price}>

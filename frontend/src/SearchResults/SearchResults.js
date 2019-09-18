@@ -6,6 +6,9 @@ import { ButtonBase } from '@material-ui/core';
 import image2 from "../HomePage/ProductList/image2.jpg";
 import ResultBar from "./ResultBar";
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
     mainElement:{
@@ -44,6 +47,18 @@ const useStyles = makeStyles(theme => ({
         width:'100%',
         height:'100%',
     },
+    notFound:{
+        width:'100%',
+    },
+    inputInformation:{
+        width:'70%',
+    },
+    notFoundHeading:{
+      width:'100%',
+    },
+    rightIcon: {
+        marginLeft: theme.spacing(1),
+    },
 
 
 }));
@@ -51,9 +66,10 @@ const useStyles = makeStyles(theme => ({
 export default function SearchResults(props){
     const classes = useStyles();
     const {match} = props
+    const [searchText,setSearchText] = React.useState('t')
     const [search, setSearch] = React.useState({ searchResults : null})
     const dataFetch = async () => {
-        const product = await fetch('http://127.0.0.1:8000/api/products/search/the/', {
+        const product = await fetch('http://127.0.0.1:8000/api/products/search/' + searchText + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
@@ -80,7 +96,7 @@ export default function SearchResults(props){
                   spacing='3'
             >
                 {
-                    (search.searchResults) ? <Grid item key='quote' className={classes.price}>
+                    (search.searchResults && search.searchResults.length>0) ? <Grid item key='quote' className={classes.price}>
                         <Typography  variant="h6" className={classes.authorText} >
                             <b> Following Results Match Your Search   </b>
                         </Typography>
@@ -88,14 +104,45 @@ export default function SearchResults(props){
                         ''
                 }
                 {
-                    (search.searchResults) ? search.searchResults.map(tile=>(
+                    (search.searchResults  && search.searchResults.length>0) ? search.searchResults.map(tile=>(
                         <Grid item key={tile.title} className={classes.paper}>
                             <ButtonBase className={classes.contains}>
-                                <ResultBar object={{ images : tile.images , title:tile.title}} />
+                                <ResultBar object={{ images : tile.images , title:tile.title , productUrl : tile.url}} />
                             </ButtonBase>
                         </Grid>
                     ))
-                        : 'No Item Matches your search'
+                        :
+                        <Grid item key='2' className={classes.paper}>
+                            <Grid container direction='column' justify='center' alignItems='flex-start' className={classes.notFound}>
+                                <Grid item key='5' >
+                                    <Typography variant='h3'>
+                                        No results found for " {searchText} "
+                                    </Typography>
+                                </Grid>
+                                <Grid item key='5' >
+                                    <Typography variant='h6' className={classes.notFoundHeading}>
+                                        Please help us and write in the box what you need with your contact details
+                                    </Typography>
+                                </Grid>
+                                <Grid item key='3' className={classes.inputInformation}>
+                                    <TextField
+                                        id="outlined-full-width"
+                                        label=""
+                                        style={{ margin: 8 }}
+                                        placeholder="Text"
+                                        fullWidth
+                                        margin="normal"
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item key='4' >
+                                    <Button variant="contained" color="primary" className={classes.button}>
+                                        Submit
+                                        <Icon className={classes.rightIcon}>submit</Icon>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                 }
             </Grid>
         </div>

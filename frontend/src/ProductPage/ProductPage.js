@@ -144,7 +144,7 @@ const useStyles = makeStyles(theme => ({
         marginRight:'0%',
     },
     rating:{
-        display:'flex',
+        display:'none',
         border:'0px solid black',
         justifyContent:'center',
         width:'100%',
@@ -157,6 +157,10 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         boxShadow: '0 3px 5px 8px rgba(128, 128, 128, .3)',
     },
+    notReleased:{
+        marginLeft:'10%',
+        color:'red',
+    }
 }));
 const tutorialSteps = [
     {
@@ -234,7 +238,7 @@ function ProductPage(props){
                                     />
                                     :
                                         <div>
-                                            <Typography variant='h6'>
+                                            <Typography variant='h6' className={classes.notReleased}>
                                                 This Product is yet to be released
                                             </Typography>
                                         </div>
@@ -244,16 +248,21 @@ function ProductPage(props){
                     </Grid>
                     <Grid key='extras' item className={classes.extras}>
                         <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
-                            <Grid key='productDescription' item className={classes.productDescription}>
-                                <h1 className={classes.headings}>Details</h1>
-                                <p className={classes.details}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                    Dolor sed viverra ipsum nunc aliquet bibendum enim. In massa tempor nec feugiat. Nunc aliquet bibendum enim facilisis gravida.
-                                    Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Amet luctus venenatis lectus magna fringilla. Volutpat maecenas volutpat
-                                    blandit aliquam etiam erat velit scelerisque in. Egestas egestas fringilla phasellus faucibus scelerisque eleifend. Sagittis orci a
-                                    scelerisque purus semper eget duis. Nulla pharetra diam sit amet nisl suscipit. Sed adipiscing diam donec adi
-                                </p>
-                            </Grid>
+                            {
+                                (true) ?
+                                    <Grid key='productDescription' item className={classes.productDescription}>
+                                        <h1 className={classes.headings}>Details</h1>
+                                        <p className={classes.details}>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                            Dolor sed viverra ipsum nunc aliquet bibendum enim. In massa tempor nec feugiat. Nunc aliquet bibendum enim facilisis gravida.
+                                            Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Amet luctus venenatis lectus magna fringilla. Volutpat maecenas volutpat
+                                            blandit aliquam etiam erat velit scelerisque in. Egestas egestas fringilla phasellus faucibus scelerisque eleifend. Sagittis orci a
+                                            scelerisque purus semper eget duis. Nulla pharetra diam sit amet nisl suscipit. Sed adipiscing diam donec adi
+                                        </p>
+                                    </Grid>
+                                    :
+                                    null
+                            }
                             {
                                 false ?
                                 <Grid key='customerReview' item className={classes.customerReview}>
