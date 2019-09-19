@@ -12,14 +12,14 @@ const useStyles = makeStyles(theme => ({
     },}));
 
  const tileDataArray = [
-           ];
+
+ ];
 
 export default function MainList() {
     const classes = useStyles();
     const [bestSellers, setBestSellers]=React.useState({tileData : tileDataArray});
     const [newArrivals, setNewArrivals]=React.useState({tileData : tileDataArray});
     useEffect(()=>{
-        console.log('mounted main list');
         fetch('http://192.168.100.10:8000/api/products/new_arrivals/', {
             method: 'Get',
             withCredentials:true,

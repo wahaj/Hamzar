@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -8,13 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import AddressBar from "./addressBar";
 import OrderChoice from "./OrderChoice"
 import CheckOut from "./checkOut";
-import {Container} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper"
 import BI from "./img.jpg"
-import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-import { Parallax, Background } from 'react-parallax';
-import sampleCart from "./sampleCart"
+import { Parallax} from 'react-parallax';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const useStyles = makeStyles(theme => ({
@@ -64,67 +65,123 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const childDataArray = [
+
+];
+
+const parentDataArray = [
+
+];
+
+let basketDataArray = [
+
+];
+
+let summary =[];
+
 function getSteps() {
     return ['Shopping Cart', 'Confirm You Address', 'Checkout'];
 }
 
-function getStepContent(step, cart) {
-    switch (step) {
-        case 0:
-            return (<OrderChoice data={sampleCart}/>);
-        case 1:
-            return (<AddressBar/>);
-        case 2:
-            return (<CheckOut data={sampleCart}/>);
-        default:
-            return 'Unknown step';
-    }
-}
 
-export default function CartStepper() {
+
+
+export default function CartStepper(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
-    const [cart, setCart] = React.useState(new Set(sampleCart));
+    const [loading, setLoading] = React.useState(false)
+
+    const [open, setOpen] = React.useState(false);
+
+    function handleClickOpen() {
+        setOpen(true);
+    }
+
+    function handleClose() {
+        setOpen(false);
+    }
+    function getStepContent(step) {
+        switch (step) {
+            case 0:
+                return (<OrderChoice parentData={parentDataArray} childData={childDataArray} basketData={basketDataArray} pop={handleClickOpen}/>);
+            case 1:
+                return (<AddressBar/>);
+            case 2:
+                return (<CheckOut parentData={parentDataArray} childData={childDataArray} basketData={basketDataArray} summaryData={summary}/>);
+
+        }
+    }
+
+    useEffect(()=>{
+
+        const dataFetch = async () => {
+            setLoading(true);
+            const basket = await fetch('http://127.0.1:8000/api/basket/',  {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                method: 'GET',
+                withCredentials: true,
+                credentials: 'include'
+            });
+
+            const basketJson = await basket.json();
+            summary=basketJson;
+            const basketLines = await fetch(basketJson.lines,  {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                method: 'GET',
+                credentials: "include"
+            });
+            const basketLinesJson = await basketLines.json();
+            basketDataArray=(basketLinesJson)
+            for (let lines of basketLinesJson) {
+                const childProduct =  await fetch(lines.product, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                    method: 'GET',
+                    credentials: "include"
+                })
+                const childProductJSON = await childProduct.json()
+                childDataArray.push(childProductJSON)
+            }
+            for (let child of childDataArray) {
+                const prodURL = child.parent
+                const parentProduct =  await fetch('http://127.0.0.1:8000/api/products/' + prodURL + '/', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                    },
+                    method: 'GET',
+                    credentials: "include"
+                })
+                const parentProductJSON = await parentProduct.json()
+                parentDataArray.push(parentProductJSON)
+            }
+            console.log(childDataArray);
+            setLoading(false);
+        }
+        dataFetch();
+    }, []);
+
+
+
     const steps = getSteps();
 
-    function isStepOptional(step) {
-        return step === 1;
-    }
-
-    function isStepSkipped(step) {
-        return skipped.has(step);
-    }
-
     function handleNext() {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
 
         setActiveStep(prevActiveStep => prevActiveStep + 1);
-        setSkipped(newSkipped);
     }
 
     function handleBack() {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     }
 
-    function handleSkip() {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
-        setSkipped(prevSkipped => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    }
     return (
         <Parallax
             blur={5}
@@ -132,6 +189,26 @@ export default function CartStepper() {
             strength={300}
             bgImage={BI}
         >
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Desired quantity not available"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            The requested quantity cannot exceed the quantity available.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
             <Paper className={classes.paper}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
@@ -156,7 +233,7 @@ export default function CartStepper() {
                         </div>
                     ) : (
                         <div>
-                            {getStepContent(activeStep, cart)}
+                            {getStepContent(activeStep)}
                             <div style={{marginTop: 20}}>
                                 <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                     Back

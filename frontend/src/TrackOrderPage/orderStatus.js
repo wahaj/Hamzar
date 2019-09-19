@@ -136,7 +136,7 @@ export default function OrderStatus({match}) {
                     <Grid item className={classes.testY} cols={2} rows={1}>
                         <Paper className={classes.paper}>
                             <Typography variant="h5">
-                               Order Status for book {match.params.id}
+                               Order Status for book {match.params.ids}
                            </Typography>
                         </Paper>
                     </Grid>

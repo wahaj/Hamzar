@@ -14,7 +14,7 @@ import ShoppingCart from '@material-ui/icons/AddShoppingCart';
 import { Link } from 'react-router-dom'
 import History from '../../History/history'
 import Store from '../../History/Store'
-
+import logo from "./logo.png"
 
 const useStyles = makeStyles(theme =>({
 
@@ -38,7 +38,8 @@ const useStyles = makeStyles(theme =>({
         '&:hover': {
             backgroundColor: fade(theme.palette.common.white, 0.25),
         },
-        marginRight: theme.spacing(2),
+        paddingRight: theme.spacing(10),
+        marginRight: theme.spacing(30),
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -172,9 +173,7 @@ export default function PrimarySearchAppBar(props) {
         </Menu>
     );
     useEffect(() => {
-        console.log("asd")
         setLogState(Store.getLogStatus)
-        console.log(Store.getLogStatus())
     }, [Store.getLogStatus()]);
 
     return (
@@ -182,7 +181,11 @@ export default function PrimarySearchAppBar(props) {
             <AppBar style={{boxShadow: "none"}} position="static">
                 <Toolbar style={{boxShadow: "none"}}>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        <Link style={{color: "White", textDecoration: "none"}} to={'/'}>HAMZAR</Link>
+                        <Link style={{color: "White", textDecoration: "none"}} to={'/'}>
+                            <div style={{height:70,display: "flex" , alignItems: "center"}}>
+                                <img src={logo} style={{height: "80%", width: "auto"}}></img>
+                            </div>
+                        </Link>
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>

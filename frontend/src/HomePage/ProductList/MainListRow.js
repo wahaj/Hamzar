@@ -64,7 +64,7 @@ export default function MainListRow(props) {
                     <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
                         {props.object.tileData.map(tile => (
                             <GridListTile key={tile.id} className={classes.gridTile}>
-                                <img src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
+                                <img src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original : 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
                                 <GridListTileBar
                                     title={tile.title}
                                     classes={{

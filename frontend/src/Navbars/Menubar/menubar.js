@@ -11,7 +11,7 @@ import CustomerSupportIcon from '@material-ui/icons/Group';
 import TrackOderIcon from '@material-ui/icons/Search';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import del from "./deliveryIcon.png"
+import del from "./delivery.png"
 import History from '../../History/history'
 
 const useStyles = makeStyles((theme)  => ({
@@ -74,8 +74,9 @@ export default function PrimarySearchAppBar() {
         <div className={classes.grow} >
             <AppBar  position="static" style={{boxShadow: " 0 5px 5px 2px rgba(128,128,128, 0.4)"}} >
                 <Toolbar>
+                    {/*Text behind Delivery Icon*/}
+                        <p style={{color:"white", fontSize: 18, marginRight: 10}}>We deliver at<br/>your Address</p>
                     {/*Delivery Icon*/}
-
                     <img className={classes.myIcon} src={del}></img>
 
                     <div className={classes.grow} />
@@ -100,8 +101,10 @@ export default function PrimarySearchAppBar() {
                         <p style={{color:"white"}}>Track Order</p>
                     </Button>
                     <div className={classes.grow} />
-
-
+                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="false" onClick={handleTrackOrder}>
+                        <p style={{color:"white"}}>Your Profile</p>
+                    </Button>
+                    <div className={classes.grow} />
                 </Toolbar>
             </AppBar>
         </div>

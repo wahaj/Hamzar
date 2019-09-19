@@ -9,7 +9,7 @@ import MenuBar from "./Navbars/Menubar/menubar";
 import Footer from "./Navbars/Footer/BottomBar"
 import TrackOrder from "./TrackOrderPage/TrackOrder"
 import LoginPage from "./LoginPage/loginForm";
-import SignupPage from "./SignupPage/SignupPage";
+import SignUpPage from "./SignupPage/SignupPage";
 import FAQPage from "./InformationPages/FAQPage/FAQPage.js";
 import Career from "./InformationPages/CareerPage/Career";
 import AboutUsPage from "./InformationPages/AboutUsPage/AboutUsPage";
@@ -32,9 +32,8 @@ class App extends React.Component {
         }
         this.changeState = this.changeState.bind(this)
     }
-
+    
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("Ali")
         if(prevState.ls != Store.getLogStatus())
         {
             this.setState({ls: Store.getLogStatus()})
@@ -54,14 +53,14 @@ class App extends React.Component {
                     <Route exact path='/' component={Home}/>
                     <Route path='/profile' component={ProfilePage}/>
                     <Route path='/log-in' render={(props) => <LoginPage {...props} uls={this.changeState}/>}/>
-                    <Route path='/sign-up' component={SignupPage}/>
+                    <Route path='/sign-up' component={SignUpPage}/>
                     <Route path='/faqs' component={FAQPage}/>
                     <Route path='/career' component={Career}/>
                     <Route path='/about-us' component={AboutUsPage}/>
                     <Route path='/question-query' component={QuestionQuery}/>
                     <Route path='/change-pass' component={ChangePass}/>
                     <Route exact path='/track-order' component={TrackOrder} />
-                    <Route path='/track-order/:id' component={OrderStatus} />
+                    <Route path='/track-order/:ids' component={OrderStatus} />
                     <Route path='/cart' component={Cart} />
                     <Route path='/productPage' component={ProductPage}/>
                     <Route path='/test' component={Test}/>
