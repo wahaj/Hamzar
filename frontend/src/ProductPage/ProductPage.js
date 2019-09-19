@@ -249,19 +249,20 @@ function ProductPage(props){
                     <Grid key='extras' item className={classes.extras}>
                         <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
                             {
-                                (true) ?
+                                (thisProduct.product && thisProduct.product.description) ?
                                     <Grid key='productDescription' item className={classes.productDescription}>
                                         <h1 className={classes.headings}>Details</h1>
                                         <p className={classes.details}>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                            Dolor sed viverra ipsum nunc aliquet bibendum enim. In massa tempor nec feugiat. Nunc aliquet bibendum enim facilisis gravida.
-                                            Nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper. Amet luctus venenatis lectus magna fringilla. Volutpat maecenas volutpat
-                                            blandit aliquam etiam erat velit scelerisque in. Egestas egestas fringilla phasellus faucibus scelerisque eleifend. Sagittis orci a
-                                            scelerisque purus semper eget duis. Nulla pharetra diam sit amet nisl suscipit. Sed adipiscing diam donec adi
+                                            {thisProduct.product.description}
                                         </p>
                                     </Grid>
                                     :
-                                    null
+                                    <Grid key='productDescription' item className={classes.productDescription}>
+                                        <h1 className={classes.headings}>Details</h1>
+                                        <p className={classes.details}>
+                                            Sorry no details Available
+                                        </p>
+                                    </Grid>
                             }
                             {
                                 false ?
@@ -276,7 +277,7 @@ function ProductPage(props){
                                 {
                                     (thisProduct.product && thisProduct.product.recommended_products) ?
                                     <MainListRow className={classes.productList} object={{
-                                        tileData: ((thisProduct.product) ? thisProduct.product.recommended_products.length>0 : null),
+                                        tileData: ((thisProduct.product && thisProduct.product.recommended_products.length>0) ?  thisProduct.product.recommended_products : null),
                                         listTitle: 'Related Objects',
                                         color: 'rgba(0,11,206,0.3)'
                                     }}/>

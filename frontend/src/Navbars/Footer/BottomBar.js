@@ -95,7 +95,7 @@ function BottomBar(){
                         <div className={classes.links}>
                             <h2 className={classes.headings}>Customer Care</h2><br/>
                             <div>
-                                <BottomAncor object={{text: "Help Center",path:'/faqs'}}/>
+                                <BottomAncor object={{text: "Help Center",path:'/ContactUs'}}/>
                                 <BottomAncor object={{text: "Return and Refund",path:'/ret-and-ref'}}/>
                                 <BottomAncor object={{text: "Track my Order"}}/>
                                 <BottomAncor object={{text: "Delivery System",path:'/DeliverySystem'}}/>
@@ -116,7 +116,7 @@ function BottomBar(){
                             <h2 className={classes.headings}>Let us Help you</h2><br/>
                             <BottomAncor object={{text: "Your Account"}}/>
                             <BottomAncor object={{text: "Your Orders"}}/>
-                            <BottomAncor object={{text: "Help" , path:'/faqs'}}/>
+                            <BottomAncor object={{text: "Help" , path:'/ContactUs'}}/>
                             <BottomAncor object={{text: "FAQ's", path:'/faqs'}}/>
                         </div>
                         <div className={classes.links}>

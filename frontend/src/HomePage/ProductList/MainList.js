@@ -8,7 +8,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     mainBack: {
+        margin : '0',
+        width: '100%',
         backgroundColor: 'rgba(204,204,204,.3)',
+        paddingLeft:'2%',
+        paddingRight:'2%',
+        border:'0px solid blue',
     },}));
 
  const tileDataArray = [
@@ -49,14 +54,30 @@ export default function MainList() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <Container maxWidth="xl" minWidth="xs" className={classes.mainBack}>
+            <Container maxWidth="xxl" minWidth="xs" className={classes.mainBack}>
                 <br/><br/><br/>
                 <div>
-                <MainListRow object={{tileData : bestSellers.tileData, listTitle:'Best Sellers', color:'rgba(0,11,206,0.3)'}} />
+                <MainListRow object={{tileData : bestSellers.tileData, listTitle:'Comics and Graphics Novels', color:'black'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'New Arrivals', color:'rgba(0,11,206,0.3)'}} />
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Educational & Teaching', color:'black'}} />
+                </div>
+                <br/><br/><br/>
+                <div>
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Magazines', color:'black'}} />
+                </div>
+                <br/><br/><br/>
+                <div>
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Literature & Fashion', color:'black'}} />
+                </div>
+                <br/><br/><br/>
+                <div>
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Romance', color:'black'}} />
+                </div>
+                <br/><br/><br/>
+                <div>
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Best Sellers', color:'black'}} />
                 </div>
                 <br/><br/><br/>
             </Container>

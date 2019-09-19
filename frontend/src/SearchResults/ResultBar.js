@@ -86,6 +86,7 @@ const useStyles = makeStyles(theme => ({
     },
     rating :{
         paddingTop:'1%',
+        display :'none',
     },
     singleProduct:{
         backgroundColor:'rgba(204,204,204,.3)',
@@ -256,9 +257,6 @@ export default function ResultBar(props){
                                 {
                                     thisProduct.product && thisProduct.product.children ? validateDetails() : ' '
                                 }
-                                {
-                                   thisProduct.product ? thisProduct.product.id : 'Fuck You'
-                               }
                             </Typography>
                         </Grid>
                         <Grid item key='rating' className={classes.rating}>
@@ -266,12 +264,12 @@ export default function ResultBar(props){
                         </Grid>
                         <Grid item key='hard cover' className={classes.price}>
                             <Typography  variant="h6" className={classes.priceDetails} >
-                                <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  Rs. {!(prices.hardBackOld == 1) && (prices.hardBackOld) ? prices.hardBackOld.excl_tax : 'N/A'  } - {!(prices.hardBackNew == 1) && (prices.hardBackNew) ? prices.hardBackNew.excl_tax : 'N/A'  }
+                                <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  Rs. {((prices.hardBackNew ) && (prices.hardBackNew.excl_tax )) ? prices.hardBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='paper back' className={classes.price}>
                             <Typography  variant="h6" className={classes.priceDetails} >
-                                <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>  Rs. {!(prices.paperBackOld == 1) && (prices.paperBackOld) ? prices.paperBackOld.excl_tax : 'N/A'  } - {!(prices.paperBackNew == 1) && (prices.paperBackNew) ? prices.paperBackNew.excl_tax : 'N/A'  }
+                                <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>  Rs. {!(prices.paperBackNew == 1) && (prices.paperBackNew) ? prices.paperBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='quote' className={classes.price}>

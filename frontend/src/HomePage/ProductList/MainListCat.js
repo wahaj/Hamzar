@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function MainListRow(props) {
+export default function MainListCat(props) {
     const classes = useStyles();
 
     return (
@@ -67,10 +67,10 @@ export default function MainListRow(props) {
                     <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
                         {
                             props.object.tileData ?
-                            props.object.tileData.map(tile => (
-                                <ButtonBase className={classes.gridTile2} href={'./ProductPage/' + tile.id }>
-                                <GridListTile key={tile.id} className={classes.gridTile}>
-                                    <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
+                                props.object.tileData.map(tile => (
+                                    <ButtonBase className={classes.gridTile2} href={'./ProductPage/' + tile.id }>
+                                        <GridListTile key={tile.id} className={classes.gridTile}>
+                                            <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
                                             <GridListTileBar
                                                 title={tile.title}
                                                 classes={{
@@ -78,9 +78,9 @@ export default function MainListRow(props) {
                                                     title: classes.title,
                                                 }}
                                             />
-                                    </GridListTile>
-                                </ButtonBase>
-                        ))
+                                        </GridListTile>
+                                    </ButtonBase>
+                                ))
                                 :
                                 null
                         }
