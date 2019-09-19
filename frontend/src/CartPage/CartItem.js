@@ -1,21 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import Container from "@material-ui/core/Container";
 
-import { withStyles} from '@material-ui/core/styles';
 
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
-import iamg from './sample.jpg'
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import MinIcon from '@material-ui/icons/Minimize';
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import Store from "../History/Store";
+import History from "../History/history";
+
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -106,6 +108,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'flex-end',
         height: 40,
         margin: 0,
+        verticalAlign: 'bottom'
     },
     subDetailContainer: {
         display: 'flex',
@@ -132,60 +135,119 @@ const useStyles = makeStyles(theme => ({
 
 export default function CartItem(props) {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false)
+    const {cdata,pdata,bdata,popOpen} = props;
     const [products, setValues] = React.useState({
-        bookName: props.data.name,
-        author: props.data.author,
-        price: props.data.price,
-        type: props.data.type,
-        condition: props.data.condition,
-        quantity: props.data.quantity
+        bookName: "",
+        author: "",
+        currency: "",
+        price: "",
+        type: "",
+        condition: "",
+        quantity: "",
+        image: "",
     });
+
+    useEffect(()=> {
+        const fm = async () => {
+            const price = await fetch(cdata.price, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                method: 'GET',
+                credentials: "include"
+            })
+            const priceJSON = await price.json()
+            setValues({
+                bookName: pdata.title,
+                author: pdata.attributes[0].value,
+                price: priceJSON.incl_tax,
+                type: cdata.attributes[1].value,
+                condition: cdata.attributes[0].value,
+                quantity: bdata.quantity,
+                currency: priceJSON.currency,
+                image: pdata.images[0].original
+            })
+        }
+        fm();
+    }
+    ,[loading])
+
+
+    useEffect(()=> {
+            const fm = async () => {
+
+            }
+            fm();
+        }
+        ,[])
+
 
     function increaseQuantity() {
 
-        setValues((prev)=>
-            setValues({
-                ...products,
-                quantity: prev.quantity+1
-            })
-        )
-        console.log(products.quantity);
+        fetch(cdata.availability, {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept:'application/json',
+            },
+            method: 'GET',
+            withCredentials: true,
+            credentials: "include",
+
+        })
+            .then(res => res.json())
+            .then(
+                (json)=>{
+                    if(json.is_available_to_buy){
+
+                        //SEND FETCH STATEMENT TO UPDATE ORDER SIZE
+
+
+                        setValues((prev)=>
+                            setValues({
+                                ...products,
+                                quantity: prev.quantity+1
+                            })
+                        )
+                    }
+                    else{
+                        popOpen();
+                    }
+                }
+            )
+            .catch((err)=>alert(err));
     }
     function decreaseQuantity() {
-
         setValues((prev)=>
             setValues({
                 ...products,
                 quantity: prev.quantity-1
             })
         )
-        console.log(products.quantity);
+        //SEND FETCH CAL TO UPDATE ACCOUNT.
     }
-    /*const [author, setAuthor] = React.useState(null);
-    const [price, setPrice] = React.useState(null);
-    const [type, setType] = React.useState(null);
-    const [condition, setcondition] = React.useState(null);
-    const [quantity, setQuantity] = React.useState(null);*/
 
-    const product = {"Name": "The Republic", "Author": "Plato", "Price": "Rs. 20", "Type":"Hardback", "Condition": "Relic", "Quantity": "1"}
     const headRows = [
         { id: 'name', numeric: false, label: 'Basket Item' },
         { id: 'price', numeric: true, label: 'Price' },
         { id: 'Quantity', numeric: true, label: 'Quantity' },
     ];
+
     return (
         <TableRow style={{padding:0}}>
             <TableCell className={classes.bucketItemDetail} align={'left'} >
-                <GridList cellHeight={200} cols={3} spacing={0}>
+                <GridList cellHeight={200} cols={3} spacing={0} >
                     <Grid justify='center' alignItems='center' className={classes.imageBlock} spacing={0} item cols={1} rows={1} container>
                         <Container fixed className={classes.imageContainer}>
                             <img
                                 className={classes.productImage}
-                                src={iamg}
+                                src={products.image}
                             />
                         </Container>
                     </Grid>
-                    <Grid className={classes.productDetail} item spacing={0} cols={2} rows={1}>
+                    <Grid className={classes.productDetail} item spacing={0} cols={2} rows={1} style={{paddingTop: 10}}>
                         <Grid container alignItems={'flex-start'} className={classes.productDetailContainer} spacing={0} >
                             <Grid item xs={12} className={classes.detailContainer} >
                                 <Typography  className={classes.title} variant="h4" displayInline>
@@ -228,14 +290,13 @@ export default function CartItem(props) {
             <TableCell className={classes.bucketItemPrice} align={'right'}>
                 <Grid item xs={12} style={{marginTop: 10}}>
                     <Typography variant="h6" >
-                        {products.price}
+                        {products.currency + " " + products.price}
                     </Typography>
                 </Grid>
-
             </TableCell>
-            <TableCell style={{padding:0, paddingTop: 5}} className={classes.bucketItemQuantity}  align={'center'} >
+            <TableCell style={{padding:0, paddingTop: 10}} className={classes.bucketItemQuantity}  align={'center'} >
                 <Grid container alignItems={'center'} direction={'row-reverse'}  >
-                    <Grid item xs={3}>
+                    <Grid item xs={3} style={{paddingBottom: 5}}>
                         <Fab size="small" color="primary" aria-label="add" className={classes.margin} onClick={decreaseQuantity} >
                             <MinIcon style={{paddingBottom: 13}} />
                         </Fab>
@@ -247,9 +308,8 @@ export default function CartItem(props) {
                             margin="none"
                             variant="outlined"
                         />
-
                     </Grid>
-                    <Grid  item xs={3}>
+                    <Grid  item xs={3} style={{paddingBottom: 5}}>
                         <Fab size="small" color="primary" aria-label="add" className={classes.margin} style={{paddingBottom: 4}}>
                             <AddIcon style={{paddingTop: 3}} onClick={increaseQuantity} />
                         </Fab>

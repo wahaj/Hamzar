@@ -63,10 +63,34 @@ export default function MyMenuItem(props){
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem onClick={handleClose}>Electronic Accessories</MenuItem>
-                <MenuItem onClick={handleClose}>Men's Fashion</MenuItem>
-                <MenuItem onClick={handleClose}>Women's Fashion</MenuItem>
-                <MenuItem onClick={handleClose}>Books</MenuItem>
+                <MenuItem onClick={handleClose}>Arts & Photography</MenuItem>
+                <MenuItem onClick={handleClose}>Biographies & Memories</MenuItem>
+                <MenuItem onClick={handleClose}>Business & Money</MenuItem>
+                <MenuItem onClick={handleClose}>Calenders</MenuItem>
+                <MenuItem onClick={handleClose}>Children's Books</MenuItem>
+                <MenuItem onClick={handleClose}>Christian Books and Bible</MenuItem>
+                <MenuItem onClick={handleClose}>Comics & Graphics Novels</MenuItem>
+                <MenuItem onClick={handleClose}>Computers & Technology</MenuItem>
+                <MenuItem onClick={handleClose}>Cookbooks, Food & Wine</MenuItem>
+                <MenuItem onClick={handleClose}>Crafts, Hobbies & Home</MenuItem>
+                <MenuItem onClick={handleClose}>Educational & Teaching</MenuItem>
+                <MenuItem onClick={handleClose}>Engineering & Transportation</MenuItem>
+                <MenuItem onClick={handleClose}>Health, Fitness & Dieting</MenuItem>
+                <MenuItem onClick={handleClose}>Magazines</MenuItem>
+                <MenuItem onClick={handleClose}>History</MenuItem>
+                <MenuItem onClick={handleClose}>Humor & Environment</MenuItem>
+                <MenuItem onClick={handleClose}>Law</MenuItem>
+                <MenuItem onClick={handleClose}>Newspapers</MenuItem>
+                <MenuItem onClick={handleClose}>Literature & Fashion</MenuItem>
+                <MenuItem onClick={handleClose}>Medical Books</MenuItem>
+                <MenuItem onClick={handleClose}> Mystery, Thriller & Suspense</MenuItem>
+                <MenuItem onClick={handleClose}> Parenting & Relationships</MenuItem>
+                <MenuItem onClick={handleClose}>Political and Social Science</MenuItem>
+                <MenuItem onClick={handleClose}>Religion & Spirituality</MenuItem>
+                <MenuItem onClick={handleClose}>Science & math</MenuItem>
+                <MenuItem onClick={handleClose}>Teen and Young adult</MenuItem>
+                <MenuItem onClick={handleClose}>Travel</MenuItem>
+
             </Menu>
         </div>
 

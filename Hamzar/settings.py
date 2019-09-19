@@ -193,7 +193,7 @@ OSCARAPI_OVERRIDE_MODULES = ["Hamzar.api"]
 OSCARAPI_PRODUCT_FIELDS = ["url", "id", "upc", "title", "images"]
 OSCARAPI_PRODUCTDETAIL_FIELDS = ["parent", "url", "upc", "id", "title", "description", "structure",
 									"recommended_products", "attributes", "categories", "product_class", "images",
-									"price", "availability", "children", ]
+									"price", "availability", "children", "reviews"]
 
 
 # Static files (CSS, JavaScript, Images)

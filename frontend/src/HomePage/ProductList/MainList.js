@@ -17,14 +17,15 @@ const useStyles = makeStyles(theme => ({
     },}));
 
  const tileDataArray = [
-           ];
+
+ ];
 
 export default function MainList() {
     const classes = useStyles();
     const [bestSellers, setBestSellers]=React.useState({tileData : tileDataArray});
     const [newArrivals, setNewArrivals]=React.useState({tileData : tileDataArray});
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/products/new_arrivals/', {
+        fetch('http://192.168.100.10:8000/api/products/new_arrivals/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -37,7 +38,7 @@ export default function MainList() {
             .then(json => {
                 setNewArrivals({tileData : json})
             });
-        fetch('http://127.0.0.1:8000/api/products/best_sellers/', {
+        fetch('http://192.168.100.10:8000/api/products/best_sellers/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -61,6 +62,7 @@ export default function MainList() {
                 </div>
                 <br/><br/><br/>
                 <div>
+<<<<<<< HEAD
                     <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Educational & Teaching', color:'black'}} />
                 </div>
                 <br/><br/><br/>
@@ -78,6 +80,9 @@ export default function MainList() {
                 <br/><br/><br/>
                 <div>
                     <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Best Sellers', color:'black'}} />
+=======
+                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Discount Offers', color:'rgba(0,11,206,0.3)'}} />
+>>>>>>> fd921f268aa11e1d8ca4a824772c8b92b412a077
                 </div>
                 <br/><br/><br/>
             </Container>

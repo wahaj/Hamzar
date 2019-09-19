@@ -55,36 +55,33 @@ export default function LoginForm(props) {
         password: "",
         isError:false,
     });
-
-
-
     const {uls} = props;
-
-
     function handle_login(e) {
         setState({isError:false})
         e.preventDefault()
-        Store.setLogStatus(true)
-        uls();
-        fetch('http://192.168.100.10:8000/api/login/', {
+
+
+        fetch('http://127.0.0.1:8000/api/login/', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept:'application/json',
             },
             cache:'default',
             method: 'POST',
+            withCredentials: true,
+            credentials: "include",
             body: JSON.stringify({'username':email,'password': password})
         })
             .then(res =>{
-                if (res.statusText === 'Unauthorized'){
-                    console.log('sorry the password or email is incorrect ')
-                    setState({isError:true})
-                    state.isError ?
-                        alert('Authorized'):
-                        alert('Unauthorized')
+                if (res.status === 200){
+                    Store.setLogStatus(true)
+                    uls();
+                    History.push("/");
+                    console.log(res)
                 }
                 else{
-                    History.push("/");
+                    setState({isError:true})
+                    alert('The password or email entered is in correct')
                 }
             })
             .catch((err)=>alert(err));

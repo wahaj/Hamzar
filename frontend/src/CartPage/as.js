@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Paper} from "@material-ui/core";
 import Table from '@material-ui/core/Table';
 import TableHead from "@material-ui/core/TableHead";
@@ -8,6 +8,8 @@ import TableBody from "@material-ui/core/TableBody";
 import CartItem from "./CartItem";
 import { withStyles} from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
+import sampleCart from './sampleCart'
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -52,10 +54,15 @@ const cartItems = [
 
 ];
 
+
 export default function OrderChoice(props) {
     const classes = useStyles()
-    const {parentData,childData,basketData,pop} = props
-    return(
+    const {parentData,childData,basketData} = props
+
+
+    const [cartItem, setCartItem]=React.useState({tileData : cartItems});
+
+    return (
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
@@ -72,7 +79,7 @@ export default function OrderChoice(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody >
-                    {parentData.map((item,index)=> <CartItem pdata={item} cdata={childData[index]} bdata={basketData[index]} popOpen={pop}/>)}
+                    {/*{parentData.map((item,index)=> <CartItem pdata={item} cdata={childData[index]} bdata={basketData[index]}/>)}*/}
                 </TableBody>
             </Table>
         </Paper>
