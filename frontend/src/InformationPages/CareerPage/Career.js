@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme=>({
         height: '50%',
         display:'flex',
         marginLeft:'30%'
-
     },
     headings:{
         color:'rgba(0,11,206,0.49)',
@@ -42,7 +41,6 @@ const useStyles = makeStyles(theme=>({
         lineHeight:'30px',
         marginLeft:'10%',
         marginRight:'10%',
-
     },
     elements:{
         color:'rgba(0,11,206,0.49)',

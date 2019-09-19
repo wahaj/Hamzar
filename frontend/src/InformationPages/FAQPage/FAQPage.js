@@ -6,7 +6,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MyNavbar from "./../../Navbars/Navbar/mynavbar";
-import Footer from "./../../Navbars/Footer/BottomBar"
+import Footer from "./../../Navbars/Footer/BottomBar";
+import image from './faq.png';
 
 import {Container} from "@material-ui/core";
 
@@ -47,6 +48,11 @@ const useStyles = makeStyles(theme => ({
     },
     contactDetail:{
 
+    },
+    mainImage:{
+        width:'100%',
+        height:'700px',
+        display:'block',
     }
 }));
 
@@ -60,6 +66,9 @@ export default function ControlledExpansionPanels() {
 
     return (
         <div>
+            <div>
+                <img className={classes.mainImage} src={image}/>
+            </div>
             <div className={classes.root}>
                 <Container fixed>
                     <h1 className={classes.main_heading}>FAQ</h1>
