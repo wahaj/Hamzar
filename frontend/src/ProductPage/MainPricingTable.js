@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import SwipeableViews from 'react-swipeable-views';
@@ -48,12 +48,21 @@ const useStyles = makeStyles(theme => ({
         },
     },
 }));
-
+var newHardBack = null;
+var oldHardBack = null;
+var newPaperBack = null;
+var oldPaperBack = null;
+var oldPaperPrice = null;
+var newPaperPrice = null;
+var oldHardPrice = null;
+var newHardPrice = null;
 export default function MainPricingTable(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
     const [controlSwitch, setControlSwitch] = React.useState(true);
+    const [values, setValues] = React.useState({oldPaper: 0 , newPaper:0 , oldHard:0,newHard:0})
+
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -66,32 +75,100 @@ export default function MainPricingTable(props) {
     function handleChangeIndex(index) {
         setValue(index);
     }
+    function setPriceValues(){
+        newHardBack = null
+        newPaperBack = null
+        oldHardBack = null
+        oldPaperBack = null
+        oldPaperPrice = null
+        newPaperPrice = null
+        oldHardPrice = null
+        newHardPrice = null
+        props.object.children.map(data=>{
+            data.attributes.map(info=>{
+                if (info.name === 'Type' && info.value === 'Hardback' ){
+                    data.attributes.map(resul=>{
+                        if(resul.name ==='Condition' && resul.value === 'New' ){
+                            newHardBack = data.price
+                        }
+                        if(resul.name ==='Condition' && resul.value === 'Old' ){
+                            oldHardBack = data.price
+                        }
+                    })
+                }
+                if (info.name === 'Type' && info.value === 'Paperback' ){
+                    data.attributes.map(resul=>{
+                        if(resul.name ==='Condition' && resul.value === 'New' ){
+                            newPaperBack = data.price
+                        }
+                        if(resul.name ==='Condition' && resul.value === 'Old' ){
+                            oldPaperBack = data.price
+                        }
+                    })
+                }
+            })
+        })
+        dataFetchN()
+        setValue({oldPaper: oldPaperPrice , newPaper:newPaperPrice , oldHard:oldHardPrice , newHard:newHardPrice})
+    }
+    const dataFetchN = async () => {
+        if(oldPaperBack) {
+            const product = await fetch(oldPaperBack, {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => res.json())
+                .then(json => oldPaperPrice = json)
+        }
+        if(newPaperBack) {
+            const product2 = await fetch(newPaperBack, {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => res.json())
+                .then(json => newPaperPrice = json)
+        }
+        if(oldHardBack) {
+            const product3 = await fetch(oldHardBack, {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => res.json())
+                .then(json => oldHardPrice = json)
+        }
+        if(newHardBack) {
+            const product4 = await fetch(newHardBack, {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res => res.json())
+                .then(json => newHardPrice = json)
+        }
+
+    }
 
     const transitionDuration = {
         enter: theme.transitions.duration.enteringScreen,
         exit: theme.transitions.duration.leavingScreen,
     };
-
-    const fabs = [
-        {
-            color: 'primary',
-            className: classes.fab,
-            icon: <AddIcon />,
-            label: 'Add',
-        },
-        {
-            color: 'secondary',
-            className: classes.fab,
-            icon: <EditIcon />,
-            label: 'Edit',
-        },
-        {
-            color: 'inherit',
-            className: clsx(classes.fab, classes.fabGreen),
-            icon: <UpIcon />,
-            label: 'Expand',
-        },
-    ];
+    useEffect(()=>{
+    },[])
 
     return (
         <div className={classes.root}>
@@ -103,9 +180,10 @@ export default function MainPricingTable(props) {
                     textColor="primary"
                     variant="fullWidth"
                 >
-                    <Tab label="Paper Back"  />
-                    <Tab label="Hard Cover" />
-                    <Tab label="Loose Leaf" />
+                    <Tab key='0' label="Hard Cover" />
+                    <Tab key='1' label="Paper Back" />
+
+
                 </Tabs>
             </AppBar>
             <SwipeableViews
@@ -113,20 +191,23 @@ export default function MainPricingTable(props) {
                 index={value}
                 onChangeIndex={handleChangeIndex}
             >
-
-                <TabContainer dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch} handleChange={handleChangeTable} />
+                <TabContainer value={value} key='0' index={0} dir={theme.direction}>
+                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Hardback' , child : props.object.children }} handleChange={handleChangeTable} />
                 </TabContainer>
-
-                <TabContainer dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch} handleChange={handleChangeTable} />
+                <TabContainer value={value} key='1' index={1} dir={theme.direction}>
+                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Paperback' , child : props.object.children}} handleChange={handleChangeTable} />
                 </TabContainer>
-
-                <TabContainer dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch} handleChange={handleChangeTable} />
-                </TabContainer>
-
             </SwipeableViews>
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+

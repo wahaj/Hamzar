@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import NavigationIcon from '@material-ui/icons/Navigation';
@@ -91,61 +91,140 @@ const useStyles = makeStyles(theme => ({
 export default function ProductAssistence(props) {
     const classes = useStyles();
     const styles={visibility: 'collapse'}
+    const [thisState,setThisState]=React.useState({New: null,Old:null, toCheck:null})
+    const [controlSwitch, setControlSwitch] = React.useState(true);
+    var OldAddress = null
+    var NewAddress = null
+    var OldPrice = null
+    var NewPrice = null
+
+
+    function handleChangeTable() {
+        setControlSwitch (prevState => {
+            return !prevState
+        })
+    }
+    function checkDetails(){
+        props.data.child.map(data=>{
+            data.attributes.map(info=>{
+                if (info.name === 'Type' && info.value === props.data.childObject ){
+                    data.attributes.map(resul=>{
+                        if(resul.name ==='Condition' && resul.value === 'New' ){
+                            NewAddress = data.price
+                        }
+                        if(resul.name ==='Condition' && resul.value === 'Old' ){
+                            OldAddress = data.price
+                        }
+                    })
+                }
+            })
+        })
+        dataFetchN()
+    }
+    const dataFetchN = async () => {
+        if(NewAddress){
+            const product = await fetch(NewAddress , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>{
+                    NewPrice = json
+                })
+        }
+        if(OldAddress){
+            const product2 = await fetch(OldAddress , {
+                method: 'Get',
+                withCredentials: true,
+                cache: 'default',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(res=>res.json())
+                .then(json=>OldPrice = json)
+        }
+        setThisState({New:NewPrice, Old: OldPrice})
+
+    }
+
+    useEffect(()=>{
+        checkDetails()
+    },[controlSwitch])
 
     return (
         <div>
             <Grid container className={classes.new} direction='column' justify='center' alignItems='stretch'>
                 <Grid item className={classes.info} >
-                    <Fab variant="extended" aria-label="Delete" onClick={props.handleChange} className={classes.fab}>
+                    <Fab variant="extended" aria-label="Delete" onClick={handleChangeTable} className={classes.fab}>
                     <NavigationIcon className={classes.extendedIcon} />
                       New
                     </Fab>
-                    <Typography variant='h5' className={classes.objectPrice}><b>2970 pkr</b></Typography>
+                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.New ? thisState.New.excl_tax + "  pkr" : 'nothing to show'} </b></Typography>
                 </Grid>
                 <Grid item className={classes.info}>
-                    <Collapse in={props.object} className={classes.info}>
-                        <div className={classes.innerInformation} >
-                            <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>1234</b></Typography></div>
-                            <div className={classes.save}><Typography className={classes.toRight}>Save : <b>1234</b> (30%)</Typography> </div>
-                            <div className={classes.cartOption}>
-                                <Button variant='contained' color='primary' className={classes.cartButton}>
-                                    Add to Cart
-                                </Button>
+                    <Collapse in={controlSwitch} className={classes.info}>
+
+                        {
+                            thisState.New ?
+                            <div className={classes.innerInformation} >
+                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.New ? thisState.New.incl_tax : 'nothing to show'}</b></Typography></div>
+                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.New ? thisState.New.tax : 'nothing to show'}</b> (30%)</Typography> </div>
+                                <div className={classes.cartOption}>
+                                    <Button variant='contained' color='primary' className={classes.cartButton}>
+                                        Add to Cart
+                                    </Button>
+                                </div>
+                                <div className={classes.buyNow}>
+                                    <Button variant='contained' color='secondary' className={classes.buyButton}>
+                                        Buy Now
+                                    </Button>
+                                </div>
                             </div>
-                            <div className={classes.buyNow}>
-                                <Button variant='contained' color='secondary' className={classes.buyButton}>
-                                    Buy Now
-                                </Button>
-                            </div>
-                        </div>
+                                :
+                                <Typography variant='h5' className={classes.innerInformation}>
+                                    'Sorry No Details Available'
+                                </Typography>
+                        }
                     </Collapse>
                 </Grid>
             </Grid>
             <Divider className={classes.divider}/>
             <Grid container className={classes.used} direction='column' justify='center' alignItems='stretch'>
                 <Grid item className={classes.info} >
-                    <Fab variant="extended" aria-label="Delete" onClick={props.handleChange} className={classes.fab}>
+                    <Fab variant="extended" aria-label="Delete" onClick={handleChangeTable} className={classes.fab}>
                         <NavigationIcon className={classes.extendedIcon} />
                         Used
                     </Fab>
-                    <Typography variant='h5' className={classes.objectPrice}><b>2970 pkr</b></Typography>
+                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.Old ? thisState.Old.excl_tax + "  pkr" : 'nothing to show'} </b></Typography>
                 </Grid>
                 <Grid item className={classes.info}>
-                    <Collapse in={!props.object} className={classes.info}>
-                        <div className={classes.innerInformation} >
-                            <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>1234</b></Typography></div>
-                            <div className={classes.save}><Typography className={classes.toRight}>Save : <b>1234</b> (30%)</Typography> </div>
-                            <div className={classes.cartOption}>
-                                <Button variant='contained' color='primary' className={classes.cartButton}>
-                                    Add to Cart
-                                </Button>
+                    <Collapse in={!controlSwitch} className={classes.info}>
+                        {
+                            thisState.Old ?
+                            <div className={classes.innerInformation} >
+                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.Old ? thisState.Old.incl_tax : 'nothing to show'}</b></Typography></div>
+                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.Old ? thisState.Old.tax : 'nothing to show'}</b> (30%)</Typography> </div>
+                                <div className={classes.cartOption}>
+                                    <Button variant='contained' color='primary' className={classes.cartButton}>
+                                        Add to Cart
+                                    </Button>
+                                </div>
+                                <div className={classes.buyNow}>
+                                    <Button variant='contained' color='secondary' className={classes.buyButton}>
+                                        Buy Now
+                                    </Button>
+                                </div>
                             </div>
-                            <div className={classes.buyNow}>
-                                <Button variant='contained' color='secondary' className={classes.buyButton}>
-                                    Buy Now
-                                </Button>
-                            </div>
-                        </div>
+                                :
+                                <Typography variant='h5' className={classes.innerInformation}>
+                                    'Sorry No Details Available'
+                                </Typography>
+                        }
                     </Collapse>
                 </Grid>
             </Grid>

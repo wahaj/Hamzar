@@ -2,15 +2,19 @@ import React from 'react'
 import Button from '@material-ui/core/Button';
 import { createMuiTheme, withStyles, makeStyles } from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
+import Link from "@material-ui/core/Link";
+import History from "../../History/history";
+import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-    margin: {
-        backgroundColor:'rgba(20,34,198,0.2)',
-        borderRadius: 300,
-        width:'0px'
+    button: {
+        color:'white',
+        height:'1px',
+        textDecorationStyle:'none',
     },
-    buttonSide:{
-        backgroundColor:'rgba(20,34,198,0.2)',
+    text:{
+        textDecoration:'none',
+        fontVariant:'small-caps',
     }
 }));
 
@@ -18,13 +22,14 @@ const useStyles = makeStyles(theme => ({
 function BottomBarButtons(props){
     const classes = useStyles();
     return (
-        <div className={classes.margin}>
-            <Button
-                variant="contained"
-                className={classes.margin}
+        <div>
+            <a
+                className={classes.button}
+                href={props.object.src}
+                variant='text'
             >
-                <img  src={props.object.src}/>
-            </Button>
+                    {props.object.text}
+            </a>
         </div>
     )
 }

@@ -11,4 +11,4 @@ class DiscountedProducts(generics.ListAPIView):
 	serializer_class = product.ProductLinkSerializer
 
 	def get_queryset(self):
-		return OfferListView.get_queryset()
+		return Product.objects.all()

@@ -29,7 +29,6 @@ export default function Error404(){
     useEffect(
         function(){
             const forParents = '?structure=parent'
-            alert('Fuck')
             fetch('http://192.168.100.10:8000/api/products/' + forParents, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,7 +42,7 @@ export default function Error404(){
                     console.log(json)
                 })
                 .catch((err)=>alert(err));
-            MaintainSession.setName("fuck You")
+            MaintainSession.setName("problem with backend server ")
             alert(MaintainSession.getName())
         }
         ,[])

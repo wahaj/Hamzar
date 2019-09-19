@@ -23,6 +23,12 @@ import History from './History/history'
 import Store from './History/Store'
 import OrderStatus from "./TrackOrderPage/orderStatus"
 import Cart from "./CartPage/cartPage"
+import RetAndRef from "./InformationPages/RetAndRef/RetAndRef";
+import DeliverySystem from "./InformationPages/DeliverySystem/DeliverySystem";
+import Privacy from "./InformationPages/Privacy/Privacy";
+import TermsAndCondition from "./InformationPages/TermsAndCondition/TermsAndCondition";
+import Payment from "./InformationPages/Payment/Payment";
+import ContactUs from "./InformationPages/ContactUs/ContactUs";
 
 class App extends React.Component {
     constructor(props) {
@@ -57,14 +63,20 @@ class App extends React.Component {
                     <Route path='/faqs' component={FAQPage}/>
                     <Route path='/career' component={Career}/>
                     <Route path='/about-us' component={AboutUsPage}/>
+                    <Route path='/ret-and-ref' component={RetAndRef}/>
                     <Route path='/question-query' component={QuestionQuery}/>
                     <Route path='/change-pass' component={ChangePass}/>
                     <Route exact path='/track-order' component={TrackOrder} />
                     <Route path='/track-order/:ids' component={OrderStatus} />
                     <Route path='/cart' component={Cart} />
-                    <Route path='/productPage' component={ProductPage}/>
+                    <Route path='/productPage/:pid' component={ProductPage}/>
                     <Route path='/test' component={Test}/>
                     <Route path='/SearchResults' component={SearchResults}/>
+                    <Route path='/DeliverySystem' component={DeliverySystem}/>
+                    <Route path='/Privacy' component={Privacy}/>
+                    <Route path='/TermsAndCondition' component={TermsAndCondition}/>
+                    <Route path='/Payment' component={Payment}/>
+                    <Route path='/ContactUs' component={ContactUs}/>
                     <Route component={Error404}/>
                 </Switch>
                 <Footer/>
