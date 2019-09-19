@@ -1,6 +1,5 @@
 from rest_framework import generics
 from oscar.apps.catalogue.models import Product
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from oscarapi.serializers.product import ProductLinkSerializer
 from oscar.apps.analytics.models import ProductRecord
 
@@ -31,3 +30,12 @@ class Search(generics.ListAPIView):
 	def get_queryset(self):
 		query_string = self.kwargs['query']
 		return Product.objects.all().filter(structure='parent', title__icontains=query_string)[:5]
+
+
+class SearchCategory(generics.ListAPIView):
+	serializer_class = ProductLinkSerializer
+
+	def get_queryset(self):
+		category = self.kwargs['category']
+		return Product.objects.all().filter(structure='parent', category=category)
+
