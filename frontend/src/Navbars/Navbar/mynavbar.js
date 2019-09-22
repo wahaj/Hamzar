@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import History from '../../History/history'
 import Store from '../../History/Store'
 import logo from "./logo.png"
+import { ButtonBase } from '@material-ui/core';
 
 const useStyles = makeStyles(theme =>({
 
@@ -189,7 +190,9 @@ export default function PrimarySearchAppBar(props) {
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
-                            <SearchIcon />
+                            <ButtonBase href={'../../SearchResults/SearchResults.js/' + 'the' }>
+                                <SearchIcon />
+                            </ButtonBase>
                         </div>
                         <InputBase
                             placeholder="Search…"

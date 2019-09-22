@@ -71,7 +71,7 @@ class App extends React.Component {
                     <Route path='/cart' component={Cart} />
                     <Route path='/productPage/:pid' component={ProductPage}/>
                     <Route path='/test' component={Test}/>
-                    <Route path='/SearchResults' component={SearchResults}/>
+                    <Route path='/SearchResults/:sName' component={SearchResults}/>
                     <Route path='/DeliverySystem' component={DeliverySystem}/>
                     <Route path='/Privacy' component={Privacy}/>
                     <Route path='/TermsAndCondition' component={TermsAndCondition}/>

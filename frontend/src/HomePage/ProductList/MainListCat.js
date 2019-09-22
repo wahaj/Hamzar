@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -47,10 +47,54 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
 export default function MainListCat(props) {
     const classes = useStyles();
+    const [rend, setRend] = React.useState({value:null})
+    var templist = []
+    const [thisState, setThisState] = React.useState({list:null})
+    function changeState(){
+        if (!thisState.list && templist.length>0 ){
+            console.log(templist)
+            setThisState({
+                list : templist
+            })
+        }
+    }
+    function tryReRender(){
+        if (!rend.value){
+            setRend({
+                value:true
+            })
+        }
+    }
+    const dataFetch = async () => {
+        let product = null
+         if (props.object.tileData){
+               await props.object.tileData.map(tile=>(
+                    product =fetch(tile, {
+                        method: 'Get',
+                        withCredentials: true,
+                        cache: 'default',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }).then(res=>res.json())
+                    .then(json=>{
+                            templist.push(json)
+                    }
+                    )
+         )
+                )
+             setThisState({
+                 list: templist,
+             })
+         }
 
+    }
+    useEffect(()=>{
+        const ans = dataFetch()
+    },[rend])
     return (
 
         <div className={classes.root}>
@@ -66,8 +110,8 @@ export default function MainListCat(props) {
                 <Grid item key='arrayOfObjects' style={{display: 'block', marginBottom:'1%'}}>
                     <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
                         {
-                            props.object.tileData ?
-                                props.object.tileData.map(tile => (
+                            thisState.list  ?
+                                thisState.list.map(tile => (
                                     <ButtonBase className={classes.gridTile2} href={'./ProductPage/' + tile.id }>
                                         <GridListTile key={tile.id} className={classes.gridTile}>
                                             <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
@@ -84,6 +128,12 @@ export default function MainListCat(props) {
                                 :
                                 null
                         }
+                        {
+                            thisState.list ?
+                                console.log(thisState.list)
+                                :
+                                console.log(thisState.list)}
+
                     </GridList>
                 </Grid>
             </Grid>

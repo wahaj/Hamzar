@@ -4,7 +4,7 @@ import {Container, makeStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import image from '../HomePage/ProductList/image.jpeg'
 import image2 from "../HomePage/ProductList/image2.jpg";
-import MainListRow from "../HomePage/ProductList/MainListRow";
+import MainListCat from "../HomePage/ProductList/MainListCat";
 import ProductPic from "./ProductPic";
 import StarRatingComponent from 'react-star-rating-component';
 import Reviews from "./Reviews";
@@ -276,7 +276,7 @@ function ProductPage(props){
                             <Grid key='relatedProducts' item className={classes.relativeProducts}>
                                 {
                                     (thisProduct.product && thisProduct.product.recommended_products) ?
-                                    <MainListRow className={classes.productList} object={{
+                                    <MainListCat className={classes.productList} object={{
                                         tileData: ((thisProduct.product && thisProduct.product.recommended_products.length>0) ?  thisProduct.product.recommended_products : null),
                                         listTitle: 'Related Objects',
                                         color: 'rgba(0,11,206,0.3)'
