@@ -97,7 +97,11 @@ AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.ModelBackend',
 )
 
+WSGI_APPLICATION = 'Hamzar.wsgi.application'
+
 # Search Engine
+
+
 
 HAYSTACK_CONNECTIONS = {
 	'default': {
@@ -108,19 +112,17 @@ HAYSTACK_CONNECTIONS = {
 	},
 }
 
-WSGI_APPLICATION = 'Hamzar.wsgi.application'
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-		'USER': '',
-		'PASSWORD': '',
-		'HOST': '',
-		'PORT': '',
+		'ENGINE': 'django.db.backends.postgresql',
+		'NAME': os.environ.get('POSTGRES_DB','hamzar'),
+		'USER': os.environ.get('POSTGRES_USER','hamzar'),
+		'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
+		'HOST': 'db_postgres',
+		'PORT': '5432',
 		'ATOMIC_REQUESTS': True,
 	}
 }
@@ -178,13 +180,11 @@ REST_REGISTRATION = {
 	'REGISTER_VERIFICATION_ENABLED': False,
 	'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
 	'RESET_PASSWORD_VERIFICATION_ENABLED': False,
-
-	'REGISTER_VERIFICATION_URL': 'https://frontend-host/verify-user/',
-	'RESET_PASSWORD_VERIFICATION_URL': 'https://frontend-host/reset-password/',
 	'REGISTER_EMAIL_VERIFICATION_URL': 'https://frontend-host/verify-email/',
 
 	'VERIFICATION_FROM_EMAIL': 'wahajaved@protonmail.com',
 }
+
 SESSION_COOKIE_SAMESITE = None
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -205,6 +205,12 @@ def location(x):
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+REACT_APP_DIR = os.path.join(BASE_DIR,'frontend');
+STATICFILES_DIRS = [
+        os.path.join(REACT_APP_DIR, 'build', 'static'),
+        ]
 # Media files (Model Images etc)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+

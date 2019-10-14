@@ -1,7 +1,7 @@
 Babel==2.7.0
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.2.4
+Django==2.2
 django-appconf==1.0.3
 django-compressor==2.3
 django-cors-headers==3.0.2
@@ -25,9 +25,10 @@ phonenumbers==8.10.15
 Pillow==6.1.0
 purl==1.5
 pycountry==19.7.15
-pysolr==3.8.1
+psycopg2
 python-dateutil==2.8.0
 pytz==2019.2
+pysolr
 rcssmin==1.0.6
 requests==2.22.0
 rjsmin==1.1.0

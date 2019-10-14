@@ -1,0 +1,8 @@
+.idea
+bin
+__pycache__/
+*.py[cod]
+venv
+frontend
+cache/
+db.sqlite3
