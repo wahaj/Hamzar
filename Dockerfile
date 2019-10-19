@@ -8,5 +8,8 @@ WORKDIR /hamzar
 
 ADD . /hamzar/
 
+EXPOSE 8000
+
 RUN pip install -r pip_requirements.txt
 
+CMD gunicorn -b :8000 Hamzar.wsgi

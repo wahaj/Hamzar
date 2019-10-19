@@ -1,5 +1,10 @@
 version: '3'
+apiVersion: "etcd.database.coreos.com/v1beta2"
+kind: "EtcdCluster"
 
+metadata:
+        name: "compose-etcd"
+        namespace: "compose"
 services:
         backend:
                 build: .
@@ -9,23 +14,9 @@ services:
                         - .:/hamzar
                 ports:
                         - "8000:8000"
-                depends_on:
-                        - database
         frontend:
                 build: ./frontend/
                 container_name: frontend
                 ports:
                         - "3000:80"
 
-        database:
-                image: "postgres"
-                container_name: "db_postgres"
-                ports:
-                        - "5432:5432"
-                volumes:
-                        - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
-                restart: "always"
-                environment:
-                        - POSTGRES_USER=hamzar
-                        - POSTGRES_PASSWORD=0214
-                        - POSTGRES_DB=hamzar

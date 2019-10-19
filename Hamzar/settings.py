@@ -18,7 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'db82s+s5+qa#k5ot&ft3=!^y5al3)_*%!2y77u!eu65wi!((&4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = [
 	'localhost',
@@ -115,17 +114,30 @@ HAYSTACK_CONNECTIONS = {
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql',
-		'NAME': os.environ.get('POSTGRES_DB','hamzar'),
-		'USER': os.environ.get('POSTGRES_USER','hamzar'),
-		'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
-		'HOST': 'db_postgres',
-		'PORT': '5432',
-		'ATOMIC_REQUESTS': True,
+if os.getenv('GAE_APPLICATION', None):
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql',
+			'NAME': os.environ.get('POSTGRES_DB','hamzar'),
+			'USER': os.environ.get('POSTGRES_USER','hamzar'),
+			'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
+			'HOST': 'localhost',
+			'PORT': '5432',
+			'ATOMIC_REQUESTS': True,
+		}
 	}
-}
+else:
+	DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+			'NAME': os.environ.get('POSTGRES_DB','hamzar'),
+			'USER': os.environ.get('POSTGRES_USER','hamzar'),
+			'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
+			'HOST': 'localhost',
+			'PORT': '5432',
+			'ATOMIC_REQUESTS': True,
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -202,8 +214,8 @@ def location(x):
 	return os.path.join(os.path.curdir, x)
 
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'https://storage.googleapis.com/hamzar/static'
+STATIC_ROOT = ''
 
 REACT_APP_DIR = os.path.join(BASE_DIR,'frontend');
 STATICFILES_DIRS = [
