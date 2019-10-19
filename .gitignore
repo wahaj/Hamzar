@@ -8,3 +8,4 @@ frontend/node_modules
 cache/
 media/
 db.sqlite3
+hamzars-cloud-credentials.json
