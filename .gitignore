@@ -1,4 +1,5 @@
 .idea
+.directory
 bin
 __pycache__/
 *.py[cod]
@@ -8,4 +9,9 @@ frontend/node_modules
 cache/
 media/
 db.sqlite3
-hamzars-cloud-credentials.json
+hamzars-cloudsql-credentials.json
+hamzar-certificate.yaml
+hamzar-https.yaml
+hamzars-credentials-storage.json
+ingress.yaml
+service.yaml

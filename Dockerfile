@@ -12,4 +12,4 @@ EXPOSE 8000
 
 RUN pip install -r pip_requirements.txt
 
-CMD gunicorn -b :8000 Hamzar.wsgi
+CMD python manage.py runserver 0.0.0.0:8000

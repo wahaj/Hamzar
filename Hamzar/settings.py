@@ -128,16 +128,17 @@ if os.getenv('GAE_APPLICATION', None):
 	}
 else:
 	DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql',
 			'NAME': os.environ.get('POSTGRES_DB','hamzar'),
 			'USER': os.environ.get('POSTGRES_USER','hamzar'),
 			'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
 			'HOST': 'localhost',
 			'PORT': '5432',
 			'ATOMIC_REQUESTS': True,
+		}
         }
-    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -214,15 +215,19 @@ def location(x):
 	return os.path.join(os.path.curdir, x)
 
 
-STATIC_URL = 'https://storage.googleapis.com/hamzar/static'
-STATIC_ROOT = ''
 
-REACT_APP_DIR = os.path.join(BASE_DIR,'frontend');
-STATICFILES_DIRS = [
-        os.path.join(REACT_APP_DIR, 'build', 'static'),
-        ]
-# Media files (Model Images etc)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = 'config.storage_backends.GoogleCloudMediaStorage'
+STATICFILES_STORAGE = 'config.storage_backends.GoogleCloudStaticStorage'
+GS_PROJECT_ID = 'hamzars'
+GS_MEDIA_BUCKET_NAME = 'hamzar-media'
+GS_STATIC_BUCKET_NAME = 'hamzar-static'
+STATIC_URL = 'https://storage.googleapis.com/{}/'.format(GS_STATIC_BUCKET_NAME)
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_MEDIA_BUCKET_NAME)
+GS_DEFAULT_ACL = 'publicRead'  # makes the files to private
+GOOGLE_APPLICATION_CREDENTIALS = 'hamzars-credentials-storage.json'
 
 
+
+LOG_ROOT = location('logs')
+if not os.path.exists(LOG_ROOT):
+    os.mkdir(LOG_ROOT)
