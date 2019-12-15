@@ -11,6 +11,8 @@ from oscar.defaults import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEBUG = False
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -45,8 +47,6 @@ INSTALLED_APPS = [
 	                 'Customer',
                  ] + get_core_apps()
 
-OSCARAPI_BLOCK_ADMIN_API_ACCESS = False
-OSCAR_DEFAULT_CURRENCY = 'Rs.'
 
 SITE_ID = 1
 
@@ -101,7 +101,6 @@ WSGI_APPLICATION = 'Hamzar.wsgi.application'
 # Search Engine
 
 
-
 HAYSTACK_CONNECTIONS = {
 	'default': {
 		'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
@@ -118,8 +117,8 @@ if os.getenv('GAE_APPLICATION', None):
 	DATABASES = {
 		'default': {
 			'ENGINE': 'django.db.backends.postgresql',
-			'NAME': os.environ.get('POSTGRES_DB','hamzar'),
-			'USER': os.environ.get('POSTGRES_USER','hamzar'),
+			'NAME': os.environ.get('POSTGRES_DB', 'hamzar'),
+			'USER': os.environ.get('POSTGRES_USER', 'hamzar'),
 			'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
 			'HOST': 'localhost',
 			'PORT': '5432',
@@ -130,15 +129,14 @@ else:
 	DATABASES = {
 		'default': {
 			'ENGINE': 'django.db.backends.postgresql',
-			'NAME': os.environ.get('POSTGRES_DB','hamzar'),
-			'USER': os.environ.get('POSTGRES_USER','hamzar'),
+			'NAME': os.environ.get('POSTGRES_DB', 'hamzar'),
+			'USER': os.environ.get('POSTGRES_USER', 'hamzar'),
 			'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0214'),
 			'HOST': 'localhost',
 			'PORT': '5432',
 			'ATOMIC_REQUESTS': True,
 		}
-        }
-
+	}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -168,9 +166,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Email Confirmation
@@ -199,14 +195,22 @@ REST_REGISTRATION = {
 }
 
 SESSION_COOKIE_SAMESITE = None
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+	"https://hamzar.com",
+	"http://localhost:80",
+	"http://127.0.0.1:80"
+]
 
+
+OSCAR_DEFAULT_CURRENCY = 'Rs.'
+OSCARAPI_BLOCK_ADMIN_API_ACCESS = False
 OSCARAPI_OVERRIDE_MODULES = ["Hamzar.api"]
 OSCARAPI_PRODUCT_FIELDS = ["url", "id", "upc", "title", "images"]
 OSCARAPI_PRODUCTDETAIL_FIELDS = ["parent", "url", "upc", "id", "title", "description", "structure",
-									"recommended_products", "attributes", "categories", "product_class", "images",
-									"price", "availability", "children", "reviews"]
+                                 "recommended_products", "attributes", "categories", "product_class", "images",
+                                 "price", "availability", "children", "reviews"]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -215,6 +219,7 @@ def location(x):
 	return os.path.join(os.path.curdir, x)
 
 
+# Google Storage Bucket Configuration for static and media files
 
 DEFAULT_FILE_STORAGE = 'config.storage_backends.GoogleCloudMediaStorage'
 STATICFILES_STORAGE = 'config.storage_backends.GoogleCloudStaticStorage'
@@ -226,8 +231,6 @@ MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_MEDIA_BUCKET_NAME)
 GS_DEFAULT_ACL = 'publicRead'  # makes the files to private
 GOOGLE_APPLICATION_CREDENTIALS = 'hamzars-credentials-storage.json'
 
-
-
 LOG_ROOT = location('logs')
 if not os.path.exists(LOG_ROOT):
-    os.mkdir(LOG_ROOT)
+	os.mkdir(LOG_ROOT)

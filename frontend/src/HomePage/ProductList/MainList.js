@@ -25,7 +25,7 @@ export default function MainList() {
     const [bestSellers, setBestSellers]=React.useState({tileData : tileDataArray});
     const [newArrivals, setNewArrivals]=React.useState({tileData : tileDataArray});
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/products/new_arrivals/', {
+        fetch('https://hamzar.com/api/v1/products/new_arrivals/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -38,7 +38,7 @@ export default function MainList() {
             .then(json => {
                 setNewArrivals({tileData : json})
             });
-        fetch('http://127.0.0.1:8000/api/products/best_sellers/', {
+        fetch('https://hamzar.com/api/v1/products/best_sellers/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
