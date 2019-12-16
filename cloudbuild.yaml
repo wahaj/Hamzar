@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build' , '-t', 'asia.gcr.io/$PROJECT_ID/backend_django', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build' , '-t', 'asia.gcr.io/$PROJECT_ID/frontend_react_nginx', './frontend']
+
+images:
+- 'asia.gcr.io/$PROJECT_ID/frontend_react_nginx'
+- 'asia.gcr.io/$PROJECT_ID/backend_django'
+

@@ -197,8 +197,9 @@ REST_REGISTRATION = {
 SESSION_COOKIE_SAMESITE = None
 CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-	"https://hamzar.com",
+	"https://www.hamzar.com",
 	"http://localhost:80",
 	"http://127.0.0.1:80"
 ]
