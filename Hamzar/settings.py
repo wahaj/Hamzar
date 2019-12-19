@@ -214,7 +214,7 @@ def location(x):
 	return os.path.join(os.path.curdir, x)
 
 
-STATIC_URL = 'https://storage.googleapis.com/hamzar/static'
+STATIC_URL = 'https://storage.googleapis.com/hamzar/static/'
 STATIC_ROOT = ''
 
 REACT_APP_DIR = os.path.join(BASE_DIR,'frontend');
@@ -224,5 +224,6 @@ STATICFILES_DIRS = [
 # Media files (Model Images etc)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 

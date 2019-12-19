@@ -116,7 +116,7 @@ export default function SearchResults(props){
                             <Grid container direction='column' justify='center' alignItems='flex-start' className={classes.notFound}>
                                 <Grid item key='5' >
                                     <Typography variant='h3'>
-                                        No results found for " {searchText} "
+                                        No results found for " {match.params.sName} "
                                     </Typography>
                                 </Grid>
                                 <Grid item key='5' >

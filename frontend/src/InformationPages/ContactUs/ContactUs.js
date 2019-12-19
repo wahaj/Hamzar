@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme=>({
     heading2:{
         color:'rgba(0,11,206,0.49)',
         textAlign:'center',
+        width:'100%',
     },
     heading3:{
         color:'rgba(0,11,206,0.49)',
@@ -36,6 +37,7 @@ const useStyles = makeStyles(theme=>({
     heading4:{
         color:'rgba(0,11,206,0.49)',
         textAlign:'center',
+        width:'100%',
     },
     heading5:{
         color:'rgba(0,11,206,0.49)',
@@ -51,14 +53,25 @@ const useStyles = makeStyles(theme=>({
     },
     button1:{
         backgroundColor:'rgba(20,34,198,0.2)',
-        borderRadius: 300,
+        borderRadius: 0,
+        [theme.breakpoints.up('md')]: {
+            borderRadius: 300,
+        },
+        width:'100%',
     },
     button2:{
         backgroundColor:'rgba(20,34,198,0.2)',
-        borderRadius: 300,
+        borderRadius: 0,
+        [theme.breakpoints.up('md')]: {
+            borderRadius: 300,
+        },
+        width:'100%',
     },
     adjacentCols:{
-        maxWidth:'30%',
+        maxWidth:'50%',
+        [theme.breakpoints.up('md')]: {
+            width:'30%',
+        },
     },
     upperInfo:{
         height:'auto'
