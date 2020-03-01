@@ -37,5 +37,5 @@ class SearchCategory(generics.ListAPIView):
 
 	def get_queryset(self):
 		category = self.kwargs['category']
-		return Product.objects.all().filter(structure='parent', category=category)
+		return Product.objects.all().filter(structure='parent', categories__slug__icontains=category)
 
