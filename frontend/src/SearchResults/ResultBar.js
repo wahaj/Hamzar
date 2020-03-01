@@ -36,8 +36,8 @@ const useStyles = makeStyles(theme => ({
 
     },
     bookName:{
-        display:'flex',
-        overflow:'hidden',
+        display:'inline',
+        overflow:'auto',
         width:'100%',
         maxHeight:'50px',
         border:'0px solid blue',
@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
         borderRadius: '10px',
         border:'0px solid green',
         maxHeight:'200px',
-        maxWidth:'200px',
+        maxWidth:'180px',
     },
     imageField:{
         border:'0px solid black',
@@ -231,7 +231,7 @@ export default function ResultBar(props){
                   direction='row'
                   justify='flex-start'
                   alignItems='stretch'
-                  spacing='1'
+                  spacing='2'
             >
                 <Grid item key='image' className={classes.imageField}>
                     <ButtonBase className={classes.contains}>
