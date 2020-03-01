@@ -74,20 +74,22 @@ const useStyles = makeStyles(theme => ({
         border:'0px solid red',
         paddingBottom:'2%',
         paddingTop:'1%',
-        width:'80%%'
+        width:'100%'
     },
     productPic: {
         display:'flex',
-        height: '400px',
-        width: '25%',
+        height: '100%',
+        width: '50%',
         maxWidth:'400px',
         border:'0px solid blue',
+        overflow: 'hidden',
     },
     priceTable: {
-        marginTop:'30px',
+        marginTop:'5%',
         height: '100%',
         width: '50%',
         border:'0px solid orange',
+        overflow : 'auto',
     },
     customerReview: {
         height: '50%',
@@ -119,6 +121,7 @@ const useStyles = makeStyles(theme => ({
     image:{
         display:'flex',
         border:'0px solid Gray',
+        overflow : 'hidden',
     },
     productList:{
         paddingBottom:5,
@@ -195,7 +198,7 @@ function ProductPage(props){
     const [thisProduct,setThisProduct]=React.useState({product: null})
     const classes = useStyles();
     const dataFetch = async () => {
-        const product = await fetch('http://127.0.0.1:8000/api/products/' + match.params.pid + '/', {
+        const product = await fetch('https://hamzar.com/api/v1/products/' + match.params.pid + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
@@ -295,4 +298,3 @@ function ProductPage(props){
 }
 
 export default ProductPage;
-

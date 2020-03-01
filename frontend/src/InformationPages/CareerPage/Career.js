@@ -15,7 +15,8 @@ const useStyles = makeStyles(theme=>({
     },
     main_root:{
         backgroundColor : 'rgba(255,255,255,0)',
-        display:'flex'
+        display:'flex',
+        width:'100%',
     },
     email:{
         color:'rgb(0,11,255)',

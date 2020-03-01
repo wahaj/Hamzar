@@ -264,12 +264,12 @@ export default function ResultBar(props){
                         </Grid>
                         <Grid item key='hard cover' className={classes.price}>
                             <Typography  variant="h6" className={classes.priceDetails} >
-                                <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  Rs. {((prices.hardBackNew ) && (prices.hardBackNew.excl_tax )) ? prices.hardBackNew.excl_tax : 'N/A'  }
+                                <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  {((prices.hardBackNew ) && (prices.hardBackNew.excl_tax )) ? 'Rs.' +  prices.hardBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='paper back' className={classes.price}>
                             <Typography  variant="h6" className={classes.priceDetails} >
-                                <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>  Rs. {!(prices.paperBackNew == 1) && (prices.paperBackNew) ? prices.paperBackNew.excl_tax : 'N/A'  }
+                                <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>   {!(prices.paperBackNew == 1) && (prices.paperBackNew) ? 'Rs.' +  prices.paperBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='quote' className={classes.price}>

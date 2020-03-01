@@ -41,12 +41,34 @@ const useStyles = makeStyles(theme => ({
         border:'0px solid black',
     },
     aboutMission:{
-        width:'50%',
         border:'0px solid black',
+        display:'block',
+        width:'100%',
+        [theme.breakpoints.up('md')]: {
+            width:'50%',
+            display:'flex',
+        },
     },
     aboutImage:{
-        width:'50%',
-        border:'0px solid blue',
+        border:'0px solid black',
+        display:'block',
+        width:'100%',
+        [theme.breakpoints.up('md')]: {
+            width:'50%',
+            display:'flex',
+        },
+    },
+    aboutImage2:{
+        border:'0px solid black',
+        display:'none',
+        width:'100%',
+        [theme.breakpoints.up('md')]: {
+            width:'50%',
+            display:'flex',
+        },
+        [theme.breakpoints.up('md')]: {
+            display:'block',
+        },
     },
     aboutInsideImage:{
         width:'100%',
@@ -111,7 +133,7 @@ export default function Payment() {
                     </Grid>
 
                     <Grid container spacing={2} className={classes.aboutMissionMain}>
-                        <Grid item style={{float: "right", right: 0}} className={classes.aboutImage}>
+                        <Grid item style={{float: "right", right: 0}} className={classes.aboutImage2}>
                             <ButtonBase className={classes.expand}>
                                 <img className={classes.aboutInsideImage} alt="complex" src={img2} />
                             </ButtonBase>
