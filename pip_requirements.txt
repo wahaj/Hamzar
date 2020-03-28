@@ -2,7 +2,7 @@ Babel==2.7.0
 cachetools==3.1.1
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.1.15
+Django==2.2.10
 django-appconf==1.0.3
 django-compressor==2.3
 django-cors-headers==3.0.2
