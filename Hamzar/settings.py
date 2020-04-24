@@ -11,7 +11,7 @@ from oscar.defaults import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = False
+DEBUG = False 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -186,10 +186,10 @@ EMAIL_PORT = 587
 
 
 REST_REGISTRATION = {
-	'REGISTER_VERIFICATION_ENABLED': False,
-	'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
-	'RESET_PASSWORD_VERIFICATION_ENABLED': False,
-	'REGISTER_EMAIL_VERIFICATION_URL': 'https://frontend-host/verify-email/',
+	'REGISTER_VERIFICATION_ENABLED': True,
+	'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
+	'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+	'REGISTER_EMAIL_VERIFICATION_URL': 'https://hamzar.com/verify-email/',
 
 	'VERIFICATION_FROM_EMAIL': 'wahajaved@protonmail.com',
 }
