@@ -28,6 +28,8 @@ const useStyles = makeStyles(theme => ({
         maxHeight: '100%',
     },
     headings:{
+        width:'100%',
+        overflow: 'hidden',
         color:'rgba(0,11,206,0.49)',
         textAlign:'center',
     },
@@ -41,12 +43,31 @@ const useStyles = makeStyles(theme => ({
         border:'0px solid black',
     },
     aboutMission:{
-        width:'50%',
         border:'0px solid black',
+        display:'block',
+        width:'100%',
+        [theme.breakpoints.up('md')]: {
+            width:'50%',
+            display:'flex',
+        },
     },
     aboutImage:{
-        width:'50%',
-        border:'0px solid blue',
+        border:'0px solid black',
+        display:'block',
+        width:'100%',
+        [theme.breakpoints.up('md')]: {
+            width:'50%',
+            display:'flex',
+        },
+    },
+    aboutImage2:{
+        border:'0px solid black',
+        display:'none',
+        width:'100%',
+        [theme.breakpoints.up('md')]: {
+            width:'50%',
+            display:'flex',
+        },
     },
     aboutInsideImage:{
         width:'100%',
@@ -110,7 +131,7 @@ export default function AboutUsPage() {
                     </Grid>
 
                     <Grid container spacing={2} className={classes.aboutMissionMain}>
-                        <Grid item style={{float: "right", right: 0}} className={classes.aboutImage}>
+                        <Grid item style={{float: "right", right: 0}} className={classes.aboutImage2}>
                             <ButtonBase className={classes.expand}>
                                 <img className={classes.aboutInsideImage} alt="complex" src={img2} />
                             </ButtonBase>

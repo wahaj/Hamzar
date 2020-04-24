@@ -69,7 +69,7 @@ export default function SearchResults(props){
     const [searchText,setSearchText] = React.useState('t')
     const [search, setSearch] = React.useState({ searchResults : null})
     const dataFetch = async () => {
-        const product = await fetch('http://127.0.0.1:8000/api/products/search/' + match.params.sName + '/', {
+        const product = await fetch('https://hamzar.com/api/v1/products/search/' + match.params.sName + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
@@ -106,7 +106,7 @@ export default function SearchResults(props){
                 {
                     (search.searchResults  && search.searchResults.length>0) ? search.searchResults.map(tile=>(
                         <Grid item key={tile.title} className={classes.paper}>
-                            <ButtonBase className={classes.contains}>
+                            <ButtonBase className={classes.contains} href={'../ProductPage/' + tile.id }>
                                 <ResultBar object={{ images : tile.images , title:tile.title , productUrl : tile.url}} />
                             </ButtonBase>
                         </Grid>

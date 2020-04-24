@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
     gridList: {
         flexWrap: 'nowrap',
+        width : '100%',
         // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
         transform: 'translateZ(0)',
 
@@ -31,14 +32,17 @@ const useStyles = makeStyles(theme => ({
         background:
             'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
     },
-    gridTile:{
-        width:'300px'
-    },
     image:{
         width : '100%',
         height : '100%',
     },
     gridTile:{
+        width:'100%',
+        height:'100%',
+        display:'flex',
+        overflow:'hidden',
+    },
+    gridTile2:{
         width:'100%',
         height:'100%',
         display:'flex',
@@ -68,7 +72,7 @@ export default function MainListRow(props) {
                         {
                             props.object.tileData ?
                                 props.object.tileData.map(tile => (
-                                    <ButtonBase className={classes.gridTile2} href={'./ProductPage/' + tile.id }>
+                                    <ButtonBase className={classes.gridTile2} href={'../ProductPage/' + tile.id }>
                                         <GridListTile key={tile.id} className={classes.gridTile}>
                                             <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
                                             <GridListTileBar

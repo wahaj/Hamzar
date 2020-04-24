@@ -16,14 +16,18 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
     },
     heading: {
-        flexBasis: '33.33%',
         flexShrink: 0,
-        textAlign:'center',
+        [theme.breakpoints.up('lg')]: {
+        align:'center',
+        flexBasis: '33.33%',
+        },
         fontSize:'20px',
     },
     secondaryHeading: {
         color: 'rgba(47,42,0,0.73)',
+        [theme.breakpoints.up('lg')]: {
         align:'center',
+        },
         fontSize:'20px',
     },
     main_heading:{
