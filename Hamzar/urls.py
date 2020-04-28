@@ -26,6 +26,6 @@ urlpatterns = [
     path('', application.urls),
 
     path('api/v1/', oscarapi.urls),
-    path('api/v1/', include('rest_registration.api.urls')),
     path('api/v1/', include('api.urls')),
+    path('api/v1/accounts/', include('rest_registration.api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
