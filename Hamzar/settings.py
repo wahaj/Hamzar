@@ -5,13 +5,14 @@ Django settings for Hamzar project.
 
 import os
 
+from django.core.exceptions import ImproperlyConfigured
 from oscar import get_core_apps, OSCAR_MAIN_TEMPLATE_DIR
 from oscar.defaults import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = True
+DEBUG = False
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -20,6 +21,18 @@ DEBUG = True
 SECRET_KEY = 'db82s+s5+qa#k5ot&ft3=!^y5al3)_*%!2y77u!eu65wi!((&4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+""" Gets the environment variable or throws ImproperlyConfigured
+     	exception
+     	:rtype: object
+"""
+def get_env_variable(name):
+	try:
+		return os.environ[name]
+	except KeyError:
+		raise ImproperlyConfigured('Environment variable “%s” not found.' % name)
+	end
+
 
 ALLOWED_HOSTS = [
 	'localhost',
@@ -170,11 +183,12 @@ USE_L10N = True
 USE_TZ = True
 
 # Email Confirmation
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'youremail@gmail.com'
-EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_HOST_USER = 'hamzar.books@gmail.com'
+EMAIL_HOST_PASSWORD = get_env_variable('GMAIL_APP_PASSWORD')
 EMAIL_PORT = 587
 
 # Front-end URLS
@@ -186,12 +200,14 @@ EMAIL_PORT = 587
 
 
 REST_REGISTRATION = {
-	'REGISTER_VERIFICATION_ENABLED': False,
-	'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
-	'RESET_PASSWORD_VERIFICATION_ENABLED': False,
-	'REGISTER_EMAIL_VERIFICATION_URL': 'https://frontend-host/verify-email/',
+	'REGISTER_VERIFICATION_ENABLED': True,
+	'REGISTER_EMAIL_VERIFICATION_ENABLED': True,
+	'RESET_PASSWORD_VERIFICATION_ENABLED': True,
+	'REGISTER_VERIFICATION_URL': 'https://hamzar.com/confirm-registration',
+	'RESET_PASSWORD_VERIFICATION_URL': 'https://hamzar.com/reset-password',
+	'REGISTER_EMAIL_VERIFICATION_URL': 'https://hamzar.com/verify-email/',
 
-	'VERIFICATION_FROM_EMAIL': 'wahajaved@protonmail.com',
+	'VERIFICATION_FROM_EMAIL': 'support@hamzar.com',
 }
 
 SESSION_COOKIE_SAMESITE = None
