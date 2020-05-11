@@ -8,6 +8,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import image1 from './chat.png'
 import img1 from "../AboutUsPage/aboutUs1.png";
+import History from '../../History/history'
 import img2 from './17687.jpg'
 
 const useStyles = makeStyles(theme=>({
@@ -112,7 +113,7 @@ export default function ContactUs(){
                                 <Grid item key='2'  className={classes.adjacentCols}>
                                     <Grid container direction='column'>
                                         <Grid item key='2' >
-                                            <Button variant="contained" className={classes.button1}>
+                                            <Button variant="contained" className={classes.button1} onClick={()=>{History.push('/track-order')}}>
                                                 <Typography className={classes.heading2} variant='h3'>
                                                     I want to know where my order is
                                                 </Typography>
@@ -121,23 +122,6 @@ export default function ContactUs(){
                                         <Grid item key='3'>
                                             <Typography className={classes.heading3} variant='h5'>
                                                 Get status update about your order with our tracking tools
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-
-                                <Grid item key='3' className={classes.adjacentCols}>
-                                    <Grid container direction='column'>
-                                        <Grid item key='4'>
-                                            <Button  variant="contained" className={classes.button2} >
-                                                <Typography className={classes.heading4} variant='h3'>
-                                                        I want to cancel an order
-                                                </Typography>
-                                            </Button>
-                                        </Grid>
-                                        <Grid item key='5'>
-                                            <Typography className={classes.heading5} variant='h5'>
-                                                You can cancel an order with a single click
                                             </Typography>
                                         </Grid>
                                     </Grid>

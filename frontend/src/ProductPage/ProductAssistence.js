@@ -8,6 +8,8 @@ import {Collapse} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
     fab: {
@@ -164,7 +166,7 @@ export default function ProductAssistence(props) {
                     <NavigationIcon className={classes.extendedIcon} />
                       New
                     </Fab>
-                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.New ? thisState.New.excl_tax + "  pkr" : 'nothing to show'} </b></Typography>
+                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.New ? thisState.New.excl_tax + "  pkr" : ''} </b></Typography>
                 </Grid>
                 <Grid item className={classes.info}>
                     <Collapse in={controlSwitch} className={classes.info}>
@@ -172,8 +174,8 @@ export default function ProductAssistence(props) {
                         {
                             thisState.New ?
                             <div className={classes.innerInformation} >
-                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.New ? thisState.New.incl_tax : 'nothing to show'}</b></Typography></div>
-                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.New ? thisState.New.tax : 'nothing to show'}</b> (30%)</Typography> </div>
+                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.New ? thisState.New.incl_tax : ''}</b></Typography></div>
+                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.New ? thisState.New.tax : ''}</b> (30%)</Typography> </div>
                                 <div className={classes.cartOption}>
                                     <Button variant='contained' color='primary' className={classes.cartButton}>
                                         Add to Cart
@@ -186,9 +188,11 @@ export default function ProductAssistence(props) {
                                 </div>
                             </div>
                                 :
-                                <Typography variant='h5' className={classes.innerInformation}>
-                                    'Sorry No Details Available'
-                                </Typography>
+                                <div className={classes.innerInformation}>
+                                  <p >
+                                    <Alert severity="info">Sorry no details available under this section.</Alert>
+                                  </p>
+                                </div>
                         }
                     </Collapse>
                 </Grid>
@@ -200,15 +204,15 @@ export default function ProductAssistence(props) {
                         <NavigationIcon className={classes.extendedIcon} />
                         Used
                     </Fab>
-                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.Old ? thisState.Old.excl_tax + "  pkr" : 'nothing to show'} </b></Typography>
+                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.Old ? thisState.Old.excl_tax + "  pkr" : ''} </b></Typography>
                 </Grid>
                 <Grid item className={classes.info}>
                     <Collapse in={!controlSwitch} className={classes.info}>
                         {
                             thisState.Old ?
                             <div className={classes.innerInformation} >
-                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.Old ? thisState.Old.incl_tax : 'nothing to show'}</b></Typography></div>
-                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.Old ? thisState.Old.tax : 'nothing to show'}</b> (30%)</Typography> </div>
+                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.Old ? thisState.Old.incl_tax : ''}</b></Typography></div>
+                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.Old ? thisState.Old.tax : ''}</b> (30%)</Typography> </div>
                                 <div className={classes.cartOption}>
                                     <Button variant='contained' color='primary' className={classes.cartButton}>
                                         Add to Cart
@@ -221,9 +225,11 @@ export default function ProductAssistence(props) {
                                 </div>
                             </div>
                                 :
-                                <Typography variant='h5' className={classes.innerInformation}>
-                                    'Sorry No Details Available'
-                                </Typography>
+                                <div className={classes.innerInformation}>
+                                  <p >
+                                    <Alert severity="info">Sorry no details available under this section.</Alert>
+                                  </p>
+                                </div>
                         }
                     </Collapse>
                 </Grid>

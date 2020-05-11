@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { green } from '@material-ui/core/colors';
+import Alert from '@material-ui/lab/Alert';
 import ProductAssistence from './ProductAssistence'
 
 function TabContainer(props) {
@@ -60,6 +61,7 @@ export default function MainPricingTable(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [state,setState] = React.useState({loading: false})
     const [controlSwitch, setControlSwitch] = React.useState(true);
     const [values, setValues] = React.useState({oldPaper: 0 , newPaper:0 , oldHard:0,newHard:0})
 
@@ -109,6 +111,8 @@ export default function MainPricingTable(props) {
             })
         })
         dataFetchN()
+        console.log("datafetched");
+        setState({loading : false})
         setValue({oldPaper: oldPaperPrice , newPaper:newPaperPrice , oldHard:oldHardPrice , newHard:newHardPrice})
     }
     const dataFetchN = async () => {
@@ -169,45 +173,46 @@ export default function MainPricingTable(props) {
     };
     useEffect(()=>{
     },[])
+    if(state.loading == false){
+      return (
+          <div className={classes.root}>
+              <AppBar position="static" color="default">
+                  <Tabs
+                      value={value}
+                      onChange={handleChange}
+                      indicatorColor="primary"
+                      textColor="primary"
+                      variant="fullWidth"
+                  >
+                      <Tab key='0' label="Hard Cover" />
+                      <Tab key='1' label="Paper Back" />
 
-    return (
+
+                  </Tabs>
+              </AppBar>
+              <SwipeableViews
+                  axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                  index={value}
+                  onChangeIndex={handleChangeIndex}
+              >
+                  <TabContainer value={value} key='0' index={0} dir={theme.direction}>
+                      <ProductAssistence object={controlSwitch}  data={{childObject: 'Hardback' , child : props.object.children }} handleChange={handleChangeTable} />
+                  </TabContainer>
+                  <TabContainer value={value} key='1' index={1} dir={theme.direction}>
+                      <ProductAssistence object={controlSwitch}  data={{childObject: 'Paperback' , child : props.object.children}} handleChange={handleChangeTable} />
+                  </TabContainer>
+              </SwipeableViews>
+          </div>
+      );
+    }
+    else {
+      return (
         <div className={classes.root}>
-            <AppBar position="static" color="default">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                >
-                    <Tab key='0' label="Hard Cover" />
-                    <Tab key='1' label="Paper Back" />
-
-
-                </Tabs>
-            </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                <TabContainer value={value} key='0' index={0} dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Hardback' , child : props.object.children }} handleChange={handleChangeTable} />
-                </TabContainer>
-                <TabContainer value={value} key='1' index={1} dir={theme.direction}>
-                    <ProductAssistence object={controlSwitch}  data={{childObject: 'Paperback' , child : props.object.children}} handleChange={handleChangeTable} />
-                </TabContainer>
-            </SwipeableViews>
+          <p style={{margin:'120px 120px 120px 120px', padding:'120px 120px 120px 120px'}}>
+            <Alert severity="info">Fetching Price information. Please Wait</Alert>
+          </p>
         </div>
-    );
+      )
+    }
+
 }
-
-
-
-
-
-
-
-
-
-

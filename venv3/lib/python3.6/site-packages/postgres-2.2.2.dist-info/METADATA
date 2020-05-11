@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: postgres
+Version: 2.2.2
+Summary: postgres is a high-value abstraction over psycopg2.
+Home-page: https://postgres-py.readthedocs.org
+Author: Gratipay, LLC
+Author-email: chad@idelic.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: SQL
+Classifier: Topic :: Database :: Front-Ends
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/markdown
+Requires-Dist: psycopg2-binary (>=2.7.5)
+
+postgres is a high-value abstraction over psycopg2
+
+[Read the Docs](https://postgres-py.readthedocs.org)
+
+

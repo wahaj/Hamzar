@@ -77,12 +77,12 @@ export default function PrimarySearchAppBar() {
                     {/*Text behind Delivery Icon*/}
                         <p style={{color:"white", fontSize: 18, marginRight: 10}}>We deliver at<br/>your Address</p>
                     {/*Delivery Icon*/}
-                    <img className={classes.myIcon} src={del}></img>
+                    <Button onClick={()=>{History.push('/cart')}}><img className={classes.myIcon} src={del}></img></Button>
 
                     <div className={classes.grow} />
                     {/*Home Button*/}
                     <HomeIcon className={classes.iconHover}/>
-                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={null}>
+                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={()=>{History.push('/')}}>
                         <p style={{color:"white"}}>Home</p>
                     </Button>
                     <div className={classes.grow} />
@@ -91,7 +91,7 @@ export default function PrimarySearchAppBar() {
                     <div className={classes.grow} />
                     {/*CustomerCare Button*/}
                     <CustomerSupportIcon className={classes.iconHover}/>
-                    <Button className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={null}>
+                    <Button className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={()=>{History.push('/ContactUs')}}>
                         <p style={{color:"white"}}>Customer Care</p>
                     </Button>
                     <div className={classes.grow} />
@@ -101,7 +101,7 @@ export default function PrimarySearchAppBar() {
                         <p style={{color:"white"}}>Track Order</p>
                     </Button>
                     <div className={classes.grow} />
-                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="false" onClick={handleTrackOrder}>
+                    <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="false" onClick={()=>{History.push('/profile')}}>
                         <p style={{color:"white"}}>Your Profile</p>
                     </Button>
                     <div className={classes.grow} />

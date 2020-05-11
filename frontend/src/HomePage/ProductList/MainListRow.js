@@ -7,7 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/Visibility';
 import Grid from "@material-ui/core/Grid";
 import History from '../../History/history';
+import Alert from '@material-ui/lab/Alert';
 import { ButtonBase } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,11 +20,16 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
         boxShadow: '0 3px 5px 8px rgba(128, 128, 128, .3)',
     },
+    spinner : {
+      marginTop : '2%',
+      marginBottom : '2%',
+    },
     gridList: {
         flexWrap: 'nowrap',
         width : '100%',
         // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
         transform: 'translateZ(0)',
+        overflow : 'auto',
 
     },
     title: {
@@ -37,14 +44,15 @@ const useStyles = makeStyles(theme => ({
         height : '100%',
     },
     gridTile:{
-        width:'100%',
+        maxWidth:'80%',
         height:'100%',
         display:'flex',
         overflow:'hidden',
     },
     gridTile2:{
-        width:'100%',
-        height:'100%',
+        maxWidth : "20%",
+        minWidth : "15%",
+        height : '100%',
         display:'flex',
         overflow:'hidden',
     }
@@ -58,39 +66,46 @@ export default function MainListRow(props) {
     return (
 
         <div className={classes.root}>
-            <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
-                <Grid item key='heading' style={{display: 'block'}}>
-                    {
-                        props.object.tileData ?
-                            <h1 style={{color: props.object.color, display: 'block'}}>{props.object.listTitle}</h1>
-                            :
-                            null
-                    }
-                </Grid>
-                <Grid item key='arrayOfObjects' style={{display: 'block', marginBottom:'1%'}}>
-                    <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
-                        {
-                            props.object.tileData ?
-                                props.object.tileData.map(tile => (
-                                    <ButtonBase className={classes.gridTile2} href={'../ProductPage/' + tile.id }>
-                                        <GridListTile key={tile.id} className={classes.gridTile}>
-                                            <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
-                                            <GridListTileBar
-                                                title={tile.title}
-                                                classes={{
-                                                    root: classes.titleBar,
-                                                    title: classes.title,
-                                                }}
-                                            />
-                                        </GridListTile>
-                                    </ButtonBase>
-                                ))
-                                :
-                                null
-                        }
-                    </GridList>
-                </Grid>
-            </Grid>
+          <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
+              <Grid item key='heading' style={{display: 'block'}}>
+                <h1 style={{color: props.object.color, display: 'block'}}>{props.object.listTitle}</h1>
+              </Grid>
+              {
+                props.object.fetching ?
+                  <div className={classes.spinner}>
+                    <CircularProgress/>
+                  </div>
+                :
+                  props.object.error ?
+                    <Alert severity="info">No products available under this category</Alert>
+                  :
+
+                        <Grid item key='arrayOfObjects' style={{display: 'block', marginBottom:'1%'}}>
+                            <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
+                                {
+                                    props.object.tileData ?
+                                        props.object.tileData.map(tile => (
+                                            <ButtonBase className={classes.gridTile2} href={'../ProductPage/' + tile.id }>
+                                                <GridListTile key={tile.id} className={classes.gridTile}>
+                                                    <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
+                                                    <GridListTileBar
+                                                        title={tile.title}
+                                                        classes={{
+                                                            root: classes.titleBar,
+                                                            title: classes.title,
+                                                        }}
+                                                    />
+                                                </GridListTile>
+                                            </ButtonBase>
+                                        ))
+                                        :
+                                        null
+                                }
+                            </GridList>
+                        </Grid>
+              }
+
+          </Grid>
         </div>
     );
 }

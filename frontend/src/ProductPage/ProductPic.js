@@ -13,7 +13,8 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const useStyles = makeStyles(theme => ({
     root: {
-        maxWidth: 500,
+        maxWidth: 400,
+        maxHeight : 500,
         flexGrow: 1,
     },
     header: {
@@ -26,7 +27,8 @@ const useStyles = makeStyles(theme => ({
     img: {
         height: '80%',
         display: 'block',
-        maxWidth: 400,
+        maxWidth: 300,
+        maxHeight : 400,
         overflow: 'hidden',
         width: '100%',
     },

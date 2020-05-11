@@ -9,7 +9,9 @@ import MenuBar from "./Navbars/Menubar/menubar";
 import Footer from "./Navbars/Footer/BottomBar"
 import TrackOrder from "./TrackOrderPage/TrackOrder"
 import LoginPage from "./LoginPage/loginForm";
-import SignUpPage from "./SignupPage/SignupPage";
+import SignUpForm from "./SignupPage/SignupPage";
+import VerifyEmail from "./SignupPage/verifyEmail";
+import ForgotPassword from "./SignupPage/forgotPassword";
 import FAQPage from "./InformationPages/FAQPage/FAQPage.js";
 import Career from "./InformationPages/CareerPage/Career";
 import AboutUsPage from "./InformationPages/AboutUsPage/AboutUsPage";
@@ -38,7 +40,7 @@ class App extends React.Component {
         }
         this.changeState = this.changeState.bind(this)
     }
-    
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevState.ls != Store.getLogStatus())
         {
@@ -59,7 +61,9 @@ class App extends React.Component {
                     <Route exact path='/' component={Home}/>
                     <Route path='/profile' component={ProfilePage}/>
                     <Route path='/log-in' render={(props) => <LoginPage {...props} uls={this.changeState}/>}/>
-                    <Route path='/sign-up' component={SignUpPage}/>
+                    <Route path='/sign-up' component={SignUpForm}/>
+                    <Route path='/verifyEmail' component={VerifyEmail}/>
+                    <Route path='/forgotPassword' component={ForgotPassword}/>
                     <Route path='/faqs' component={FAQPage}/>
                     <Route path='/career' component={Career}/>
                     <Route path='/about-us' component={AboutUsPage}/>

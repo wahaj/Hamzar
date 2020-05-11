@@ -8,7 +8,10 @@ import MainListCat from "../HomePage/ProductList/MainListCat";
 import ProductPic from "./ProductPic";
 import StarRatingComponent from 'react-star-rating-component';
 import Reviews from "./Reviews";
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Alert from '@material-ui/lab/Alert';
 import Typography from "@material-ui/core/Typography";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const tileDataArray = [
     {
@@ -136,6 +139,11 @@ const useStyles = makeStyles(theme => ({
         textAlign:'center',
         color:'rgba(0,11,206,0.3)',
     },
+    spinner : {
+      marginTop : '2%',
+      marginBottom : '2%',
+      marginLeft : '50%',
+    },
     productDescription:{
         height: '50%',
         width: '80%',
@@ -197,8 +205,9 @@ function ProductPage(props){
     const {match} = props
     const [thisProduct,setThisProduct]=React.useState({product: null})
     const classes = useStyles();
+    const [fetching,setFetching] = React.useState({value : true})
     const dataFetch = async () => {
-        const product = await fetch('https://hamzar.com/api/v1/products/' + match.params.pid + '/', {
+        const product = await fetch('http://127.0.0.1:8000/api/v1/products/' + match.params.pid + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
@@ -207,93 +216,108 @@ function ProductPage(props){
                 'Content-Type': 'application/json'
             },
         }).then(res=>res.json())
-            .then(json=>setThisProduct({product:json}))
+            .then(json=>{
+              setThisProduct({product:json})
+              setFetching({value : false})
+            })
         const resp = product;
         return resp
     }
     useEffect(()=>{
         const ans = dataFetch()
     },[])
-    return (
+    if(fetching.value === false){
+      return (
+          <div className={classes.mainPage}>
+              <h1 className={classes.productName}>{(thisProduct.product) ? thisProduct.product.title : 'Product not Found'}</h1>
+              <div>
+                  <Grid container direction="column" alignItems="center" justify="center" className={classes.parentContainer} spacing='2'>
+                      <Grid key='productInfo' item className={classes.productInfo}>
+                          <Grid container direction="row" alignItems="center" justify="center" spacing='2'>
+                              <Grid key='productPic' item className={classes.productPic}>
+                                  <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
+                                      <Grid item key='picture' style={{display: 'block'}}>
+                                          <ProductPic className={classes.image} object={(thisProduct.product) ? thisProduct.product.images : null} />
+                                      </Grid>
+                                      <Grid item key='rating' className={classes.rating}>
+                                          <StarRatingComponent name='productRating' starCount={5} value={3} editing={false} />
+                                      </Grid>
+                                  </Grid>
+                              </Grid>
+                              <Grid key='priceTable' item className={classes.priceTable} >
+                                  {
+                                      ( thisProduct.product && thisProduct.product.children) ?
+                                      <MainPricingTable
+                                          object={{
+                                              children : thisProduct.product.children
+                                          }}
+                                      />
+                                      :
+                                          <div>
+                                              <Typography variant='h6' className={classes.notReleased}>
+                                                  This Product is yet to be released
+                                              </Typography>
+                                          </div>
+                                  }
+                              </Grid>
+                          </Grid>
+                      </Grid>
+                      <Grid key='extras' item className={classes.extras}>
+                          <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
+                              {
+                                  (thisProduct.product && thisProduct.product.description) ?
+                                      <Grid key='productDescription' item className={classes.productDescription}>
+                                          <h1 className={classes.headings}>Details</h1>
+                                          <p className={classes.details}>
+                                              {ReactHtmlParser(thisProduct.product.description)}
+                                          </p>
+                                      </Grid>
+                                      :
+                                      <Grid key='productDescription' item className={classes.productDescription}>
+                                          <h1 className={classes.headings}>Details</h1>
+                                          <p className={classes.details}>
+                                            <Alert severity="info">Sorry Description for this product is not available!</Alert>
+                                          </p>
+                                      </Grid>
+                              }
+                              {
+                                  false ?
+                                  <Grid key='customerReview' item className={classes.customerReview}>
+                                      <h1 className={classes.headings}> Customer Review </h1>
+                                      <Reviews/>
+                                  </Grid>
+                                      :
+                                      null
+                              }
+                              <Grid key='relatedProducts' item className={classes.relativeProducts}>
+                                  {
+                                      (thisProduct.product && thisProduct.product.recommended_products) ?
+                                      <MainListCat className={classes.productList} object={{
+                                          tileData: ((thisProduct.product && thisProduct.product.recommended_products.length>0) ?  thisProduct.product.recommended_products : null),
+                                          listTitle: 'Related Objects',
+                                          color: 'rgba(0,11,206,0.3)'
+                                      }}/>
+                                      :
+                                          null
+                                  }
+                              </Grid>
+                          </Grid>
+                      </Grid>
+                  </Grid>
+              </div>
+          </div>
+      )
+    }
+    else {
+      return (
         <div className={classes.mainPage}>
-            <h1 className={classes.productName}>{(thisProduct.product) ? thisProduct.product.title : 'Product not Found'}</h1>
-            <div>
-                <Grid container direction="column" alignItems="center" justify="center" className={classes.parentContainer} spacing='2'>
-                    <Grid key='productInfo' item className={classes.productInfo}>
-                        <Grid container direction="row" alignItems="center" justify="center" spacing='2'>
-                            <Grid key='productPic' item className={classes.productPic}>
-                                <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
-                                    <Grid item key='picture' style={{display: 'block'}}>
-                                        <ProductPic className={classes.image} object={(thisProduct.product) ? thisProduct.product.images : null} />
-                                    </Grid>
-                                    <Grid item key='rating' className={classes.rating}>
-                                        <StarRatingComponent name='productRating' starCount={5} value={3} editing={false} />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid key='priceTable' item className={classes.priceTable} >
-                                {
-                                    ( thisProduct.product && thisProduct.product.children) ?
-                                    <MainPricingTable
-                                        object={{
-                                            children : thisProduct.product.children
-                                        }}
-                                    />
-                                    :
-                                        <div>
-                                            <Typography variant='h6' className={classes.notReleased}>
-                                                This Product is yet to be released
-                                            </Typography>
-                                        </div>
-                                }
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid key='extras' item className={classes.extras}>
-                        <Grid container direction="column" alignItems="center" justify="center" spacing='2'>
-                            {
-                                (thisProduct.product && thisProduct.product.description) ?
-                                    <Grid key='productDescription' item className={classes.productDescription}>
-                                        <h1 className={classes.headings}>Details</h1>
-                                        <p className={classes.details}>
-                                            {thisProduct.product.description}
-                                        </p>
-                                    </Grid>
-                                    :
-                                    <Grid key='productDescription' item className={classes.productDescription}>
-                                        <h1 className={classes.headings}>Details</h1>
-                                        <p className={classes.details}>
-                                            Sorry no details Available
-                                        </p>
-                                    </Grid>
-                            }
-                            {
-                                false ?
-                                <Grid key='customerReview' item className={classes.customerReview}>
-                                    <h1 className={classes.headings}> Customer Review </h1>
-                                    <Reviews/>
-                                </Grid>
-                                    :
-                                    null
-                            }
-                            <Grid key='relatedProducts' item className={classes.relativeProducts}>
-                                {
-                                    (thisProduct.product && thisProduct.product.recommended_products) ?
-                                    <MainListCat className={classes.productList} object={{
-                                        tileData: ((thisProduct.product && thisProduct.product.recommended_products.length>0) ?  thisProduct.product.recommended_products : null),
-                                        listTitle: 'Related Objects',
-                                        color: 'rgba(0,11,206,0.3)'
-                                    }}/>
-                                    :
-                                        null
-                                }
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </div>
+        <div className={classes.spinner}>
+          <CircularProgress/>
         </div>
-    )
+        </div>
+      )
+    }
+
 
 }
 

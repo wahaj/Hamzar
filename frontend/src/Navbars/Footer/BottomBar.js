@@ -6,6 +6,7 @@ import {blueGrey} from "@material-ui/core/colors";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, withStyles, makeStyles } from "@material-ui/core/styles";
 import twwiter from "./twwiter2.svg"
+import History from '../../History/history'
 import hamzarIcon from './A6.png'
 import ButtonBase from '@material-ui/core/ButtonBase';
 
@@ -61,6 +62,9 @@ const useStyles = makeStyles(theme => ({
 
 
 function BottomBar(){
+    function handleSignUp(){
+        History.push("/sign-up");
+    }
     const classes= useStyles()
         return (
             <div className={classes.app}>
@@ -74,7 +78,7 @@ function BottomBar(){
                         className={classes.beforeFooter}
                     >
                         <h2 className={classes.headings}>Exclusive Deals and Offers</h2>
-                        <ColorButton variant="contained" color="primary" className={classes.margin}>
+                        <ColorButton onClick={handleSignUp} variant="contained" color="primary" className={classes.margin}>
                             Sign Up
                         </ColorButton>
                         <h2 className={classes.headings}>Subscribe to get Exclusive Offers</h2>
@@ -97,7 +101,7 @@ function BottomBar(){
                             <div>
                                 <BottomAncor object={{text: "Help Center",path:'/ContactUs'}}/>
                                 <BottomAncor object={{text: "Return and Refund",path:'/ret-and-ref'}}/>
-                                <BottomAncor object={{text: "Track my Order"}}/>
+                                <BottomAncor object={{text: "Track my Order",path:'/track-order'}}/>
                                 <BottomAncor object={{text: "Delivery System",path:'/DeliverySystem'}}/>
                                 <BottomAncor object={{text: "Contact Us",path:'/ContactUs'}}/>
                             </div>
@@ -114,8 +118,8 @@ function BottomBar(){
                         </div>
                         <div className={classes.links}>
                             <h2 className={classes.headings}>Let us Help you</h2><br/>
-                            <BottomAncor object={{text: "Your Account"}}/>
-                            <BottomAncor object={{text: "Your Orders"}}/>
+                            <BottomAncor object={{text: "Your Account",path:'/profile'}}/>
+                            <BottomAncor object={{text: "Your Orders",path:'/track-order'}}/>
                             <BottomAncor object={{text: "Help" , path:'/ContactUs'}}/>
                             <BottomAncor object={{text: "FAQ's", path:'/faqs'}}/>
                         </div>

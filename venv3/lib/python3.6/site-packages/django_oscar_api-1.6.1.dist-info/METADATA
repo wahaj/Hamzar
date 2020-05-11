@@ -1,0 +1,107 @@
+Metadata-Version: 2.1
+Name: django-oscar-api
+Version: 1.6.1
+Summary: REST API module for django-oscar
+Home-page: https://github.com/django-oscar/django-oscar-api
+Author: Lars van de Kerkhof, Martijn Jacobs
+Author-email: lars@permanentmarkers.nl, martijn@devopsconsulting.nl
+License: BSD
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 1.11
+Classifier: Framework :: Django :: 2.1
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Requires-Dist: setuptools
+Requires-Dist: django-oscar (<2.0,>=1.5.1)
+Requires-Dist: djangorestframework (>=3.4)
+Requires-Dist: six
+Provides-Extra: dev
+Requires-Dist: coverage ; extra == 'dev'
+Requires-Dist: mock ; extra == 'dev'
+Requires-Dist: twine ; extra == 'dev'
+Requires-Dist: wheel ; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: sphinx ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ; extra == 'docs'
+
+================
+Django Oscar API
+================
+
+This package provides a RESTful API for `django-oscar`_.
+
+.. _`django-oscar`: https://github.com/django-oscar/django-oscar
+
+.. image:: https://travis-ci.org/django-oscar/django-oscar-api.svg?branch=master
+    :target: https://travis-ci.org/django-oscar/django-oscar-api
+
+.. image:: https://codecov.io/github/django-oscar/django-oscar-api/coverage.svg?branch=master
+    :alt: Coverage
+    :target: http://codecov.io/github/django-oscar/django-oscar-api?branch=master
+
+.. image:: https://readthedocs.org/projects/django-oscar-api/badge/
+   :alt: Documentation Status
+   :target: https://django-oscar-api.readthedocs.io/
+
+.. image:: https://badge.fury.io/py/django-oscar-api.svg
+   :alt: Latest PyPi release
+   :target: https://pypi.python.org/pypi/django-oscar-api
+
+Usage
+=====
+
+To use the Oscar API application in an Oscar E-commerce site, follow these
+steps:
+
+1. Install the `django-oscar-api` package (``pip install django-oscar-api``).
+2. Add oscarapi to INSTALLED_APPS.
+3. Add the application's urls to your urlconf
+
+   .. code-block:: python
+
+      from django.conf.urls import url
+
+      from oscarapi.app import application as api
+
+      urlpatterns = (
+          # all the things you already have
+          url(r'^oscarapi/', api.urls),
+      )
+
+   or with the newer Django 2.x way
+
+   .. code-block:: python
+
+      from django.urls import path
+
+      from oscarapi.app import application as api
+
+      urlpatterns = (
+          # all the things you already have
+          path('oscarapi/', api.urls),
+      )
+
+4. Apply migrations::
+
+    python manage.py migrate
+
+
+See the Documentation_ for more information and the Changelog_ for release notes.
+
+.. _Documentation: https://django-oscar-api.readthedocs.io
+.. _Changelog: https://django-oscar-api.readthedocs.io/en/latest/changelog.html
+
+
+

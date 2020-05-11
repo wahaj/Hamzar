@@ -23,9 +23,19 @@ const useStyles = makeStyles(theme => ({
 export default function MainList() {
     const classes = useStyles();
     const [bestSellers, setBestSellers]=React.useState({tileData : tileDataArray});
-    const [newArrivals, setNewArrivals]=React.useState({tileData : tileDataArray});
+    const [newArrivals, setNewArrivals]=React.useState({tileData : tileDataArray , fetching : true , error : false});
+    const [comics,setComics] = React.useState({tileData : [] , fetching : true , error : false});
+    const [magzines,setMagzines] = React.useState({tileData : [] , fetching : true , error : false});
+    const [history,setHistory] = React.useState({tileData : [] , fetching : true , error : false});
+    const [education,setEducation] = React.useState({tileData : [] , fetching : true , error : false});
+    const [exams,setExams] = React.useState({tileData : [] , fetching : true , error : false});
+    const [fiction,setFiction] = React.useState({tileData : [] , fetching : true , error : false});
+    const [fetching, setFetching] = React.useState({inProgress : true});
+    const [error,setError]=React.useState({status : false});
     useEffect(()=>{
-        fetch('https://hamzar.com/api/v1/products/new_arrivals/', {
+        setError({status : false});
+        setNewArrivals({fetching : true, error : false})
+        fetch('http://127.0.0.1:8000/api/v1/products/new_arrivals/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -36,9 +46,15 @@ export default function MainList() {
         })
             .then(res => res.json())
             .then(json => {
-                setNewArrivals({tileData : json})
-            });
-        fetch('https://hamzar.com/api/v1/products/best_sellers/', {
+                setNewArrivals({tileData : json, fetching : false})
+            })
+            .catch(()=>{
+              setError({status : true})
+              setNewArrivals({error : true, fetching : false})
+            })
+
+        setFiction({fetching : true , error : false})
+        fetch('http://127.0.0.1:8000/api/v1/products/category/fiction', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -49,8 +65,100 @@ export default function MainList() {
         })
             .then(res => res.json())
             .then(json => {
-                setBestSellers({tileData : json})
-            });
+                setFiction({tileData : json,fetching : false})
+            })
+            .catch(()=>{
+              setError({status : true})
+              setNewArrivals({fetching : false, error : true})
+            })
+        setComics({error : false, fetching : true})
+        fetch('http://127.0.0.1:8000/api/v1/products/category/comics-and-graphics-novels/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setComics({tileData : json, fetching : false})
+            }).catch(()=>{
+              setError({status : true})
+              setComics({error : true, fetching : false})
+            })
+        setMagzines({error : false, fetching : true})
+        fetch('http://127.0.0.1:8000/api/v1/products/category/magazines/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setMagzines({tileData : json, fetching : false})
+            }).catch(()=>{
+              setError({status : true})
+              setMagzines({error : true, fetching : false})
+            })
+        setEducation({error : false, fetching : true})
+        fetch('http://127.0.0.1:8000/api/v1/products/category/educational-teaching/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setEducation({tileData : json, fetching : false})
+            }).catch(()=>{
+              setError({status : true})
+              setEducation({error : true, fetching : false})
+            })
+        setExams({error : false, fetching : true})
+        fetch('http://127.0.0.1:8000/api/v1/products/category/test-preparation/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setExams({tileData : json , fetching : false})
+            }).catch(()=>{
+              setError({status : true})
+              setExams({error : true, fetching : false})
+            })
+        setHistory({error : false, fetching : true})
+        fetch('http://127.0.0.1:8000/api/v1/products/category/history_2/', {
+            method: 'Get',
+            withCredentials:true,
+            cache:'default',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(json => {
+                setHistory({tileData : json, fetching : false})
+            }).catch(()=>{
+              setError({status : true})
+              setHistory({error : true, fetching : false})
+            })
+        console.log(fetching.inProgress);
+        console.log(error.status);
+
     },[])
     return (
         <React.Fragment>
@@ -58,27 +166,27 @@ export default function MainList() {
             <Container maxWidth="xxl" minWidth="xs" className={classes.mainBack}>
                 <br/><br/><br/>
                 <div>
-                <MainListRow object={{tileData : bestSellers.tileData, listTitle:'Comics and Graphics Novels', color:'black'}} />
+                <MainListRow object={{tileData : fiction.tileData, error : fiction.error , fetching : fiction.fetching , listTitle:'Fiction', color:'black'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Educational & Teaching', color:'black'}} />
+                    <MainListRow object={{tileData : education.tileData, error : education.error , fetching : education.fetching , listTitle:'Educational & Teaching', color:'black'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Magazines', color:'black'}} />
+                    <MainListRow object={{tileData : magzines.tileData, error : magzines.error , fetching : magzines.fetching , listTitle:'Magazines', color:'black'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Literature & Fashion', color:'black'}} />
+                    <MainListRow object={{tileData : comics.tileData,  error : comics.error , fetching : comics.fetching , listTitle:'Comic and Graphic Novels', color:'black'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Romance', color:'black'}} />
+                    <MainListRow object={{tileData : history.tileData, error : history.error , fetching : history.fetching , listTitle:'History', color:'black'}} />
                 </div>
                 <br/><br/><br/>
                 <div>
-                    <MainListRow object={{tileData : newArrivals.tileData, listTitle:'Best Sellers', color:'black'}} />
+                    <MainListRow object={{tileData : newArrivals.tileData, error : newArrivals.error , fetching : newArrivals.fetching , listTitle:'New Arrivals', color:'black'}} />
                 </div>
                 <br/><br/><br/>
             </Container>
