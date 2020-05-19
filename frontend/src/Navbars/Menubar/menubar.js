@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme)  => ({
         zIndex: 2000,
     },
     myIcon: {
-        width: 80,
+        width: 55,
     },
     desktop: {
         display: 'none',
@@ -75,7 +75,7 @@ export default function PrimarySearchAppBar() {
             <AppBar  position="static" style={{boxShadow: " 0 5px 5px 2px rgba(128,128,128, 0.4)"}} >
                 <Toolbar>
                     {/*Text behind Delivery Icon*/}
-                        <p style={{color:"white", fontSize: 18, marginRight: 10}}>We deliver at<br/>your Address</p>
+                        <p style={{color:"white", fontSize: 12, marginRight: 10}}>We deliver at<br/>your Address</p>
                     {/*Delivery Icon*/}
                     <img className={classes.myIcon} src={del}></img>
 

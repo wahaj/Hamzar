@@ -68,7 +68,7 @@ class App extends React.Component {
                     <Route path='/change-pass' component={ChangePass}/>
                     <Route exact path='/track-order' component={TrackOrder} />
                     <Route path='/track-order/:ids' component={OrderStatus} />
-                    <Route path='/cart' component={Cart} />
+                    <Route path='/cart' component={Cart}/>
                     <Route path='/productPage/:pid' component={ProductPage}/>
                     <Route path='/test' component={Test}/>
                     <Route path='/SearchResults' component={SearchResults}/>

@@ -17,7 +17,17 @@ import Store from '../../History/Store'
 import logo from "./logo.png"
 
 const useStyles = makeStyles(theme =>({
-
+    root:{
+        backgroundColor: '#fff',
+        '&:hover': {
+            backgroundColor: '#a0b1ff',
+        },
+        '&$focused': {
+            backgroundColor: '#5c6cff',
+            boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+            borderColor: theme.palette.primary.main,
+        },
+    },
     grow: {
         flexGrow: 1,
     },
@@ -79,7 +89,7 @@ const useStyles = makeStyles(theme =>({
             display: 'none',
         },
     },
-    noShadow: {
+    iconButton: {
     }
 }));
 
@@ -193,12 +203,18 @@ export default function PrimarySearchAppBar(props) {
                         </div>
                         <InputBase
                             placeholder="Search…"
+                            style={{backgroundColor: '#6fffad',
+                                flex: 1,
+                            color: "#000000"}}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
                             inputProps={{ 'aria-label': 'Search' }}
                         />
+                        {/*<IconButton className={classes.iconButton} aria-label="search">
+                            <SearchIcon />
+                        </IconButton>*/}
                     </div>
 
                     <div style={{minWidth: (logStatus)?"6%":"3%"}}>
@@ -221,7 +237,6 @@ export default function PrimarySearchAppBar(props) {
                             </IconButton>
                         }
                     </div>
-
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
