@@ -4,6 +4,7 @@ bin
 __pycache__/
 *.py[cod]
 venv
+venv3
 node_modules
 frontend/node_modules
 cache/
