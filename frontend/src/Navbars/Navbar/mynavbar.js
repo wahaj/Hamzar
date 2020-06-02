@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import History from '../../History/history'
 import Store from '../../History/Store'
 import logo from "./logo.png"
+import TextField from '@material-ui/core/TextField';
 import { ButtonBase } from '@material-ui/core';
 
 const useStyles = makeStyles(theme =>({
@@ -33,15 +34,14 @@ const useStyles = makeStyles(theme =>({
     },
     search: {
         flexGrow: 1,
-        position: 'relative',
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
+        backgroundColor: '#FFFFFF',
         '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: '#FFFFFF',
         },
-        paddingRight: theme.spacing(10),
         marginRight: theme.spacing(30),
         marginLeft: 0,
+        height: 'auto',
         width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(3),
@@ -49,13 +49,9 @@ const useStyles = makeStyles(theme =>({
         },
     },
     searchIcon: {
-        width: theme.spacing(7),
+        width: 'auto',
         height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display : 'none'
     },
     inputRoot: {
         color: 'inherit',
@@ -189,19 +185,14 @@ export default function PrimarySearchAppBar(props) {
                         </Link>
                     </Typography>
                     <div className={classes.search}>
+                        <div style={{display : "inline",width : '100%' ,height: '100%'}}>
+                          <TextField id="outlined-basic" style={{width : '100%',height:'100%'}} label="Search" variant="outlined" />
+                        </div>
                         <div className={classes.searchIcon}>
                             <ButtonBase href={'../../SearchResults/SearchResults.js/' + 'the' }>
                                 <SearchIcon />
                             </ButtonBase>
                         </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'Search' }}
-                        />
                     </div>
 
                     <div style={{minWidth: (logStatus)?"6%":"3%"}}>
