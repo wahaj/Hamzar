@@ -66,7 +66,7 @@ export default function SignUpForm(props) {
     function handle_login(e) {
         setState({isError:false})
         e.preventDefault()
-        fetch('http://127.0.0.1:8000/api/v1/register/', {
+        fetch('http://hamzar.com/api/v1/register/', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept:'application/json',

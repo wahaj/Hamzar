@@ -59,7 +59,7 @@ export default function LoginForm(props) {
     function handle_login(e) {
         setState({isError:false})
         e.preventDefault()
-        fetch('http://192.168.100.1:8000/api/login/', {
+        fetch('http://hamzar.com/api/login/', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept:'application/json',

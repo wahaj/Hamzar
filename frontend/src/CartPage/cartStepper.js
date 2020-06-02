@@ -116,7 +116,7 @@ export default function CartStepper(props) {
 
         const dataFetch = async () => {
             setLoading(true);
-            const basket = await fetch('http://127.0.1:8000/api/basket/',  {
+            const basket = await fetch('http://hamzar.com/api/basket/',  {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -152,7 +152,7 @@ export default function CartStepper(props) {
             }
             for (let child of childDataArray) {
                 const prodURL = child.parent
-                const parentProduct =  await fetch('http://127.0.0.1:8000/api/products/' + prodURL + '/', {
+                const parentProduct =  await fetch('http://hamzar.com/api/products/' + prodURL + '/', {
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',

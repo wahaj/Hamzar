@@ -9,6 +9,8 @@ import OrderHistoryIcon from '@material-ui/icons/History';
 import PersonPinIcon from '@material-ui/icons/Settings';
 import Settings from "./settings";
 import OrderHistory from "./orderHistory";
+import Alert from '@material-ui/lab/Alert';
+import Store from "../History/Store";
 
 function TabContainer(props) {
     return (
@@ -44,6 +46,9 @@ const useStyles = makeStyles({
 export default function IconLabelTabs() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const logStat = Store.getLogStatus();
+    const [logState, setLogState] = React.useState(logStat);
+    const logStatus = logState;
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -51,19 +56,25 @@ export default function IconLabelTabs() {
 
     return (
         <div className={classes.root}>
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="fullWidth"
-                indicatorColor="primary"
-                textColor="primary"
-            >
-                <Tab icon={<PersonPinIcon />} label="Profile Settings" />
-                <Tab icon={ <OrderHistoryIcon/>}  label="Order History" />
-            </Tabs>
-
-            {value === 0 && <TabContainer><Settings/></TabContainer>}
-            {value === 1 && <TabContainer><OrderHistory/></TabContainer>}
+          {
+            logStatus ?
+              <div>
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    indicatorColor="primary"
+                    textColor="primary"
+                >
+                    <Tab icon={<PersonPinIcon />} label="Profile Settings" />
+                    <Tab icon={ <OrderHistoryIcon/>}  label="Order History" />
+                </Tabs>
+                  {value === 0 && <TabContainer><Settings/></TabContainer>}
+                  {value === 1 && <TabContainer><OrderHistory/></TabContainer>}
+              </div>
+            :
+              <div style={{margin : "20% 20% 20% 20%"}}><Alert severity="info"><b>To view this page you have to LogIn first, Or if you dont have an account <a style={{display : "inline"}} href="/sign-up">Sign Up</a></b></Alert></div>
+          }
         </div>
     );
 }

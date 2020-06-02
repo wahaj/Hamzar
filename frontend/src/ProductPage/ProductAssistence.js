@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Alert from '@material-ui/lab/Alert';
+import Store from '../History/Store'
 
 const useStyles = makeStyles(theme => ({
     fab: {
@@ -95,6 +96,13 @@ export default function ProductAssistence(props) {
     const styles={visibility: 'collapse'}
     const [thisState,setThisState]=React.useState({New: null,Old:null, toCheck:null})
     const [controlSwitch, setControlSwitch] = React.useState(true);
+    const [errMsg,setErrMsg] = React.useState(false);
+    const [errMsgSec,setErrMsgSec] = React.useState(false);
+    const [buyNow,setBuyNow] = React.useState(false);
+    const [buyNowSec,setBuyNowSec] = React.useState(false);
+    const logStat = Store.getLogStatus();
+    const [logState, setLogState] = React.useState(logStat);
+    const logStatus = logState;
     var OldAddress = null
     var NewAddress = null
     var OldPrice = null
@@ -123,7 +131,112 @@ export default function ProductAssistence(props) {
         })
         dataFetchN()
     }
+    function addToCartOne(){
+      console.log("Add to Cart",thisState.New);
+      console.log("Address of new product",NewAddress);
+      if(logStatus){
+        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+            method: 'POST',
+            withCredentials: true,
+            cache: 'default',
+            body: JSON.stringify({
+              "url" : "http://hamzar.com/api/v1/products/145",
+              "quantity" : 1
+            }),
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res=>res.json())
+            .then(json=>{
+                console.log("returned response",json);
+            })
+      }
+      else {
+        setErrMsg(true);
+      }
+
+    }
+    function addToCartSec(){
+      console.log("Add to Cart",thisState.New);
+      console.log("Address of new product",NewAddress);
+      if(logStatus){
+        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+            method: 'POST',
+            withCredentials: true,
+            cache: 'default',
+            body: JSON.stringify({
+              "url" : "http://hamzar.com/api/v1/products/145",
+              "quantity" : 1
+            }),
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res=>res.json())
+            .then(json=>{
+                console.log("returned response",json);
+            })
+      }
+      else {
+        setErrMsgSec(true);
+      }
+
+    }
+    function buyNowOne(){
+      console.log("Add to Cart",thisState.New);
+      console.log("Address of new product",NewAddress);
+      if(logStatus){
+        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+            method: 'POST',
+            withCredentials: true,
+            cache: 'default',
+            body: JSON.stringify({
+              "url" : "http://hamzar.com/api/v1/products/145",
+              "quantity" : 1
+            }),
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res=>res.json())
+            .then(json=>{
+                console.log("returned response",json);
+            })
+      }
+      else {
+        setBuyNow(true);
+      }
+
+    }
+    function buyNow2(){
+      console.log("Add to Cart",thisState.New);
+      console.log("Address of new product",NewAddress);
+      if(logStatus){
+        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+            method: 'POST',
+            withCredentials: true,
+            cache: 'default',
+            body: JSON.stringify({
+              "url" : "http://hamzar.com/api/v1/products/145",
+              "quantity" : 1
+            }),
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res=>res.json())
+            .then(json=>{
+                console.log("returned response",json);
+            })
+      }
+      else {
+        setBuyNowSec(true);
+      }
+
+    }
     const dataFetchN = async () => {
+        console.log(NewAddress);
         if(NewAddress){
             const product = await fetch(NewAddress , {
                 method: 'Get',
@@ -177,14 +290,25 @@ export default function ProductAssistence(props) {
                                 <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.New ? thisState.New.incl_tax : ''}</b></Typography></div>
                                 <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.New ? thisState.New.tax : ''}</b> (30%)</Typography> </div>
                                 <div className={classes.cartOption}>
-                                    <Button variant='contained' color='primary' className={classes.cartButton}>
-                                        Add to Cart
-                                    </Button>
+                                  {
+                                    errMsg ?
+                                        <Alert severity="info">You have to LogIn first, Or if you dont have an account <a href="/sign-up">Sign Up</a></Alert>
+                                      :
+                                        <Button variant='contained' color='primary' onClick={addToCartOne} className={classes.cartButton}>
+                                            Add to Cart
+                                        </Button>
+                                  }
+
                                 </div>
                                 <div className={classes.buyNow}>
-                                    <Button variant='contained' color='secondary' className={classes.buyButton}>
-                                        Buy Now
-                                    </Button>
+                                  {
+                                    buyNow ?
+                                      <Alert severity="info">You have to LogIn first, Or if you dont have an account <a href="/sign-up">Sign Up</a></Alert>
+                                    :
+                                      <Button variant='contained' color='secondary' onClick={buyNowOne} className={classes.buyButton}>
+                                          Buy Now
+                                      </Button>
+                                  }
                                 </div>
                             </div>
                                 :
@@ -214,14 +338,24 @@ export default function ProductAssistence(props) {
                                 <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.Old ? thisState.Old.incl_tax : ''}</b></Typography></div>
                                 <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.Old ? thisState.Old.tax : ''}</b> (30%)</Typography> </div>
                                 <div className={classes.cartOption}>
-                                    <Button variant='contained' color='primary' className={classes.cartButton}>
-                                        Add to Cart
-                                    </Button>
+                                  {
+                                    errMsgSec ?
+                                        <Alert severity="info">You have to LogIn first</Alert>
+                                      :
+                                        <Button variant='contained' color='primary' onClick={addToCartSec} className={classes.cartButton}>
+                                            Add to Cart
+                                        </Button>
+                                  }
                                 </div>
                                 <div className={classes.buyNow}>
-                                    <Button variant='contained' color='secondary' className={classes.buyButton}>
-                                        Buy Now
-                                    </Button>
+                                  {
+                                    buyNowSec ?
+                                      <Alert severity="info">You have to LogIn first, Or if you dont have an account <a href="/sign-up">Sign Up</a></Alert>
+                                    :
+                                      <Button variant='contained' color='secondary' onClick={buyNow2} className={classes.buyButton}>
+                                          Buy Now
+                                      </Button>
+                                  }
                                 </div>
                             </div>
                                 :
