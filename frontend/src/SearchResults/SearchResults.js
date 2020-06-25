@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
 export default function SearchResults(props){
     const classes = useStyles();
     const {match} = props
-    const [searchText,setSearchText] = React.useState('t')
+    const [searchText,setSearchText] = React.useState(match.params.sName)
     const [search, setSearch] = React.useState({ searchResults : null})
     const dataFetch = async () => {
         const product = await fetch('https://hamzar.com/api/v1/products/search/' + match.params.sName + '/', {

@@ -77,7 +77,7 @@ export default function PrimarySearchAppBar() {
                     {/*Text behind Delivery Icon*/}
                         <p style={{color:"white", fontSize: 18, marginRight: 10}}>We deliver at<br/>your Address</p>
                     {/*Delivery Icon*/}
-                    <Button onClick={()=>{History.push('/cart')}}><img className={classes.myIcon} src={del}></img></Button>
+                    <Button onClick={()=>{History.push('/track-order')}}><img className={classes.myIcon} src={del}></img></Button>
 
                     <div className={classes.grow} />
                     {/*Home Button*/}

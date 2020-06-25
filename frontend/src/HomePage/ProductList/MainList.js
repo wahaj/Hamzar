@@ -35,7 +35,7 @@ export default function MainList() {
     useEffect(()=>{
         setError({status : false});
         setNewArrivals({fetching : true, error : false})
-        fetch('http://hamzar.com/api/v1/products/new_arrivals/', {
+        fetch('http://0.0.0.0:8000/api/v1/products/new_arrivals/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -54,7 +54,7 @@ export default function MainList() {
             })
 
         setFiction({fetching : true , error : false})
-        fetch('http://hamzar.com/api/v1/products/category/fiction', {
+        fetch('http://0.0.0.0:8000/api/v1/products/category/fiction', {
             method: 'Get',
             withCredentials:true,
             cache:'default',

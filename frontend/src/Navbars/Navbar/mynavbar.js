@@ -17,6 +17,8 @@ import Store from '../../History/Store'
 import logo from "./logo.png"
 import TextField from '@material-ui/core/TextField';
 import { ButtonBase } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import SearchBar from 'material-ui-search-bar'
 
 const useStyles = makeStyles(theme =>({
 
@@ -49,9 +51,13 @@ const useStyles = makeStyles(theme =>({
         },
     },
     searchIcon: {
-        width: 'auto',
+        width: theme.spacing(7),
         height: '100%',
-        display : 'none'
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     inputRoot: {
         color: 'inherit',
@@ -87,6 +93,7 @@ export default function PrimarySearchAppBar(props) {
     const logStat = Store.getLogStatus();
     const [logState, setLogState] = React.useState(logStat);
     const logStatus = logState;
+    const [searchText,setSearchText] = React.useState("");
 
 
 
@@ -124,6 +131,13 @@ export default function PrimarySearchAppBar(props) {
 
     function openCart (){
         History.push('/cart');
+    }
+    function changeSearchText(value){
+      setSearchText(value);
+      console.log(searchText);
+    }
+    function goToSearchPage(){
+      History.push('../../SearchResults/'+searchText);
     }
 
     const menuId = 'primary-search-account-menu';
@@ -185,14 +199,17 @@ export default function PrimarySearchAppBar(props) {
                         </Link>
                     </Typography>
                     <div className={classes.search}>
-                        <div style={{display : "inline",width : '100%' ,height: '100%'}}>
-                          <TextField id="outlined-basic" style={{width : '100%',height:'100%'}} label="Search" variant="outlined" />
-                        </div>
-                        <div className={classes.searchIcon}>
-                            <ButtonBase href={'../../SearchResults/SearchResults.js/' + 'the' }>
-                                <SearchIcon />
-                            </ButtonBase>
-                        </div>
+                      <SearchBar
+                          value={searchText}
+                          onChange={changeSearchText}
+                          onRequestSearch={goToSearchPage}
+                          onClear={() => {
+                            return setSearchText("")
+                          }}
+                          style={{
+                            margin: '0 auto',
+                          }}
+                        />
                     </div>
 
                     <div style={{minWidth: (logStatus)?"6%":"3%"}}>
