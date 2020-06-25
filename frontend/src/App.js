@@ -40,6 +40,9 @@ class App extends React.Component {
         }
         this.changeState = this.changeState.bind(this)
     }
+    componentDidMount(){
+        document.title = "Hamzar"
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevState.ls != Store.getLogStatus())
