@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme)  => ({
     grow: {
         flexGrow: 1,
         zIndex: 2000,
+        backgroundColor:'rgba(5,5,54,0.55)',
     },
     myIcon: {
         width: 80,
@@ -72,7 +73,7 @@ export default function PrimarySearchAppBar() {
 
     return (
         <div className={classes.grow} >
-            <AppBar  position="static" style={{boxShadow: " 0 5px 5px 2px rgba(128,128,128, 0.4)"}} >
+            <AppBar  position="static" style={{boxShadow: " 0 5px 5px 2px rgba(128,128,128, 0.4)", backgroundColor:'rgba(5,5,54,0.55)'}} >
                 <Toolbar>
                     {/*Text behind Delivery Icon*/}
                         <p style={{color:"white", fontSize: 18, marginRight: 10}}>We deliver at<br/>your Address</p>

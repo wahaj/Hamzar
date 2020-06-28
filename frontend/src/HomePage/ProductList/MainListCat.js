@@ -114,7 +114,7 @@ export default function MainListCat(props) {
                                 thisState.list.map(tile => (
                                     <ButtonBase className={classes.gridTile2} href={'./ProductPage/' + tile.id }>
                                         <GridListTile key={tile.id} className={classes.gridTile}>
-                                            <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'http://192.168.100.10:8000/media/image_not_found.jpg' } alt={tile.title} />
+                                            <img className={classes.image} src={(tile && tile.images && tile.images.length > 0) ? tile.images[0].original: 'https://hamzar.com/media/image_not_found.jpg' } alt={tile.title} />
                                             <GridListTileBar
                                                 title={tile.title}
                                                 classes={{

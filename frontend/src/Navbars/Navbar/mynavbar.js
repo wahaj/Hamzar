@@ -188,8 +188,8 @@ export default function PrimarySearchAppBar(props) {
     }, [Store.getLogStatus()]);
 
     return (
-        <div className={classes.grow} style={{boxShadow: "none"}}>
-            <AppBar style={{boxShadow: "none"}} position="static">
+        <div className={classes.grow} style={{boxShadow: "none",backgroundColor:'rgba(5,5,54,0.55)'}}>
+            <AppBar style={{boxShadow: "none",backgroundColor:'rgba(5,5,54,0.55)'}} position="static">
                 <Toolbar style={{boxShadow: "none"}}>
                     <Typography className={classes.title} variant="h6" noWrap>
                         <Link style={{color: "White", textDecoration: "none"}} to={'/'}>

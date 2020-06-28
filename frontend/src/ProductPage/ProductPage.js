@@ -207,7 +207,7 @@ function ProductPage(props){
     const classes = useStyles();
     const [fetching,setFetching] = React.useState({value : true})
     const dataFetch = async () => {
-        const product = await fetch('http://hamzar.com/api/v1/products/' + match.params.pid + '/', {
+        const product = await fetch('https://hamzar.com/api/v1/products/' + match.params.pid + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',

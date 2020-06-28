@@ -135,12 +135,12 @@ export default function ProductAssistence(props) {
       console.log("Add to Cart",thisState.New);
       console.log("Address of new product",NewAddress);
       if(logStatus){
-        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "http://hamzar.com/api/v1/products/145",
+              "url" : "https://hamzar.com/api/v1/products/145",
               "quantity" : 1
             }),
             credentials: 'include',
@@ -161,12 +161,12 @@ export default function ProductAssistence(props) {
       console.log("Add to Cart",thisState.New);
       console.log("Address of new product",NewAddress);
       if(logStatus){
-        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "http://hamzar.com/api/v1/products/145",
+              "url" : "https://hamzar.com/api/v1/products/145",
               "quantity" : 1
             }),
             credentials: 'include',
@@ -187,12 +187,12 @@ export default function ProductAssistence(props) {
       console.log("Add to Cart",thisState.New);
       console.log("Address of new product",NewAddress);
       if(logStatus){
-        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "http://hamzar.com/api/v1/products/145",
+              "url" : "https://hamzar.com/api/v1/products/145",
               "quantity" : 1
             }),
             credentials: 'include',
@@ -213,12 +213,12 @@ export default function ProductAssistence(props) {
       console.log("Add to Cart",thisState.New);
       console.log("Address of new product",NewAddress);
       if(logStatus){
-        const productAdded = fetch("http://hamzar.com/api/v1/basket/add-product" , {
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "http://hamzar.com/api/v1/products/145",
+              "url" : "https://hamzar.com/api/v1/products/145",
               "quantity" : 1
             }),
             credentials: 'include',

@@ -35,7 +35,7 @@ export default function MainList() {
     useEffect(()=>{
         setError({status : false});
         setNewArrivals({fetching : true, error : false})
-        fetch('http://hamzar.com/api/v1/products/new_arrivals/', {
+        fetch('https://hamzar.com/api/v1/products/new_arrivals/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -54,7 +54,7 @@ export default function MainList() {
             })
 
         setFiction({fetching : true , error : false})
-        fetch('http://hamzar.com/api/v1/products/category/fiction', {
+        fetch('https://hamzar.com/api/v1/products/category/fiction', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -72,7 +72,7 @@ export default function MainList() {
               setNewArrivals({fetching : false, error : true})
             })
         setComics({error : false, fetching : true})
-        fetch('http://hamzar.com/api/v1/products/category/comics-and-graphics-novels/', {
+        fetch('https://hamzar.com/api/v1/products/category/comics-and-graphics-novels/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -89,7 +89,7 @@ export default function MainList() {
               setComics({error : true, fetching : false})
             })
         setMagzines({error : false, fetching : true})
-        fetch('http://hamzar.com/api/v1/products/category/magazines/', {
+        fetch('https://hamzar.com/api/v1/products/category/magazines/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -106,7 +106,7 @@ export default function MainList() {
               setMagzines({error : true, fetching : false})
             })
         setEducation({error : false, fetching : true})
-        fetch('http://hamzar.com/api/v1/products/category/educational-teaching/', {
+        fetch('https://hamzar.com/api/v1/products/category/educational-teaching/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -123,7 +123,7 @@ export default function MainList() {
               setEducation({error : true, fetching : false})
             })
         setExams({error : false, fetching : true})
-        fetch('http://hamzar.com/api/v1/products/category/test-preparation/', {
+        fetch('https://hamzar.com/api/v1/products/category/test-preparation/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
@@ -140,7 +140,7 @@ export default function MainList() {
               setExams({error : true, fetching : false})
             })
         setHistory({error : false, fetching : true})
-        fetch('http://hamzar.com/api/v1/products/category/history_2/', {
+        fetch('https://hamzar.com/api/v1/products/category/history_2/', {
             method: 'Get',
             withCredentials:true,
             cache:'default',
