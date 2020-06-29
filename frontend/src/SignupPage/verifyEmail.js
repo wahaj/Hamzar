@@ -74,7 +74,7 @@ export default function VerifyEmail(props){
     });
 
     function handleVerification(){
-      fetch('http://hamzar.com/api/v1/verify-registration/', {
+      fetch('https://hamzar.com/api/v1/verify-registration/', {
           headers: {
               'Content-Type': 'application/json',
               Accept:'application/json',

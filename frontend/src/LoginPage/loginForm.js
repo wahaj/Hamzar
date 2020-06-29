@@ -61,7 +61,7 @@ export default function LoginForm(props) {
         e.preventDefault()
 
 
-        fetch('http://hamzar.com/api/login/', {
+        fetch('https://hamzar.com/api/login/', {
             headers: {
                 'Content-Type': 'application/json',
                 Accept:'application/json',
