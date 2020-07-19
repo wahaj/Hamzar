@@ -148,10 +148,19 @@ export default function CartItem(props) {
         quantity: "",
         image: "",
     });
+    const insert = function insert(main_string, ins_string, pos) {
+       if(typeof(pos) == "undefined") {
+        pos = 0;
+        }
+       if(typeof(ins_string) == "undefined") {
+        ins_string = '';
+        }
+      return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
+    }
 
     useEffect(()=> {
         const fm = async () => {
-            const price = await fetch(cdata.price, {
+            const price = await fetch(insert(cdata.price,'s',4), {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -160,9 +169,21 @@ export default function CartItem(props) {
                 credentials: "include"
             })
             const priceJSON = await price.json()
+            var author;
+            if(pdata.attributes){
+              if(pdata.attributes[0]){
+                if(pdata.attributes[0].value){
+                  author = pdata.attributes[0].value;
+                }
+              }else{
+                author = "unknown"
+              }
+            }else{
+              author = "unknown"
+            }
             setValues({
                 bookName: pdata.title,
-                author: pdata.attributes[0].value,
+                author: author,
                 price: priceJSON.incl_tax,
                 type: cdata.attributes[1].value,
                 condition: cdata.attributes[0].value,

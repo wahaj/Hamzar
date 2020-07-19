@@ -55,6 +55,18 @@ const useStyles = makeStyles(theme => ({
         height : '100%',
         display:'flex',
         overflow:'hidden',
+        [theme.breakpoints.up('xs')]: {
+            maxWidth : "50%",
+            minWidth : "40%",
+        },
+        [theme.breakpoints.up('md')]: {
+            maxWidth : "30%",
+            minWidth : "20%",
+        },
+        [theme.breakpoints.up('lg')]: {
+            maxWidth : "20%",
+            minWidth : "15%",
+        },
     }
 }));
 

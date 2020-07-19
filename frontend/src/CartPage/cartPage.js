@@ -26,13 +26,7 @@ export default function CartPage() {
     return (
         <div>
             <Paper className={classes.root}>
-            {
-              logStatus ?
-                <CartStepper/>
-              :
-                <div style={{margin : "20% 0% 20% 0%"}}><Alert severity="info"><b>To view this page you have to LogIn first, Or if you dont have an account <a style={{display : "inline"}} href="/sign-up">Sign Up</a></b></Alert></div>
-            }
-
+              <CartStepper/>
             </Paper>
         </div>
     )

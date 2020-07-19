@@ -41,12 +41,12 @@ const useStyles = makeStyles(theme =>({
         '&:hover': {
             backgroundColor: '#FFFFFF',
         },
-        marginRight: theme.spacing(30),
         marginLeft: 0,
         height: 'auto',
         width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(3),
+            marginRight: theme.spacing(0),
             width: 'auto',
         },
     },
@@ -137,7 +137,10 @@ export default function PrimarySearchAppBar(props) {
       console.log(searchText);
     }
     function goToSearchPage(){
-      History.push('../../SearchResults/'+searchText);
+      if(searchText != ''){
+          History.push('../../SearchResults/'+searchText);
+      }
+
     }
 
     const menuId = 'primary-search-account-menu';

@@ -23,7 +23,9 @@ export default function AddressBar() {
     const classes = useStyles();
     const [values, setValues] = React.useState({});
     const [state, setState] = React.useState({
-        address: true
+        address: true,
+        phoneNumber : true,
+        name:true,
     });
     const handleClick = (name, editState) => event => {
         setState({ ...state, [name]: !editState });
@@ -34,6 +36,53 @@ export default function AddressBar() {
     return(
         <div>
             <form className={classes.container} noValidate autoComplete="off">
+
+                <TextField
+                    id="outlined-multiline-flexible"
+                    label="Name"
+                    multiline
+                    rowsMax="4"
+                    value={values.name}
+                    onChange={handleChange('name')}
+                    className={classes.textField}
+                    margin="normal"
+                    helperText="confirm your name"
+                    variant="outlined"
+                    disabled={state.name}
+                />
+                <Fab
+                    size="small"
+                    color="primary"
+                    aria-label="Edit"
+                    className={classes.fab}
+                    onClick={handleClick("name", state.name)}
+                >
+                    <Icon>edit_icon</Icon>
+                </Fab>
+
+                <TextField
+                    id="outlined-multiline-flexible"
+                    label="Phone Number"
+                    multiline
+                    rowsMax="4"
+                    value={values.phoneNumber}
+                    onChange={handleChange('phoneNumber')}
+                    className={classes.textField}
+                    margin="normal"
+                    helperText="confirm contact info."
+                    variant="outlined"
+                    disabled={state.phoneNumber}
+                />
+                <Fab
+                    size="small"
+                    color="primary"
+                    aria-label="Edit"
+                    className={classes.fab}
+                    onClick={handleClick("phoneNumber", state.phoneNumber)}
+                >
+                    <Icon>edit_icon</Icon>
+                </Fab>
+
                 <TextField
                     id="outlined-multiline-flexible"
                     label="Address"

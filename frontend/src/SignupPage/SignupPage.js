@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import History from './../History/history'
 import Store from '../History/Store'
 import { useInput } from './input-hook';
+import Alert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles(theme => ({
@@ -101,7 +102,8 @@ export default function SignUpForm(props) {
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square><Alert severity="info">This service is not available yet, if youre having any trouble please feel free to <a href='/ContactUs'>contact us</a> </Alert></Grid>
+            <Grid item xs={12} sm={8} md={5} style={{display:'none'}} component={Paper} elevation={6} square>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />

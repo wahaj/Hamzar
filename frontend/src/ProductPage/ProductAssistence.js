@@ -10,7 +10,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Alert from '@material-ui/lab/Alert';
-import Store from '../History/Store'
+import Store from '../History/Store';
+import History from '../History/history';
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
     fab: {
@@ -52,6 +54,10 @@ const useStyles = makeStyles(theme => ({
         border:'0px solid red',
         width:'100%',
         overflow:'auto',
+    },
+    spinner : {
+      marginTop : '2%',
+      marginBottom : '2%',
     },
     save :{
         display:'block',
@@ -95,14 +101,21 @@ export default function ProductAssistence(props) {
     const classes = useStyles();
     const styles={visibility: 'collapse'}
     const [thisState,setThisState]=React.useState({New: null,Old:null, toCheck:null})
+    const [newPrice,setNewPrice] = React.useState(null)
+    const [oldPrice,setOldPrice] = React.useState(null)
     const [controlSwitch, setControlSwitch] = React.useState(true);
     const [errMsg,setErrMsg] = React.useState(false);
     const [errMsgSec,setErrMsgSec] = React.useState(false);
     const [buyNow,setBuyNow] = React.useState(false);
     const [buyNowSec,setBuyNowSec] = React.useState(false);
     const logStat = Store.getLogStatus();
+    const [loadingBN,setLoadingBN] = React.useState(false);
+    const [loadingAC,setloadingAC] = React.useState(false);
+    const [reRender,setReRender] = React.useState(0);
     const [logState, setLogState] = React.useState(logStat);
     const logStatus = logState;
+    const [oldAddress,setOldAddress] =React.useState("")
+    const [newAddress,setNewAddress] =React.useState("")
     var OldAddress = null
     var NewAddress = null
     var OldPrice = null
@@ -119,29 +132,30 @@ export default function ProductAssistence(props) {
             data.attributes.map(info=>{
                 if (info.name === 'Type' && info.value === props.data.childObject ){
                     data.attributes.map(resul=>{
-                        if(resul.name ==='Condition' && resul.value === 'New' ){
-                            NewAddress = data.price
+                        if(resul.name =='Condition' && resul.value == 'New' ){
+                            setNewAddress(data.price)
                         }
-                        if(resul.name ==='Condition' && resul.value === 'Old' ){
-                            OldAddress = data.price
+                        if(resul.name =='Condition' && resul.value == 'Old' ){
+                            setOldAddress(data.price)
                         }
                     })
                 }
             })
         })
-        dataFetchN()
+        const any = dataFetchN();
+
     }
     function addToCartOne(){
-      console.log("Add to Cart",thisState.New);
-      console.log("Address of new product",NewAddress);
-      if(logStatus){
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
+      setloadingAC(true);
+      if(true){
+        //axios.post('https://hamzar.com/api/v1/products/145',"1");
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "https://hamzar.com/api/v1/products/145",
-              "quantity" : 1
+              "url" : insert(newAddress,'s',4).substring(0, newAddress.length - 5),
+              "quantity" : '1',
             }),
             credentials: 'include',
             headers: {
@@ -150,24 +164,24 @@ export default function ProductAssistence(props) {
         }).then(res=>res.json())
             .then(json=>{
                 console.log("returned response",json);
+                setloadingAC(false);
             })
       }
       else {
-        setErrMsg(true);
+        setBuyNow(true);
       }
 
     }
     function addToCartSec(){
-      console.log("Add to Cart",thisState.New);
-      console.log("Address of new product",NewAddress);
-      if(logStatus){
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
+      setloadingAC(true);
+      if(true){
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "https://hamzar.com/api/v1/products/145",
-              "quantity" : 1
+              "url" : insert(oldAddress,'s',4).substring(0, oldAddress.length - 5),
+              "quantity" : '1',
             }),
             credentials: 'include',
             headers: {
@@ -176,24 +190,26 @@ export default function ProductAssistence(props) {
         }).then(res=>res.json())
             .then(json=>{
                 console.log("returned response",json);
+                setloadingAC(false);
             })
       }
       else {
-        setErrMsgSec(true);
+        setBuyNowSec(true);
       }
 
     }
     function buyNowOne(){
-      console.log("Add to Cart",thisState.New);
-      console.log("Address of new product",NewAddress);
-      if(logStatus){
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
+      console.log("Address of new product",newAddress);
+      setLoadingBN(true)
+      if(newAddress){
+        //axios.post('https://hamzar.com/api/v1/products/145',"1");
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "https://hamzar.com/api/v1/products/145",
-              "quantity" : 1
+              "url" : insert(newAddress,'s',4).substring(0, newAddress.length - 5),
+              "quantity" : '1',
             }),
             credentials: 'include',
             headers: {
@@ -202,6 +218,8 @@ export default function ProductAssistence(props) {
         }).then(res=>res.json())
             .then(json=>{
                 console.log("returned response",json);
+                setLoadingBN(false);
+                History.push('/cart');
             })
       }
       else {
@@ -210,16 +228,15 @@ export default function ProductAssistence(props) {
 
     }
     function buyNow2(){
-      console.log("Add to Cart",thisState.New);
-      console.log("Address of new product",NewAddress);
-      if(logStatus){
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product" , {
+      setLoadingBN(true)
+      if(true){
+        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
             body: JSON.stringify({
-              "url" : "https://hamzar.com/api/v1/products/145",
-              "quantity" : 1
+              "url" : insert(oldAddress,'s',4).substring(0, oldAddress.length - 5),
+              "quantity" : '1',
             }),
             credentials: 'include',
             headers: {
@@ -228,6 +245,8 @@ export default function ProductAssistence(props) {
         }).then(res=>res.json())
             .then(json=>{
                 console.log("returned response",json);
+                setLoadingBN(false);
+                History.push('/cart');
             })
       }
       else {
@@ -236,9 +255,8 @@ export default function ProductAssistence(props) {
 
     }
     const dataFetchN = async () => {
-        console.log(NewAddress);
-        if(NewAddress){
-            const product = await fetch(NewAddress , {
+        if(newAddress && newPrice==null){
+            const product = await fetch(insert(newAddress,'s',4) , {
                 method: 'Get',
                 withCredentials: true,
                 cache: 'default',
@@ -249,10 +267,12 @@ export default function ProductAssistence(props) {
             }).then(res=>res.json())
                 .then(json=>{
                     NewPrice = json
+                    setThisState({New : json})
+                    setNewPrice(json)
                 })
         }
-        if(OldAddress){
-            const product2 = await fetch(OldAddress , {
+        if(oldAddress && oldPrice==null){
+            const product2 = await fetch(insert(oldAddress,'s',4), {
                 method: 'Get',
                 withCredentials: true,
                 cache: 'default',
@@ -261,15 +281,31 @@ export default function ProductAssistence(props) {
                     'Content-Type': 'application/json'
                 },
             }).then(res=>res.json())
-                .then(json=>OldPrice = json)
+                .then(json=>{
+                  OldPrice = json
+                  setThisState({Old : json})
+                  setOldPrice(json)
+                })
         }
-        setThisState({New:NewPrice, Old: OldPrice})
 
+        //const value=!reRender
+        //setReRender(value)
+    }
+    const insert = function insert(main_string, ins_string, pos) {
+       if(typeof(pos) == "undefined") {
+        pos = 0;
+        }
+       if(typeof(ins_string) == "undefined") {
+        ins_string = '';
+        }
+      return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
     }
 
     useEffect(()=>{
         checkDetails()
-    },[controlSwitch])
+
+
+    },[controlSwitch,oldPrice,newPrice])
 
     return (
         <div>
@@ -279,36 +315,39 @@ export default function ProductAssistence(props) {
                     <NavigationIcon className={classes.extendedIcon} />
                       New
                     </Fab>
-                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.New ? thisState.New.excl_tax + "  pkr" : ''} </b></Typography>
+                    <Typography variant='h5' className={classes.objectPrice}><b>{newPrice ? newPrice.excl_tax + "  pkr" : ''} </b></Typography>
                 </Grid>
                 <Grid item className={classes.info}>
                     <Collapse in={controlSwitch} className={classes.info}>
 
                         {
-                            thisState.New ?
+                            newPrice ?
                             <div className={classes.innerInformation} >
-                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.New ? thisState.New.incl_tax : ''}</b></Typography></div>
-                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.New ? thisState.New.tax : ''}</b> (30%)</Typography> </div>
+                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{newPrice ? newPrice.incl_tax : ''}</b></Typography></div>
+                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{newPrice ? newPrice.tax : ''}</b> (0%)</Typography> </div>
                                 <div className={classes.cartOption}>
-                                  {
-                                    errMsg ?
-                                        <Alert severity="info">You have to LogIn first, Or if you dont have an account <a href="/sign-up">Sign Up</a></Alert>
+                                <Button variant='contained' color='primary' onClick={addToCartOne} className={classes.cartButton}>
+                                    {
+                                      loadingAC ?
+                                        <div className={classes.spinner}>
+                                          <CircularProgress color='white'/>
+                                        </div>
                                       :
-                                        <Button variant='contained' color='primary' onClick={addToCartOne} className={classes.cartButton}>
-                                            Add to Cart
-                                        </Button>
-                                  }
-
+                                        'Add to Cart'
+                                    }
+                                </Button>
                                 </div>
                                 <div className={classes.buyNow}>
-                                  {
-                                    buyNow ?
-                                      <Alert severity="info">You have to LogIn first, Or if you dont have an account <a href="/sign-up">Sign Up</a></Alert>
-                                    :
-                                      <Button variant='contained' color='secondary' onClick={buyNowOne} className={classes.buyButton}>
-                                          Buy Now
-                                      </Button>
-                                  }
+                                  <Button variant='contained' color='secondary' onClick={buyNowOne} className={classes.buyButton}>
+                                    {
+                                      loadingBN ?
+                                      <div className={classes.spinner}>
+                                        <CircularProgress color='white'/>
+                                      </div>
+                                      :
+                                      'Buy Now'
+                                    }
+                                  </Button>
                                 </div>
                             </div>
                                 :
@@ -328,34 +367,38 @@ export default function ProductAssistence(props) {
                         <NavigationIcon className={classes.extendedIcon} />
                         Used
                     </Fab>
-                    <Typography variant='h5' className={classes.objectPrice}><b>{thisState.Old ? thisState.Old.excl_tax + "  pkr" : ''} </b></Typography>
+                    <Typography variant='h5' className={classes.objectPrice}><b>{oldPrice ? oldPrice.excl_tax + "  pkr" : ''} </b></Typography>
                 </Grid>
                 <Grid item className={classes.info}>
                     <Collapse in={!controlSwitch} className={classes.info}>
                         {
-                            thisState.Old ?
+                            oldPrice ?
                             <div className={classes.innerInformation} >
-                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{thisState.Old ? thisState.Old.incl_tax : ''}</b></Typography></div>
-                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{thisState.Old ? thisState.Old.tax : ''}</b> (30%)</Typography> </div>
+                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{oldPrice ? oldPrice.incl_tax : ''}</b></Typography></div>
+                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{oldPrice ? oldPrice.tax : ''}</b> (0%)</Typography> </div>
                                 <div className={classes.cartOption}>
-                                  {
-                                    errMsgSec ?
-                                        <Alert severity="info">You have to LogIn first</Alert>
+                                  <Button variant='contained' color='primary' onClick={addToCartSec} className={classes.cartButton}>
+                                    {
+                                      loadingAC ?
+                                        <div className={classes.spinner}>
+                                          <CircularProgress color='white'/>
+                                        </div>
                                       :
-                                        <Button variant='contained' color='primary' onClick={addToCartSec} className={classes.cartButton}>
-                                            Add to Cart
-                                        </Button>
-                                  }
+                                        'Add to Cart'
+                                    }
+                                  </Button>
                                 </div>
                                 <div className={classes.buyNow}>
-                                  {
-                                    buyNowSec ?
-                                      <Alert severity="info">You have to LogIn first, Or if you dont have an account <a href="/sign-up">Sign Up</a></Alert>
-                                    :
-                                      <Button variant='contained' color='secondary' onClick={buyNow2} className={classes.buyButton}>
-                                          Buy Now
-                                      </Button>
-                                  }
+                                  <Button variant='contained' color='secondary' onClick={buyNow2} className={classes.buyButton}>
+                                      {
+                                        loadingBN ?
+                                        <div className={classes.spinner}>
+                                          <CircularProgress color='white'/>
+                                        </div>
+                                        :
+                                        'Buy Now'
+                                      }
+                                  </Button>
                                 </div>
                             </div>
                                 :

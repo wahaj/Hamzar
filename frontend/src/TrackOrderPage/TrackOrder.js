@@ -5,7 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Box from '@material-ui/core/Box';
 import Button from "@material-ui/core/Button";
-import History from './../History/history'
+import History from './../History/history';
+import Alert from '@material-ui/lab/Alert';
 
 
 
@@ -89,16 +90,20 @@ export default function TrackOrder(props){
                 <Box display='flex' justifyContent="center" className={classes.fixedPosition}>
                     <form className={classes.center} noValidate autoComplete="off" onSubmit={handleClick}>
                         <Box display='flex' alignItems="center" justifyContent="center">
-                            <TextField
-                                id="outlined-name"
-                                label="Tracking Number"
-                                margin="normal"
-                                variant="filled"
-                                className={classes.textField}
-                                value={state.orderNo}
-                                onChange={handleChange}
-                            />
-                            <Button variant="contained" size="large" color="primary" className={classes.margin} onClick={handleClick}>Track</Button>
+                          {  //<TextField
+                            //    id="outlined-name"
+                            //    label="Tracking Number"
+                            //    margin="normal"
+                            //    variant="filled"
+                            //    className={classes.textField}
+                            //    value={state.orderNo}
+                            //    onChange={handleChange}
+                            //>
+                            //<Button variant="contained" size="large" color="primary" className={classes.margin} onClick={handleClick}>Track</Button>
+                          }
+
+                              <Alert severity="info">This service is not available yet, if youre having trouble please feel free to <a href='/ContactUs'>contact us</a> </Alert>
+
                         </Box>
                     </form>
                 </Box>
@@ -112,6 +117,3 @@ export default function TrackOrder(props){
         </Paper>*/
     )
 }
-
-
-

@@ -27,7 +27,10 @@ export default function CheckOut(props) {
     const [basket,sBasket] = React.useState([]);
 
     const {parentData,childData,basketData,summaryData} = props
-
+    var totalBill = 0 ;
+    for (let price of basketData){
+      totalBill = totalBill + parseFloat(price.price_excl_tax);
+    }
     useEffect( ()=> {
         sParent(parentData)
         sChild(childData)
@@ -51,12 +54,12 @@ export default function CheckOut(props) {
                             <TableCell>{row.title}</TableCell>
                             <TableCell align="right">{basket[index].quantity}</TableCell>
                             <TableCell align="right">{child[index].attributes[1].value}</TableCell>
-                            <TableCell align="right">{summaryData.currency + " " + basket[index].price_excl_tax}</TableCell>
+                            <TableCell align="right">{"Rs. " + basket[index].price_excl_tax}</TableCell>
                         </TableRow>
                     ))}
                     <TableRow>
                         <TableCell colSpan={3}>Total</TableCell>
-                        <TableCell align="right">{summaryData.currency + " " + summaryData.total_incl_tax_excl_discounts}</TableCell>
+                        <TableCell align="right">{"Rs. " + totalBill}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

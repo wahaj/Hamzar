@@ -111,24 +111,21 @@ export default function CartStepper(props) {
 
         }
     }
-
+    const insert = function insert(main_string, ins_string, pos) {
+       if(typeof(pos) == "undefined") {
+        pos = 0;
+        }
+       if(typeof(ins_string) == "undefined") {
+        ins_string = '';
+        }
+      return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
+    }
     useEffect(()=>{
 
         const dataFetch = async () => {
             setLoading(true);
-            const basket = await fetch('http://hamzar.com/api/basket/',  {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                method: 'GET',
-                withCredentials: true,
-                credentials: 'include'
-            });
-
-            const basketJson = await basket.json();
-            summary=basketJson;
-            const basketLines = await fetch(basketJson.lines,  {
+            //set summary variable to something
+            const basketLines = await fetch('https://hamzar.com/api/v1/baskets/'+'10'+'/lines/',  {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -139,7 +136,7 @@ export default function CartStepper(props) {
             const basketLinesJson = await basketLines.json();
             basketDataArray=(basketLinesJson)
             for (let lines of basketLinesJson) {
-                const childProduct =  await fetch(lines.product, {
+                const childProduct =  await fetch(insert(lines.product,'s',4), {
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
@@ -152,7 +149,7 @@ export default function CartStepper(props) {
             }
             for (let child of childDataArray) {
                 const prodURL = child.parent
-                const parentProduct =  await fetch('http://hamzar.com/api/products/' + prodURL + '/', {
+                const parentProduct =  await fetch('https://hamzar.com/api/v1/products/' + prodURL + '/', {
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
@@ -163,6 +160,7 @@ export default function CartStepper(props) {
                 const parentProductJSON = await parentProduct.json()
                 parentDataArray.push(parentProductJSON)
             }
+            console.log(parentDataArray);
             console.log(childDataArray);
             setLoading(false);
         }
@@ -225,10 +223,10 @@ export default function CartStepper(props) {
                     {activeStep === steps.length ? (
                         <div>
                             <Typography className={classes.instructions}>
-                                Your order has been made
+                                Congratulations
                             </Typography>
                             <Typography variant={"h4"}>
-                                Your order number is {123}
+                                Your order has been confirmed and will be delivered soon
                             </Typography>
                         </div>
                     ) : (
