@@ -11,6 +11,7 @@ import CheckOut from "./checkOut";
 import Paper from "@material-ui/core/Paper"
 import BI from "./img.jpg"
 import { Parallax} from 'react-parallax';
+import Store from "../History/Store";
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -125,7 +126,7 @@ export default function CartStepper(props) {
         const dataFetch = async () => {
             setLoading(true);
             //set summary variable to something
-            const basketLines = await fetch('https://hamzar.com/api/v1/baskets/'+'10'+'/lines/',  {
+            const basketLines = await fetch('https://hamzar.com/api/v1/baskets/'+Store.getCartNo()+'/lines/',  {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',

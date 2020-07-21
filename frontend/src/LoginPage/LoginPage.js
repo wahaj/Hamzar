@@ -72,7 +72,6 @@ export default function LoginForm(props) {
         })
             .then((res) => res.json())
             .then(res =>{
-                alert("ali")
                 if (res.status === 200){
                     Store.setLogStatus(true)
                     uls();

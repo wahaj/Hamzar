@@ -36,9 +36,11 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state={
-            ls: Store.getLogStatus()
+            ls: Store.getLogStatus(),
+            cartNo : -1,
         }
-        this.changeState = this.changeState.bind(this)
+        this.changeState = this.changeState.bind(this);
+        this.changeCartNo = this.changeCartNo.bind(this);
     }
     componentDidMount(){
         document.title = "Hamzar"
@@ -53,6 +55,11 @@ class App extends React.Component {
 
     changeState(){
         this.setState({ls: Store.getLogStatus()})
+    }
+    changeCartNo(){
+      this.setState({
+        cartNo : Store.getCartNo()
+      })
     }
 
     render() {

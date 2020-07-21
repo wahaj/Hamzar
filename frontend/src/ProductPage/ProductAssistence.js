@@ -147,6 +147,7 @@ export default function ProductAssistence(props) {
     }
     function addToCartOne(){
       setloadingAC(true);
+
       if(true){
         //axios.post('https://hamzar.com/api/v1/products/145',"1");
         const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
@@ -165,6 +166,7 @@ export default function ProductAssistence(props) {
             .then(json=>{
                 console.log("returned response",json);
                 setloadingAC(false);
+                Store.setCartNo(json.id);
             })
       }
       else {
@@ -174,6 +176,7 @@ export default function ProductAssistence(props) {
     }
     function addToCartSec(){
       setloadingAC(true);
+
       if(true){
         const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
             method: 'POST',
@@ -191,6 +194,7 @@ export default function ProductAssistence(props) {
             .then(json=>{
                 console.log("returned response",json);
                 setloadingAC(false);
+                Store.setCartNo(json.id);
             })
       }
       else {
@@ -219,6 +223,7 @@ export default function ProductAssistence(props) {
             .then(json=>{
                 console.log("returned response",json);
                 setLoadingBN(false);
+                Store.setCartNo(json.id);
                 History.push('/cart');
             })
       }
@@ -246,6 +251,7 @@ export default function ProductAssistence(props) {
             .then(json=>{
                 console.log("returned response",json);
                 setLoadingBN(false);
+                Store.setCartNo(json.id);
                 History.push('/cart');
             })
       }
