@@ -6,6 +6,7 @@ import { ButtonBase } from '@material-ui/core';
 import image2 from "../HomePage/ProductList/image2.jpg";
 import ResultBar from "./ResultBar";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from '@material-ui/core/CircularProgress'
 import TextField from "@material-ui/core/TextField";
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
@@ -47,6 +48,10 @@ const useStyles = makeStyles(theme => ({
         width:'100%',
         height:'100%',
     },
+    spinner : {
+      marginTop : '2%',
+      marginBottom : '2%',
+    },
     notFound:{
         width:'100%',
     },
@@ -67,6 +72,7 @@ export default function SearchResults(props){
     const classes = useStyles();
     const {match} = props
     const [searchText,setSearchText] = React.useState(match.params.sName)
+    const [loading,setLoading] = React.useState(true);
     const [search, setSearch] = React.useState({ searchResults : null})
     const dataFetch = async () => {
         const product = await fetch('https://hamzar.com/api/v1/products/search/' + match.params.sName + '/', {
@@ -78,13 +84,19 @@ export default function SearchResults(props){
                 'Content-Type': 'application/json'
             },
         }).then(res => res.json())
-            .then(json =>setSearch({searchResults: json}));
+        .catch(res=>setLoading(false))
+            .then(json =>{
+              setSearch({searchResults: json})
+              setLoading(false);
+          })
+          .catch(res=>setLoading(false))
         const resp = product;
         return resp
     }
     useEffect(()=>{
+        setSearchText(match.params.sName)
         const ans = dataFetch()
-    },[])
+    },[loading,match.params.sName])
     console.log(search.searchResults)
     return(
         <div className={classes.mainElement}>
@@ -104,6 +116,11 @@ export default function SearchResults(props){
                         ''
                 }
                 {
+                  loading ?
+                    <div className={classes.spinner}>
+                      <CircularProgress color='black'/>
+                    </div>
+                  :
                     (search.searchResults  && search.searchResults.length>0) ? search.searchResults.map(tile=>(
                         <Grid item key={tile.title} className={classes.paper}>
                             <ButtonBase className={classes.contains} href={'../ProductPage/' + tile.id }>

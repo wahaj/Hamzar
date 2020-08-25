@@ -194,21 +194,14 @@ export default function CartItem(props) {
         }
         fm();
     }
-    ,[loading])
+    ,[loading,products.price])
 
 
-    useEffect(()=> {
-            const fm = async () => {
-
-            }
-            fm();
-        }
-        ,[])
 
 
     function increaseQuantity() {
 
-        fetch(cdata.availability, {
+        fetch(insert(cdata.availability,'s',4), {
             headers: {
                 'Content-Type': 'application/json',
                 Accept:'application/json',
@@ -223,30 +216,50 @@ export default function CartItem(props) {
                 (json)=>{
                     if(json.is_available_to_buy){
 
-                        //SEND FETCH STATEMENT TO UPDATE ORDER SIZE
+                      fetch(insert(bdata.url,'s',4), {
+                            method: 'PATCH',
+                            body: JSON.stringify({"quantity" : products.quantity + 1}),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Accept:'application/json',
+                            }
+                        }).then(()=>{
+                          setValues((prev)=>
+                              setValues({
+                                  ...products,
+                                  quantity: prev.quantity+1
+                              })
+                          )
+                        })
 
-
-                        setValues((prev)=>
-                            setValues({
-                                ...products,
-                                quantity: prev.quantity+1
-                            })
-                        )
                     }
                     else{
                         popOpen();
                     }
                 }
             )
-            .catch((err)=>alert(err));
+            .catch((err)=>console.log(err));
     }
     function decreaseQuantity() {
-        setValues((prev)=>
-            setValues({
-                ...products,
-                quantity: prev.quantity-1
-            })
-        )
+      if(products.quantity > 0){
+        fetch(insert(bdata.url,'s',4), {
+              method: 'PATCH',
+              body: JSON.stringify({"quantity" : products.quantity - 1}),
+              headers: {
+                  'Content-Type': 'application/json',
+                  Accept:'application/json',
+              }
+          }).then(()=>{
+            setValues((prev)=>
+                setValues({
+                    ...products,
+                    quantity: prev.quantity-1
+                })
+            )
+          })
+
+      }
+
         //SEND FETCH CAL TO UPDATE ACCOUNT.
     }
 

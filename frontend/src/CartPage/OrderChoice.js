@@ -55,6 +55,9 @@ const cartItems = [
 export default function OrderChoice(props) {
     const classes = useStyles()
     const {parentData,childData,basketData,pop} = props
+    useEffect(()=>{
+
+    },[props])
     return(
         <Paper className={classes.root}>
             <Table className={classes.table}>

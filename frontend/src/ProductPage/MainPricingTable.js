@@ -61,6 +61,7 @@ export default function MainPricingTable(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const [loading,setLoading] = React.useState(true);
     const [state,setState] = React.useState({loading: false})
     const [controlSwitch, setControlSwitch] = React.useState(true);
     const [values, setValues] = React.useState({oldPaper: 0 , newPaper:0 , oldHard:0,newHard:0})
@@ -78,6 +79,7 @@ export default function MainPricingTable(props) {
         setValue(index);
     }
     function setPriceValues(){
+        setLoading(true);
         newHardBack = null
         newPaperBack = null
         oldHardBack = null
@@ -112,8 +114,9 @@ export default function MainPricingTable(props) {
         })
         dataFetchN()
         console.log("datafetched");
-        setState({loading : false})
-        setValue({oldPaper: oldPaperPrice , newPaper:newPaperPrice , oldHard:oldHardPrice , newHard:newHardPrice})
+        setState({loading : false});
+        setValue({oldPaper: oldPaperPrice , newPaper:newPaperPrice , oldHard:oldHardPrice , newHard:newHardPrice});
+        setLoading(false);
     }
     const dataFetchN = async () => {
         if(oldPaperBack) {
@@ -196,10 +199,10 @@ export default function MainPricingTable(props) {
                   onChangeIndex={handleChangeIndex}
               >
                   <TabContainer value={value} key='0' index={0} dir={theme.direction}>
-                      <ProductAssistence object={controlSwitch}  data={{childObject: 'Hardback' , child : props.object.children }} handleChange={handleChangeTable} />
+                      <ProductAssistence object={controlSwitch}  data={{childObject: 'Hardback' , child : props.object.children , display: loading }} handleChange={handleChangeTable} />
                   </TabContainer>
                   <TabContainer value={value} key='1' index={1} dir={theme.direction}>
-                      <ProductAssistence object={controlSwitch}  data={{childObject: 'Paperback' , child : props.object.children}} handleChange={handleChangeTable} />
+                      <ProductAssistence object={controlSwitch}  data={{childObject: 'Paperback' , child : props.object.children , display: loading }} handleChange={handleChangeTable} />
                   </TabContainer>
               </SwipeableViews>
           </div>

@@ -215,23 +215,19 @@ export default function PrimarySearchAppBar(props) {
                         />
                     </div>
 
-                    <div style={{minWidth: (logStatus)?"6%":"3%"}}>
-                        <IconButton
-                            edge="end"
-                            aria-label="Account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-
-                        {(logStatus) &&
+                    <div style={{minWidth: (false)?"6%":"3%"}}>
+                        {(true) &&
                             <IconButton aria-label="Show cart content" color="inherit" onClick={openCart}>
+                            {
+                              Store.getCartNo() != -1 ?
                                 <Badge badgeContent={1} color="secondary">
-                                    <ShoppingCart/>
+                                        <ShoppingCart/>
                                 </Badge>
+                                :
+                                <ShoppingCart/>
+                            }
+
+
                             </IconButton>
                         }
                     </div>

@@ -102,6 +102,8 @@ export default function ProductAssistence(props) {
     const styles={visibility: 'collapse'}
     const [thisState,setThisState]=React.useState({New: null,Old:null, toCheck:null})
     const [newPrice,setNewPrice] = React.useState(null)
+    const [loadingNew,setLoadingNew] = React.useState(true);
+    const [loadingOld,setLoadingOld] = React.useState(true);
     const [oldPrice,setOldPrice] = React.useState(null)
     const [controlSwitch, setControlSwitch] = React.useState(true);
     const [errMsg,setErrMsg] = React.useState(false);
@@ -172,7 +174,7 @@ export default function ProductAssistence(props) {
       else {
         setBuyNow(true);
       }
-
+      window.location.reload();
     }
     function addToCartSec(){
       setloadingAC(true);
@@ -200,7 +202,7 @@ export default function ProductAssistence(props) {
       else {
         setBuyNowSec(true);
       }
-
+      window.location.reload();
     }
     function buyNowOne(){
       console.log("Address of new product",newAddress);
@@ -261,6 +263,7 @@ export default function ProductAssistence(props) {
 
     }
     const dataFetchN = async () => {
+      console.log("dataFetchCalled",newAddress,newPrice,oldAddress,oldPrice);
         if(newAddress && newPrice==null){
             const product = await fetch(insert(newAddress,'s',4) , {
                 method: 'Get',
@@ -271,11 +274,17 @@ export default function ProductAssistence(props) {
                     'Content-Type': 'application/json'
                 },
             }).then(res=>res.json())
+            .catch(res=>setLoadingNew(false))
                 .then(json=>{
                     NewPrice = json
                     setThisState({New : json})
                     setNewPrice(json)
+                    setLoadingNew(false);
                 })
+                .catch(res=>setLoadingNew(false))
+        }
+        else{
+          setLoadingNew(false);
         }
         if(oldAddress && oldPrice==null){
             const product2 = await fetch(insert(oldAddress,'s',4), {
@@ -287,11 +296,17 @@ export default function ProductAssistence(props) {
                     'Content-Type': 'application/json'
                 },
             }).then(res=>res.json())
+            .catch(res=>setLoadingOld(false))
                 .then(json=>{
                   OldPrice = json
                   setThisState({Old : json})
                   setOldPrice(json)
+                  setLoadingOld(false);
                 })
+                .catch(res=>setLoadingOld(false))
+        }
+        else {
+          setLoadingOld(false);
         }
 
         //const value=!reRender
@@ -311,7 +326,7 @@ export default function ProductAssistence(props) {
         checkDetails()
 
 
-    },[controlSwitch,oldPrice,newPrice])
+    },[controlSwitch,loadingOld,loadingNew,newAddress,oldAddress])
 
     return (
         <div>
@@ -327,41 +342,46 @@ export default function ProductAssistence(props) {
                     <Collapse in={controlSwitch} className={classes.info}>
 
                         {
-                            newPrice ?
-                            <div className={classes.innerInformation} >
-                                <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{newPrice ? newPrice.incl_tax : ''}</b></Typography></div>
-                                <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{newPrice ? newPrice.tax : ''}</b> (0%)</Typography> </div>
-                                <div className={classes.cartOption}>
-                                <Button variant='contained' color='primary' onClick={addToCartOne} className={classes.cartButton}>
-                                    {
-                                      loadingAC ?
+                            loadingNew ?
+                              <div className={classes.spinner}>
+                                <CircularProgress color='white'/>
+                              </div>
+                            :
+                              (newPrice ?
+                              <div className={classes.innerInformation} >
+                                  <div className={classes.listPrice}><Typography className={classes.toRight}>List Price : <b>{newPrice ? newPrice.incl_tax : ''}</b></Typography></div>
+                                  <div className={classes.save}><Typography className={classes.toRight}>Save : <b>{newPrice ? newPrice.tax : ''}</b> (0%)</Typography> </div>
+                                  <div className={classes.cartOption}>
+                                  <Button variant='contained' color='primary' onClick={addToCartOne} className={classes.cartButton}>
+                                      {
+                                        loadingAC ?
+                                          <div className={classes.spinner}>
+                                            <CircularProgress color='white'/>
+                                          </div>
+                                        :
+                                          'Add to Cart'
+                                      }
+                                  </Button>
+                                  </div>
+                                  <div className={classes.buyNow}>
+                                    <Button variant='contained' color='secondary' onClick={buyNowOne} className={classes.buyButton}>
+                                      {
+                                        loadingBN ?
                                         <div className={classes.spinner}>
                                           <CircularProgress color='white'/>
                                         </div>
-                                      :
-                                        'Add to Cart'
-                                    }
-                                </Button>
-                                </div>
-                                <div className={classes.buyNow}>
-                                  <Button variant='contained' color='secondary' onClick={buyNowOne} className={classes.buyButton}>
-                                    {
-                                      loadingBN ?
-                                      <div className={classes.spinner}>
-                                        <CircularProgress color='white'/>
-                                      </div>
-                                      :
-                                      'Buy Now'
-                                    }
-                                  </Button>
-                                </div>
-                            </div>
-                                :
-                                <div className={classes.innerInformation}>
-                                  <p >
-                                    <Alert severity="info">Sorry no details available under this section.</Alert>
-                                  </p>
-                                </div>
+                                        :
+                                        'Buy Now'
+                                      }
+                                    </Button>
+                                  </div>
+                              </div>
+                              :
+                              <div className={classes.innerInformation}>
+                                <p >
+                                  <Alert severity="info">Sorry no details available under this section.</Alert>
+                                </p>
+                              </div>)
                         }
                     </Collapse>
                 </Grid>

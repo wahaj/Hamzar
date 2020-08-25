@@ -3,6 +3,9 @@ import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
 import Fab from "@material-ui/core/Fab";
+import Store from "../History/Store";
+import {useEffect} from 'react';
+
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -27,11 +30,29 @@ export default function AddressBar() {
         phoneNumber : true,
         name:true,
     });
+    useEffect(()=>{
+      setValues({
+        address : Store.getAddress(),
+        phoneNumber : Store.getPhoneNum(),
+        name : Store.getName(),
+      })
+    },[])
     const handleClick = (name, editState) => event => {
         setState({ ...state, [name]: !editState });
     };
-    const handleChange = name => event => {
+    const handleChangeName = name => event => {
         setValues({ ...values, [name]: event.target.value });
+        Store.setName(event.target.value);
+    };
+
+    const handleChangePN = name => event => {
+        setValues({ ...values, [name]: event.target.value });
+        Store.setPhoneNum(event.target.value);
+    };
+
+    const handleChangeAddress = name => event => {
+        setValues({ ...values, [name]: event.target.value });
+        Store.setAddress(event.target.value);
     };
     return(
         <div>
@@ -43,22 +64,14 @@ export default function AddressBar() {
                     multiline
                     rowsMax="4"
                     value={values.name}
-                    onChange={handleChange('name')}
+                    onChange={handleChangeName('name')}
                     className={classes.textField}
                     margin="normal"
                     helperText="confirm your name"
                     variant="outlined"
-                    disabled={state.name}
+                    disabled={false}
+                    required
                 />
-                <Fab
-                    size="small"
-                    color="primary"
-                    aria-label="Edit"
-                    className={classes.fab}
-                    onClick={handleClick("name", state.name)}
-                >
-                    <Icon>edit_icon</Icon>
-                </Fab>
 
                 <TextField
                     id="outlined-multiline-flexible"
@@ -66,45 +79,30 @@ export default function AddressBar() {
                     multiline
                     rowsMax="4"
                     value={values.phoneNumber}
-                    onChange={handleChange('phoneNumber')}
+                    onChange={handleChangePN('phoneNumber')}
                     className={classes.textField}
                     margin="normal"
                     helperText="confirm contact info."
                     variant="outlined"
-                    disabled={state.phoneNumber}
+                    disabled={false}
+                    required
                 />
-                <Fab
-                    size="small"
-                    color="primary"
-                    aria-label="Edit"
-                    className={classes.fab}
-                    onClick={handleClick("phoneNumber", state.phoneNumber)}
-                >
-                    <Icon>edit_icon</Icon>
-                </Fab>
+
 
                 <TextField
                     id="outlined-multiline-flexible"
                     label="Address"
                     multiline
                     rowsMax="4"
-                    value={values.multiline}
-                    onChange={handleChange('multiline')}
+                    value={values.address}
+                    onChange={handleChangeAddress('address')}
                     className={classes.textField}
                     margin="normal"
                     helperText="confirm address"
                     variant="outlined"
-                    disabled={state.address}
+                    disabled={false}
+                    required
                 />
-                <Fab
-                    size="small"
-                    color="primary"
-                    aria-label="Edit"
-                    className={classes.fab}
-                    onClick={handleClick("address", state.address)}
-                >
-                    <Icon>edit_icon</Icon>
-                </Fab>
             </form>
         </div>
     )

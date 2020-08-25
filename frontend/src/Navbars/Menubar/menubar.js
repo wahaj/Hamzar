@@ -82,7 +82,7 @@ export default function PrimarySearchAppBar() {
 
                     <div className={classes.grow} />
                     {/*Home Button*/}
-                    <HomeIcon className={classes.iconHover}/>
+                    <Button onClick={()=>{History.push('/')}}><HomeIcon className={classes.iconHover}/></Button>
                     <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={()=>{History.push('/')}}>
                         <p style={{color:"white"}}>Home</p>
                     </Button>
@@ -91,13 +91,12 @@ export default function PrimarySearchAppBar() {
                     <MyMenuItem show={matches}/>
                     <div className={classes.grow} />
                     {/*CustomerCare Button*/}
-                    <CustomerSupportIcon className={classes.iconHover}/>
+                    <Button onClick={()=>{History.push('/ContactUs')}}><CustomerSupportIcon className={classes.iconHover}/></Button>
                     <Button className={classes.desktop} aria-controls="fade-menu" aria-haspopup="true" onClick={()=>{History.push('/ContactUs')}}>
                         <p style={{color:"white"}}>Customer Care</p>
                     </Button>
                     <div className={classes.grow} />
                     {/*Track Order button*/}
-                    <TrackOderIcon className={classes.iconHover}/>
                     <Button  className={classes.desktop} aria-controls="fade-menu" aria-haspopup="false" onClick={handleTrackOrder}>
                         <p style={{color:"white"}}>Track Order</p>
                     </Button>

@@ -90,7 +90,8 @@ function getSteps() {
 export default function CartStepper(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(0)
+    const steps = getSteps();
 
     const [open, setOpen] = React.useState(false);
 
@@ -122,9 +123,8 @@ export default function CartStepper(props) {
       return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
     }
     useEffect(()=>{
-
         const dataFetch = async () => {
-            setLoading(true);
+
             //set summary variable to something
             const basketLines = await fetch('https://hamzar.com/api/v1/baskets/'+Store.getCartNo()+'/lines/',  {
                 headers: {
@@ -163,20 +163,43 @@ export default function CartStepper(props) {
             }
             console.log(parentDataArray);
             console.log(childDataArray);
-            setLoading(false);
+
         }
         dataFetch();
-    }, []);
+
+    },[]);
 
 
 
-    const steps = getSteps();
+
 
     function handleNext() {
 
         setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
-
+    function handleFinish(){
+      const data = {
+          'basket': 'https://hamzar.com/api/v1/baskets/'+Store.getCartNo(),
+          'guest_email': 'foo@any.com',
+          'shipping_address': {
+              'first_name': Store.getName(),
+              'line1' : Store.getAddress(),
+              'phone_number': Store.getPhoneNum(),
+          }
+      }
+      console.log(data);
+      const checkout = fetch('https://hamzar.com/api/v1/checkout/', {
+          headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify(data),
+          credentials: "include"
+      }).then(()=>{
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      })
+    }
     function handleBack() {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     }
@@ -237,15 +260,28 @@ export default function CartStepper(props) {
                                 <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                     Back
                                 </Button>
+                                {
+                                  activeStep === (steps.length - 1) ?
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleFinish}
+                                        className={classes.button}
+                                    >
+                                      Finish
+                                    </Button>
+                                    :
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleNext}
+                                        className={classes.button}
+                                    >
+                                        Next
+                                    </Button>
 
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleNext}
-                                    className={classes.button}
-                                >
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
+                                }
+
                             </div>
                         </div>
                     )}
