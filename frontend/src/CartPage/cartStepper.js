@@ -16,16 +16,24 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import CircularProgress from '@material-ui/core/CircularProgress'
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const useStyles = makeStyles(theme => ({
-    root:{
-        padding:0,
+    main:{
+      backgroundImage : `url(${BI})`,
+      margin:'0 0 0 0',
+      padding : '3% 3% 3% 3%',
+    },
+    mainBlock:{
+        display:'flex',
+        marginLeft:'15%',
+        marginRight: '15%',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: '0 3px 5px 8px rgba(128, 128, 128, .3)',
     },
     paperContainer: {
-        padding: 0,
-        margin: 0,
         backgroundColor: "#B0BEC5",
         width: '100%',
         [theme.breakpoints.up('xs')]: {
@@ -37,6 +45,11 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('lg')]: {
             height: "130%",
         },
+    },
+    spinner : {
+      marginTop : '2%',
+      marginBottom : '2%',
+      marginLeft : '45%',
     },
     backgroundContainer: {
         width: '100%',
@@ -56,13 +69,9 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(1),
     },
     paper: {
-        padding: 30,
         height: 'auto',
         minHeight: 500,
-        width: '60%',
-        marginLeft: '20%',
-        marginTop: 50,
-        marginBottom: 50,
+        width : '100%',
     }
 }));
 
@@ -91,6 +100,7 @@ export default function CartStepper(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [loading, setLoading] = React.useState(0)
+    const [fetching, setFetching] = React.useState(true);
     const steps = getSteps();
 
     const [open, setOpen] = React.useState(false);
@@ -161,13 +171,16 @@ export default function CartStepper(props) {
                 const parentProductJSON = await parentProduct.json()
                 parentDataArray.push(parentProductJSON)
             }
-            console.log(parentDataArray);
-            console.log(childDataArray);
-
+            return 1
         }
-        dataFetch();
+        if(fetching === true){
+          dataFetch().then(()=>{
+          setFetching(false);
+          })
+        }
 
-    },[]);
+
+    },[fetching,activeStep]);
 
 
 
@@ -203,90 +216,100 @@ export default function CartStepper(props) {
     function handleBack() {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     }
+if(fetching === false){
+  return (
+    <div className={classes.main}>
+      <div className={classes.mainBlock}>
+          <div>
+              <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+              >
+                  <DialogTitle id="alert-dialog-title">{"Desired quantity not available"}</DialogTitle>
+                  <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                          The requested quantity cannot exceed the quantity available.
+                      </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                          Ok
+                      </Button>
+                  </DialogActions>
+              </Dialog>
+          </div>
+          <Paper className={classes.paper}>
+              <Stepper activeStep={activeStep}>
+                  {steps.map((label, index) => {
+                      const stepProps = {};
+                      const labelProps = {};
+                      return (
+                          <Step key={label} {...stepProps}>
+                              <StepLabel {...labelProps}>{label}</StepLabel>
+                          </Step>
+                      );
+                  })}
+              </Stepper>
+              <div>
+                  {activeStep === steps.length ? (
+                      <div>
+                          <Typography className={classes.instructions}>
+                              Congratulations
+                          </Typography>
+                          <Typography variant={"h4"}>
+                              Your order has been confirmed and will be delivered soon
+                          </Typography>
+                      </div>
+                  ) : (
+                      <div>
+                          {getStepContent(activeStep)}
+                          <div style={{margin:'3% 3% 3% 3%'}}>
+                              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                                  Back
+                              </Button>
+                              {
+                                activeStep === (steps.length - 1) ?
+                                  <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={handleFinish}
+                                      className={classes.button}
+                                  >
+                                    Finish
+                                  </Button>
+                                  :
+                                  <Button
+                                      variant="contained"
+                                      color="primary"
+                                      onClick={handleNext}
+                                      className={classes.button}
+                                  >
+                                      Next
+                                  </Button>
 
-    return (
-        <Parallax
-            blur={5}
-            bgImageAlt="the cat"
-            strength={300}
-            bgImage={BI}
-        >
-            <div>
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{"Desired quantity not available"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            The requested quantity cannot exceed the quantity available.
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Ok
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-            <Paper className={classes.paper}>
-                <Stepper activeStep={activeStep}>
-                    {steps.map((label, index) => {
-                        const stepProps = {};
-                        const labelProps = {};
-                        return (
-                            <Step key={label} {...stepProps}>
-                                <StepLabel {...labelProps}>{label}</StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
-                <div>
-                    {activeStep === steps.length ? (
-                        <div>
-                            <Typography className={classes.instructions}>
-                                Congratulations
-                            </Typography>
-                            <Typography variant={"h4"}>
-                                Your order has been confirmed and will be delivered soon
-                            </Typography>
-                        </div>
-                    ) : (
-                        <div>
-                            {getStepContent(activeStep)}
-                            <div style={{marginTop: 20}}>
-                                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                                    Back
-                                </Button>
-                                {
-                                  activeStep === (steps.length - 1) ?
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleFinish}
-                                        className={classes.button}
-                                    >
-                                      Finish
-                                    </Button>
-                                    :
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleNext}
-                                        className={classes.button}
-                                    >
-                                        Next
-                                    </Button>
+                              }
 
-                                }
+                          </div>
+                      </div>
+                  )}
+              </div>
+          </Paper>
+      </div>
+    </div>
+  );
+}
+else {
+  return (
+    <div className={classes.main}>
+    <div className={classes.mainBlock}>
+      <div className={classes.spinner}>
+        <CircularProgress color='white'/>
+      </div>
+    </div>
+    </div>
+  );
+}
 
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </Paper>
-        </Parallax>
-    );
 }

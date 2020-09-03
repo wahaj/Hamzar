@@ -10,7 +10,16 @@ import {useEffect} from 'react';
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
-        flexWrap: 'wrap',
+        width : '100%',
+    },
+    root: {
+        display: 'flex',
+        width: '100%',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+        background: "#73AD21",
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
     },
     textField: {
         marginLeft: theme.spacing(1),
@@ -55,7 +64,7 @@ export default function AddressBar() {
         Store.setAddress(event.target.value);
     };
     return(
-        <div>
+        <div className={classes.root} >
             <form className={classes.container} noValidate autoComplete="off">
 
                 <TextField

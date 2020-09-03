@@ -16,6 +16,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Store from "../History/Store";
 import History from "../History/history";
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 
@@ -138,6 +139,8 @@ export default function CartItem(props) {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false)
     const {cdata,pdata,bdata,popOpen} = props;
+    const [inc,setInc] = React.useState(false);
+    const [dec,setDec] = React.useState(false);
     const [products, setValues] = React.useState({
         bookName: "",
         author: "",
@@ -200,6 +203,7 @@ export default function CartItem(props) {
 
 
     function increaseQuantity() {
+      setInc(true);
 
         fetch(insert(cdata.availability,'s',4), {
             headers: {
@@ -224,24 +228,28 @@ export default function CartItem(props) {
                                 Accept:'application/json',
                             }
                         }).then(()=>{
-                          setValues((prev)=>
-                              setValues({
-                                  ...products,
-                                  quantity: prev.quantity+1
-                              })
-                          )
+                          setInc(false);
+                          setValues((prev)=>{
+                            setValues({
+                                ...prev,
+                                quantity: prev.quantity+1
+                            })
+                          }
+                          );
                         })
 
                     }
                     else{
+                        setInc(false);
                         popOpen();
                     }
                 }
             )
-            .catch((err)=>console.log(err));
+            .catch((err)=>setInc(false));
     }
     function decreaseQuantity() {
       if(products.quantity > 0){
+        setDec(true);
         fetch(insert(bdata.url,'s',4), {
               method: 'PATCH',
               body: JSON.stringify({"quantity" : products.quantity - 1}),
@@ -250,6 +258,7 @@ export default function CartItem(props) {
                   Accept:'application/json',
               }
           }).then(()=>{
+            setDec(false);
             setValues((prev)=>
                 setValues({
                     ...products,
@@ -257,6 +266,7 @@ export default function CartItem(props) {
                 })
             )
           })
+
 
       }
 
@@ -331,8 +341,14 @@ export default function CartItem(props) {
             <TableCell style={{padding:0, paddingTop: 10}} className={classes.bucketItemQuantity}  align={'center'} >
                 <Grid container alignItems={'center'} direction={'row-reverse'}  >
                     <Grid item xs={3} style={{paddingBottom: 5}}>
-                        <Fab size="small" color="primary" aria-label="add" className={classes.margin} onClick={decreaseQuantity} >
-                            <MinIcon style={{paddingBottom: 13}} />
+                        <Fab size="small" color="primary" aria-label="add" disabled={dec} className={classes.margin} onClick={decreaseQuantity} >
+                          {
+                            dec ?
+                              <CircularProgress color='white'/>
+                            :
+                              <MinIcon style={{paddingBottom: 13}} />
+                          }
+
                         </Fab>
                     </Grid>
                     <Grid item xs={3}>
@@ -344,8 +360,15 @@ export default function CartItem(props) {
                         />
                     </Grid>
                     <Grid  item xs={3} style={{paddingBottom: 5}}>
-                        <Fab size="small" color="primary" aria-label="add" className={classes.margin} style={{paddingBottom: 4}}>
-                            <AddIcon style={{paddingTop: 3}} onClick={increaseQuantity} />
+                        <Fab size="small" color="primary" aria-label="add" onClick={increaseQuantity}  disabled={inc} className={classes.margin} style={{paddingBottom: 4}}>
+                          {
+                            inc ?
+                              <CircularProgress color='white'/>
+                            :
+                              <AddIcon style={{paddingTop: 3}} />
+
+                          }
+
                         </Fab>
                     </Grid>
                 </Grid>
