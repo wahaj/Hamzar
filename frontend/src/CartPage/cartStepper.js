@@ -192,12 +192,20 @@ export default function CartStepper(props) {
     }
     function handleFinish(){
       const data = {
-          'basket': 'https://hamzar.com/api/v1/baskets/'+Store.getCartNo(),
-          'guest_email': 'foo@any.com',
+          'basket': 'http://0.0.0.0:8000/api/v1/baskets/'+Store.getCartNo(),
+          'guest_email': 'foo@gmail.com',
           'shipping_address': {
               'first_name': Store.getName(),
+              'last_name':" ",
               'line1' : Store.getAddress(),
+              'line2' : '',
+              'line3' : '',
+              'line4' : '',
               'phone_number': Store.getPhoneNum(),
+              'country': 'http://0.0.0.0:8000/api/v1/countries/PK/',
+              'postcode': '54000',
+              'state': 'Punjab',
+              'title':'Mr',
           }
       }
       console.log(data);
