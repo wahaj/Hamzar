@@ -195,7 +195,7 @@ function ProductPage(props){
     const [thisProduct,setThisProduct]=React.useState({product: null})
     const classes = useStyles();
     const dataFetch = async () => {
-        const product = await fetch('http://127.0.0.1:8000/api/products/' + match.params.pid + '/', {
+        const product = await fetch('https://127.0.0.1:8000/api/products/' + match.params.pid + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
