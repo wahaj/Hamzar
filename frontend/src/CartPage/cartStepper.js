@@ -136,7 +136,7 @@ export default function CartStepper(props) {
         const dataFetch = async () => {
 
             //set summary variable to something
-            const basketLines = await fetch('https://hamzar.com/api/v1/baskets/'+Store.getCartNo()+'/lines/',  {
+            const basketLines = await fetch(`${process.env.REACT_APP_API_URL}/baskets/`+Store.getCartNo()+'/lines/',  {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
@@ -146,6 +146,7 @@ export default function CartStepper(props) {
             });
             const basketLinesJson = await basketLines.json();
             basketDataArray=(basketLinesJson)
+            console.log('basket lines  ', basketLinesJson)
             for (let lines of basketLinesJson) {
                 const childProduct =  await fetch(insert(lines.product,'s',4), {
                     headers: {
@@ -160,7 +161,7 @@ export default function CartStepper(props) {
             }
             for (let child of childDataArray) {
                 const prodURL = child.parent
-                const parentProduct =  await fetch('https://hamzar.com/api/v1/products/' + prodURL + '/', {
+                const parentProduct =  await fetch(`${process.env.REACT_APP_API_URL}/products/` + prodURL + '/', {
                     headers: {
                         'Content-Type': 'application/json',
                         Accept: 'application/json',
@@ -182,34 +183,30 @@ export default function CartStepper(props) {
 
     },[fetching,activeStep]);
 
-
-
-
-
     function handleNext() {
 
         setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
     function handleFinish(){
       const data = {
-          'basket': 'http://0.0.0.0:8000/api/v1/baskets/'+Store.getCartNo(),
-          'guest_email': 'foo@gmail.com',
-          'shipping_address': {
-              'first_name': Store.getName(),
-              'last_name':" ",
-              'line1' : Store.getAddress(),
-              'line2' : '',
-              'line3' : '',
-              'line4' : '',
-              'phone_number': Store.getPhoneNum(),
-              'country': 'http://0.0.0.0:8000/api/v1/countries/PK/',
-              'postcode': '54000',
-              'state': 'Punjab',
-              'title':'Mr',
+          "basket": `${process.env.REACT_APP_API_URL}/baskets/${Store.getCartNo()}/`, //url should end in '/'
+          "guest_email": "foo@gmail.com",
+          "shipping_address": {
+              "first_name": Store.getName(),
+              "last_name":" ",
+              "line1" : Store.getAddress(),
+              "line2" : "",
+              "line3" : "",
+              "line4" : "",
+              "phone_number": Store.getPhoneNum(),
+              "country": `${process.env.REACT_APP_API_URL}/countries/PK/`,
+              "postcode": "54000",
+              "state": "Punjab",
+              "title":"Mr",
           }
       }
-      console.log(data);
-      const checkout = fetch('https://hamzar.com/api/v1/checkout/', {
+
+      const checkout = fetch(`${process.env.REACT_APP_API_URL}/checkout/`, {
           headers: {
               'Content-Type': 'application/json',
               Accept: 'application/json',

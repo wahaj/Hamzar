@@ -1,18 +1,1 @@
-.idea
-.directory
-bin
-__pycache__/
-*.py[cod]
-venv
-venv3
-node_modules
-frontend/node_modules
-cache/
-media/
-db.sqlite3
-hamzars-cloudsql-credentials.json
-hamzar-certificate.yaml
-hamzar-https.yaml
-hamzars-credentials-storage.json
-ingress.yaml
-service.yaml
+# Created by .ignore support plugin (hsz.mobi)

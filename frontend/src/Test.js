@@ -85,7 +85,7 @@ class Test extends React.Component{
         }
     }
     componentWillMount(){
-        fetch('http://127.0.0.1:8000/api/products/best_sellers', {
+        fetch(`${process.env.REACT_APP_API_ULR}/products/best_sellers`, {
                 method: 'Get',
             })
                 .then(res => res.json())

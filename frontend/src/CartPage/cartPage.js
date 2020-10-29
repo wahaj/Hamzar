@@ -23,7 +23,7 @@ export default function CartPage() {
     const [logState, setLogState] = React.useState(logStat);
     const logStatus = logState;
     useEffect(()=>{
-      console.log(Store.getCartNo());
+      console.log('cart no', Store.getCartNo());
     })
     return (
         <div>

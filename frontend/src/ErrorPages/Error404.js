@@ -29,7 +29,7 @@ export default function Error404(){
     useEffect(
         function(){
             const forParents = '?structure=parent'
-            fetch('http://192.168.100.10:8000/api/products/' + forParents, {
+            fetch(`${process.env.REACT_APP_API_URL}/products/` + forParents, {
                 headers: {
                     'Content-Type': 'application/json',
                     Accept:'application/json',

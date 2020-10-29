@@ -78,7 +78,7 @@ export default function ForgotPassword(props){
     });
 
     function sendMail(){
-      fetch('https://hamzar.com/api/v1/send-reset-password-link/', {
+      fetch(`${process.env.REACT_APP_API_ULR}/send-reset-password-link/`, {
           headers: {
               'Content-Type': 'application/json',
               Accept:'application/json',

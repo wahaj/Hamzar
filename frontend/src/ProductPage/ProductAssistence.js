@@ -152,7 +152,7 @@ export default function ProductAssistence(props) {
 
       if(true){
         //axios.post('https://hamzar.com/api/v1/products/145',"1");
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
+        const productAdded = fetch(`${process.env.REACT_APP_API_URL}/basket/add-product/` , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
@@ -180,7 +180,7 @@ export default function ProductAssistence(props) {
       setloadingAC(true);
 
       if(true){
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
+        const productAdded = fetch(`${process.env.REACT_APP_API_URL}/basket/add-product/` , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
@@ -209,7 +209,7 @@ export default function ProductAssistence(props) {
       setLoadingBN(true)
       if(newAddress){
         //axios.post('https://hamzar.com/api/v1/products/145',"1");
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
+        const productAdded = fetch(`${process.env.REACT_APP_API_ULR}/basket/add-product/` , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
@@ -237,7 +237,7 @@ export default function ProductAssistence(props) {
     function buyNow2(){
       setLoadingBN(true)
       if(true){
-        const productAdded = fetch("https://hamzar.com/api/v1/basket/add-product/" , {
+        const productAdded = fetch(`${process.env.REACT_APP_API_ULR}/basket/add-product/` , {
             method: 'POST',
             withCredentials: true,
             cache: 'default',
@@ -359,7 +359,7 @@ export default function ProductAssistence(props) {
                                             <CircularProgress color='white'/>
                                           </div>
                                         :
-                                          'Add to Cart'
+                                          ' Add to Cart'
                                       }
                                   </Button>
                                   </div>

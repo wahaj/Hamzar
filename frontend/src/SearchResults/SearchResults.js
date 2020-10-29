@@ -75,7 +75,7 @@ export default function SearchResults(props){
     const [loading,setLoading] = React.useState(true);
     const [search, setSearch] = React.useState({ searchResults : null})
     const dataFetch = async () => {
-        const product = await fetch('https://hamzar.com/api/v1/products/search/' + match.params.sName + '/', {
+        const product = await fetch(`${process.env.REACT_APP_API_ULR}/products/search/` + match.params.sName + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
