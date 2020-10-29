@@ -13,7 +13,8 @@ import img2 from './17687.jpg'
 
 const useStyles = makeStyles(theme=>({
     root:{
-        display:'flex',
+        display:'block',
+        overflow:'none',
         backgroundColor: theme.palette.background.paper,
         alignContent:'center',
         justufy:'flex-center',
@@ -82,6 +83,7 @@ const useStyles = makeStyles(theme=>({
     },
     lastField:{
         width:'100%',
+        overflow: 'none',
     },
     firstMain:{
         width:'100%',
@@ -89,6 +91,7 @@ const useStyles = makeStyles(theme=>({
     image2:{
       width:'100%',
     },
+
 }))
 
 export default function ContactUs(){
@@ -133,7 +136,7 @@ export default function ContactUs(){
                 <Grid item key='2' className={classes.lastField}>
                     <Grid container direction='row' alignItems='center' justify='space-evenly'>
                         <Grid item key = 'contactImage'>
-                            <img className={classes.aboutInsideImage} alt="complex" src={image1} />
+                            <img className={classes.image2} alt="complex" src={image1} />
                         </Grid>
                         <Grid item key='6'>
                             <grid container direction='column' alignItems='center' justify='space-evenly'>

@@ -80,19 +80,42 @@ const useStyles = makeStyles(theme => ({
         width:'100%'
     },
     productPic: {
-        display:'flex',
         height: '100%',
-        width: '50%',
         maxWidth:'400px',
         border:'0px solid blue',
         overflow: 'hidden',
+        [theme.breakpoints.up('xs')]: {
+          width: '100%',
+          display : 'block',
+        },
+        [theme.breakpoints.up('md')]: {
+          width: '50%',
+          display:'flex',
+        },
+        [theme.breakpoints.up('lg')]: {
+          width: '50%',
+          display:'flex',
+
+        },
     },
     priceTable: {
         marginTop:'5%',
         height: '100%',
-        width: '50%',
         border:'0px solid orange',
         overflow : 'auto',
+        [theme.breakpoints.up('xs')]: {
+          width: '100%',
+          display : 'block',
+        },
+        [theme.breakpoints.up('md')]: {
+          width: '50%',
+          display:'flex',
+        },
+        [theme.breakpoints.up('lg')]: {
+          width: '50%',
+          display:'flex',
+
+        },
     },
     customerReview: {
         height: '50%',
@@ -162,9 +185,21 @@ const useStyles = makeStyles(theme => ({
     },
     mainPage:{
         display:'block',
-        marginLeft:'15%',
-        marginRight: '15%',
-        marginBottom:'3%',
+        [theme.breakpoints.up('xs')]: {
+            marginLeft:'0%',
+            marginRight: '0%',
+            marginBottom:'0%',
+        },
+        [theme.breakpoints.up('md')]: {
+            marginLeft:'7%',
+            marginRight: '7%',
+            marginBottom:'2%',
+        },
+        [theme.breakpoints.up('lg')]: {
+            marginLeft:'15%',
+            marginRight: '15%',
+            marginBottom:'3%',
+        },
         backgroundColor: theme.palette.background.paper,
         boxShadow: '0 3px 5px 8px rgba(128, 128, 128, .3)',
     },
@@ -207,7 +242,7 @@ function ProductPage(props){
     const classes = useStyles();
     const [fetching,setFetching] = React.useState({value : true})
     const dataFetch = async () => {
-        const product = await fetch(`${process.env.REACT_APP_API_ULR}/products/` + match.params.pid + '/', {
+        const product = await fetch(`${process.env.REACT_APP_API_URL}/products/` + match.params.pid + '/', {
             method: 'Get',
             withCredentials: true,
             cache: 'default',
