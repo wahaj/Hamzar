@@ -18,7 +18,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
+function isIterable(obj) {
+  // checks for null and undefined
+  if (obj == null) {
+    return false;
+  }
+  return typeof obj[Symbol.iterator] === 'function';
+}
 export default function CheckOut(props) {
     const classes = useStyles();
 
@@ -28,9 +34,12 @@ export default function CheckOut(props) {
 
     const {parentData,childData,basketData,summaryData} = props
     var totalBill = 0 ;
-    for (let price of basketData){
-      totalBill = totalBill + parseFloat(price.price_excl_tax);
+    if (isIterable(basketData)){
+      for (let price of basketData){
+        totalBill = totalBill + parseFloat(price.price_excl_tax);
+      }
     }
+
     useEffect( ()=> {
         sParent(parentData)
         sChild(childData)

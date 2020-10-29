@@ -1,3 +1,0 @@
-You can reset your password by clicking on this link:
-
-{{ verification_url | safe }}

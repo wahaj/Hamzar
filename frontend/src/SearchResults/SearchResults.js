@@ -14,9 +14,19 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles(theme => ({
     mainElement:{
         display:'block',
-        margin:'3% 15% 3% 10%',
-        width:'80%',
         backgroundColor: theme.palette.background.paper,
+        [theme.breakpoints.up('xs')]: {
+          margin:'0% 0% 0% 0%',
+          width:'100%',
+        },
+        [theme.breakpoints.up('md')]: {
+          margin:'1% 10% 1% 5%',
+          width:'80%',
+        },
+        [theme.breakpoints.up('lg')]: {
+          margin:'3% 15% 3% 10%',
+          width:'80%',
+        },
     },
     nothing:{
         backgroundColor:'rgba(204,204,204,.3)',

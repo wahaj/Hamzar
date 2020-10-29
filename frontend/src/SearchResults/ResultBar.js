@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
         margin :'0% 0% 0% %',
         width:'100%',
         height:'300px',
+        overflow : 'auto',
     },
     nothing:{
         backgroundColor:'rgba(204,204,204,.3)',
@@ -27,7 +28,17 @@ const useStyles = makeStyles(theme => ({
         float:'right',
     },
     details:{
-        width:'auto'
+        display:'inline',
+        height : 'auto',
+        [theme.breakpoints.up('xs')]: {
+          maxWidth : '50%',
+        },
+        [theme.breakpoints.up('md')]: {
+          maxWidth : '70%',
+        },
+        [theme.breakpoints.up('lg')]: {
+          maxWidth : '80%',
+        },
     },
     contains:{
         width:'100%',
@@ -37,11 +48,22 @@ const useStyles = makeStyles(theme => ({
     },
     bookName:{
         display:'inline',
-        overflow:'auto',
+        overflow:'none',
         width:'100%',
-        maxHeight:'50px',
-        border:'0px solid blue',
+        height:'auto',
+        border:'0px solid green',
         padding: 0,
+    },
+    nameText:{
+      [theme.breakpoints.up('xs')]: {
+        fontSize : '20px',
+      },
+      [theme.breakpoints.up('md')]: {
+        fontSize : '30px',
+      },
+      [theme.breakpoints.up('lg')]: {
+        fontSize : '30px',
+      },
     },
     Author:{
         display:'flex',
@@ -68,6 +90,7 @@ const useStyles = makeStyles(theme => ({
     imageField:{
         border:'0px solid black',
         overflow:'hidden',
+        display:'inline',
     },
     authorText:{
         color:'gray',
@@ -248,8 +271,8 @@ export default function ResultBar(props){
                     >
 
                         <Grid item key='bookName'  className={classes.bookName} spacing={0} >
-                            <Typography variant="h3" >
-                                {props.object.title}
+                            <Typography className={classes.nameText} >
+                                <b>{props.object.title}</b>
                             </Typography>
                         </Grid>
                         <Grid item key='Author' className={classes.Author} >
@@ -263,17 +286,17 @@ export default function ResultBar(props){
                             <StarRatingComponent name='productRating' starCount={5} value={3} editing={false} />
                         </Grid>
                         <Grid item key='hard cover' className={classes.price}>
-                            <Typography  variant="h6" className={classes.priceDetails} >
+                            <Typography className={`classes.priceDetails &{classes.nameText}`} >
                                 <b style={{color:'rgba(0,11,206,0.49)'}}>Hard Cover : </b>  {((prices.hardBackNew ) && (prices.hardBackNew.excl_tax )) ? 'Rs.' +  prices.hardBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='paper back' className={classes.price}>
-                            <Typography  variant="h6" className={classes.priceDetails} >
+                            <Typography className={`classes.priceDetails &{classes.nameText}`} >
                                 <b style={{color:'rgba(0,11,206,0.49)'}}>Paper Back : </b>   {!(prices.paperBackNew == 1) && (prices.paperBackNew) ? 'Rs.' +  prices.paperBackNew.excl_tax : 'N/A'  }
                             </Typography>
                         </Grid>
                         <Grid item key='quote' className={classes.price}>
-                            <Typography  variant="h6" className={classes.priceDetails} >
+                            <Typography className={`classes.priceDetails &{classes.nameText}`} >
                                 <b>( </b>Offer in Old and New<b> ) </b>
                             </Typography>
                         </Grid>

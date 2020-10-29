@@ -24,14 +24,34 @@ const useStyles = makeStyles(theme => ({
     main:{
       backgroundImage : `url(${BI})`,
       margin:'0 0 0 0',
-      padding : '3% 3% 3% 3%',
+
+      [theme.breakpoints.up('xs')]: {
+          padding : '0% 0% 0% 0%',
+      },
+      [theme.breakpoints.up('md')]: {
+          padding : '3% 3% 3% 3%',
+      },
+      [theme.breakpoints.up('lg')]: {
+          padding : '3% 3% 3% 3%',
+      },
     },
     mainBlock:{
         display:'flex',
-        marginLeft:'15%',
-        marginRight: '15%',
+
         backgroundColor: theme.palette.background.paper,
         boxShadow: '0 3px 5px 8px rgba(128, 128, 128, .3)',
+        [theme.breakpoints.up('xs')]: {
+          marginLeft:'0%',
+          marginRight: '0%',
+        },
+        [theme.breakpoints.up('md')]: {
+          marginLeft:'7%',
+          marginRight: '7%',
+        },
+        [theme.breakpoints.up('lg')]: {
+          marginLeft:'15%',
+          marginRight: '15%',
+        },
     },
     paperContainer: {
         backgroundColor: "#B0BEC5",
@@ -132,6 +152,13 @@ export default function CartStepper(props) {
         }
       return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
     }
+    function isIterable(obj) {
+      // checks for null and undefined
+      if (obj == null) {
+        return false;
+      }
+      return typeof obj[Symbol.iterator] === 'function';
+    }
     useEffect(()=>{
         const dataFetch = async () => {
 
@@ -142,35 +169,40 @@ export default function CartStepper(props) {
                     Accept: 'application/json',
                 },
                 method: 'GET',
+                withCredentials : true,
                 credentials: "include"
             });
             const basketLinesJson = await basketLines.json();
             basketDataArray=(basketLinesJson)
-            for (let lines of basketLinesJson) {
-                const childProduct =  await fetch(insert(lines.product,'s',4), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                    },
-                    method: 'GET',
-                    credentials: "include"
-                })
-                const childProductJSON = await childProduct.json()
-                childDataArray.push(childProductJSON)
+            console.log(basketLinesJson);
+            if (isIterable(basketLinesJson)){
+              for (let lines of basketLinesJson) {
+                  const childProduct =  await fetch(insert(lines.product,'s',4), {
+                      headers: {
+                          'Content-Type': 'application/json',
+                          Accept: 'application/json',
+                      },
+                      method: 'GET',
+                      credentials: "include"
+                  })
+                  const childProductJSON = await childProduct.json()
+                  childDataArray.push(childProductJSON)
+              }
+              for (let child of childDataArray) {
+                  const prodURL = child.parent
+                  const parentProduct =  await fetch('https://hamzar.com/api/v1/products/' + prodURL + '/', {
+                      headers: {
+                          'Content-Type': 'application/json',
+                          Accept: 'application/json',
+                      },
+                      method: 'GET',
+                      credentials: "include"
+                  })
+                  const parentProductJSON = await parentProduct.json()
+                  parentDataArray.push(parentProductJSON)
+              }
             }
-            for (let child of childDataArray) {
-                const prodURL = child.parent
-                const parentProduct =  await fetch('https://hamzar.com/api/v1/products/' + prodURL + '/', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                    },
-                    method: 'GET',
-                    credentials: "include"
-                })
-                const parentProductJSON = await parentProduct.json()
-                parentDataArray.push(parentProductJSON)
-            }
+
             return 1
         }
         if(fetching === true){
@@ -192,7 +224,7 @@ export default function CartStepper(props) {
     }
     function handleFinish(){
       const data = {
-          'basket': 'http://0.0.0.0:8000/api/v1/baskets/'+Store.getCartNo(),
+          'basket': 'https://hamzar.com/api/v1/baskets/'+Store.getCartNo(),
           'guest_email': 'foo@gmail.com',
           'shipping_address': {
               'first_name': Store.getName(),

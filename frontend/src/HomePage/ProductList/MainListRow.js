@@ -93,7 +93,7 @@ export default function MainListRow(props) {
                   :
 
                         <Grid item key='arrayOfObjects' style={{display: 'block', marginBottom:'1%'}}>
-                            <GridList spacing={20} cellHeight={300} className={classes.gridList} cols={null}  justify='space-evenly'>
+                            <GridList spacing={20} className={classes.gridList} cols={null}  justify='space-evenly'>
                                 {
                                     props.object.tileData ?
                                         props.object.tileData.map(tile => (
